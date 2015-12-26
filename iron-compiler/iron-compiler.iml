@@ -30,6 +30,5 @@
     <orderEntry type="library" exported="" name="freemarker-2.3.22" level="project" />
     <orderEntry type="library" exported="" name="commons-io-2.4" level="project" />
     <orderEntry type="library" exported="" name="commons-lang3-3.4" level="project" />
-    <orderEntry type="library" exported="" name="iron-compiler.iron-compiler-1.0.1" level="project" />
   </component>
 </module>

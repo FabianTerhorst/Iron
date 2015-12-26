@@ -1,13 +1,62 @@
-
-
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 def siteUrl = 'https://github.com/FabianTerhorst/Iron'
 def gitUrl = 'https://github.com/FabianTerhorst/Iron.git'
 
-version = "1.0"
-group = "io.fabianterhorst"  
+version = "0.1"
+group = "io.fabianterhorst"
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            //noinspection GroovyAssignabilityCheck
+            project {
+                packaging 'aar'
+
+                // Add your description here
+                name 'Fast and easy to use NoSQL data storage'
+                url siteUrl
+
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'fabianterhorst'
+                        name 'Fabian Terhorst'
+                        email 'fabian.terhorst@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+artifacts {
+    archives sourcesJar
+}
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
