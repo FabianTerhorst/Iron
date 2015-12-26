@@ -1,3 +1,5 @@
+<img src="https://img.shields.io/badge/Methods and size-core: 198 | deps: 9494 | 21 KB-e91e63.svg"></img>
+
 # Iron
 Fast and easy to use NoSQL data storage
 
