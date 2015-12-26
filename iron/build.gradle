@@ -1,0 +1,40 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        minSdkVersion 12
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+
+        consumerProguardFiles 'proguard.txt'
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+    }
+}
+
+dependencies {
+    compile 'com.esotericsoftware:kryo:3.0.2'
+    compile 'de.javakaffee:kryo-serializers:0.33'
+
+    androidTestCompile 'com.orhanobut:hawk:1.14'
+    androidTestCompile 'com.android.support.test:runner:0.3'
+    androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
+}
