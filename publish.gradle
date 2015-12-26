@@ -1,0 +1,28 @@
+
+
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+def siteUrl = 'https://github.com/FabianTerhorst/Iron'
+def gitUrl = 'https://github.com/FabianTerhorst/Iron.git'
+
+version = "1.0"
+group = "io.fabianterhorst"  
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "iron"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ['Apache-2.0']
+        publish = true
+    }
+}

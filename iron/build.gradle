@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
 
 android {
     compileSdkVersion 23
@@ -32,29 +30,6 @@ android {
     }
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    def siteUrl = 'https://github.com/FabianTerhorst/Iron'
-    def gitUrl = 'https://github.com/FabianTerhorst/Iron.git'
-    group = "io.fabianterhorst"
-
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = "Iron"
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["AGPL-V3"]
-        publish = true
-    }
-}
-
-
 dependencies {
     compile 'com.esotericsoftware:kryo:3.0.2'
     compile 'de.javakaffee:kryo-serializers:0.33'
@@ -63,3 +38,5 @@ dependencies {
     androidTestCompile 'com.android.support.test:runner:0.3'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
 }
+
+apply from: '../publish.gradle'

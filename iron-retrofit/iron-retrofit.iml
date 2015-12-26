@@ -73,7 +73,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/lint" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/restart-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
@@ -82,9 +81,9 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="converter-moshi-2.0.0-beta2" level="project" />
     <orderEntry type="library" exported="" name="protobuf-java-2.6.1" level="project" />
     <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
+    <orderEntry type="library" exported="" name="converter-moshi-2.0.0-beta2" level="project" />
     <orderEntry type="library" exported="" name="reflectasm-1.10.1" level="project" />
     <orderEntry type="library" exported="" name="kryo-3.0.2" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.0.0-beta2" level="project" />
