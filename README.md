@@ -43,7 +43,7 @@ public class Main {
 ```
 
 ```java
- Paper.book().addOnDataChangeListener(new DataChangeCallback(this) {
+ Iron.chest().addOnDataChangeListener(new DataChangeCallback(this) {
     @Override
     public void onDataChange(String key, Object value) {
         if(key.equals(MainStore.Keys.CONTRIBUTORS.toString())){
@@ -62,7 +62,7 @@ MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
 ```
 
 ```java
- MainStore.executeContributorsTransaction(new Book.Transaction<ArrayList<Contributor>>() {
+ MainStore.executeContributorsTransaction(new Chest.Transaction<ArrayList<Contributor>>() {
     @Override
     public void execute(ArrayList<Contributor> contributors) {
     	Contributor contributor = new Contributor();
@@ -91,7 +91,7 @@ MainStore.addOnDataChangeListener(new DataChangeCallback(this) {
 ```
 
 ```java
-MainStore.getContributorsForField("login", "fabianterhorst", new Book.ReadCallback<Contributor>() {
+MainStore.getContributorsForField("login", "fabianterhorst", new Chest.ReadCallback<Contributor>() {
     @Override
     public void onResult(Contributor contributor) {
         if(contributor != null)
