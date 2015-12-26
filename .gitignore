@@ -28,3 +28,7 @@ proguard/
 
 # Log Files
 *.log
+
+iron-compiler/iron-compiler.iml
+
+*.iml

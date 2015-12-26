@@ -1,6 +1,17 @@
 # Iron
 Fast and easy to use NoSQL data storage
 
+#### Add dependency
+```groovy
+classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+...
+apply plugin: 'com.neenbedankt.android-apt'
+...
+compile 'io.fabianterhorst:iron:0.1'
+compile 'io.fabianterhorst:iron-retrofit:0.1'
+apt 'io.fabianterhorst:iron-compiler:0.1'
+```
+
 ```java
 public class MyApplication extends Application {
     @Override

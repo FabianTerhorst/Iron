@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":iron-retrofit" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="Iron" external.system.module.version="unspecified" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":iron-retrofit" external.linked.project.path="$MODULE_DIR$" external.root.project.path="$MODULE_DIR$/.." external.system.id="GRADLE" external.system.module.group="io.fabianterhorst" external.system.module.version="0.1" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -81,15 +81,15 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
-    <orderEntry type="library" exported="" name="converter-moshi-2.0.0-beta2" level="project" />
     <orderEntry type="library" exported="" name="protobuf-java-2.6.1" level="project" />
-    <orderEntry type="library" exported="" name="reflectasm-1.10.1" level="project" />
+    <orderEntry type="library" exported="" name="converter-moshi-2.0.0-beta2" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.6.0" level="project" />
     <orderEntry type="library" exported="" name="kryo-3.0.2" level="project" />
+    <orderEntry type="library" exported="" name="reflectasm-1.10.1" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.0.0-beta2" level="project" />
     <orderEntry type="library" exported="" name="minlog-1.3.0" level="project" />
-    <orderEntry type="library" exported="" name="okhttp-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="kryo-serializers-0.33" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="moshi-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="asm-5.0.3" level="project" />
     <orderEntry type="library" exported="" name="objenesis-2.1" level="project" />

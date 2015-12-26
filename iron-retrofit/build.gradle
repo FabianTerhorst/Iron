@@ -23,3 +23,5 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-moshi:2.0.0-beta2'
 }
+
+apply from: '../publish-retrofit.gradle'

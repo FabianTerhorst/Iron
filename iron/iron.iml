@@ -81,7 +81,6 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/poms" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
@@ -90,15 +89,15 @@
     <orderEntry type="library" exported="" scope="TEST" name="assertj-core-1.6.1" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="runner-0.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="exposed-instrumentation-api-publish-0.3" level="project" />
-    <orderEntry type="library" exported="" scope="TEST" name="support-annotations-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="minlog-1.3.0" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="support-annotations-22.2.0" level="project" />
     <orderEntry type="library" exported="" name="kryo-serializers-0.33" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hawk-1.14" level="project" />
     <orderEntry type="library" exported="" name="asm-5.0.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="assertj-android-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="protobuf-java-2.6.1" level="project" />
-    <orderEntry type="library" exported="" name="kryo-3.0.2" level="project" />
     <orderEntry type="library" exported="" name="reflectasm-1.10.1" level="project" />
+    <orderEntry type="library" exported="" name="kryo-3.0.2" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit-4.12" level="project" />
     <orderEntry type="library" exported="" name="objenesis-2.1" level="project" />
