@@ -22,6 +22,8 @@ public class MyApplication extends Application {
 }
 ```
 
+Use the @Store annotation on any plain old Java object.
+
 ```java
 @Store
 public class Main {
@@ -29,6 +31,7 @@ public class Main {
     ArrayList<Contributor> contributors;
 }
 ```
+Now you can access the generated Methods from your Main + "Store" file.
 
 ```java
  MainStore.setContributors(contributors); // set contributors
