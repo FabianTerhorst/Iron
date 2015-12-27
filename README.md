@@ -2,6 +2,8 @@
 <img src="https://travis-ci.org/FabianTerhorst/Iron.svg?branch=master"></img>
 
 # Iron
+
+[![Join the chat at https://gitter.im/FabianTerhorst/Iron](https://badges.gitter.im/FabianTerhorst/Iron.svg)](https://gitter.im/FabianTerhorst/Iron?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Fast and easy to use NoSQL data storage
 
 #### Add dependency
