@@ -7,7 +7,7 @@ import io.fabianterhorst.iron.compiler.Store;
 
 @Store
 public class Main {
-    @Name(value = "contributors", transaction = true, listener = true)
+    @Name(value = "contributors", transaction = true, listener = true, loader = true, async = true)
     ArrayList<Contributor> contributors;
 
     @Name("repos")

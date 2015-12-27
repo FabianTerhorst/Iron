@@ -6,12 +6,16 @@ public class StoreEntry {
     String className;
     boolean transaction;
     boolean listener;
+    boolean loader;
+    boolean async;
 
-    public StoreEntry(String key, String className, boolean transaction,boolean listener) {
+    public StoreEntry(String key, String className, boolean transaction,boolean listener, boolean loader, boolean async) {
         this.key = key;
         this.className = className;
         this.transaction = transaction;
         this.listener = listener;
+        this.loader = loader;
+        this.async = async;
     }
 
     public String getKey() {
@@ -28,5 +32,13 @@ public class StoreEntry {
 
     public boolean isListener() {
         return listener;
+    }
+
+    public boolean isLoader() {
+        return loader;
+    }
+
+    public boolean isAsync() {
+        return async;
     }
 }

@@ -27,7 +27,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d("size", MainStore.getContributors().size() + "");
+        MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
+            @Override
+            public void onResult(ArrayList<Contributor> contributors) {
+                Log.d("size", contributors.size() + "");
+            }
+        });
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")
@@ -53,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(String key, Object value) {
                 if (key.equals(MainStore.Keys.CONTRIBUTORS.toString())) {
-                    Log.d(TAG, MainStore.getContributors().toString()); // get contributors
+                    Log.d(TAG, ((ArrayList<Contributor>)value).toString()); // get contributors
                 }
             }
         });

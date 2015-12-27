@@ -11,4 +11,6 @@ public @interface Name {
     String value();
     boolean transaction() default false;
     boolean listener() default false;
+    boolean loader() default false;
+    boolean async() default false;
 }

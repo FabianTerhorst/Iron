@@ -38,24 +38,29 @@ public enum Keys {
 
 <#list keyList as key>
     public static void set${key.key?cap_first}(${key.className} ${key.key}) {
+        <#if !key.async>
         Iron.chest().write("${key.key}", ${key.key});
-    }
-
-    public static void put${key.key?cap_first}(${key.className} ${key.key}) {
+        </#if>
+         <#if key.async>
         Iron.chest().put("${key.key}", ${key.key});
+        </#if>
     }
 
+<#if key.loader>
     public static <T> void load${key.key?cap_first}(IronLoadExtension ironLoadExtension, T call) {
         Iron.chest().load(ironLoadExtension, call, "${key.key}");
     }
-
+</#if>
+<#if !key.async>
     public static ${key.className} get${key.key?cap_first}() {
         return Iron.chest().read("${key.key}", new ${key.className}());
     }
-
-    public static void get${key.key?cap_first}(Chest.ReadCallback readCallback) {
+</#if>
+<#if key.async>
+    public static <T extends ${key.className}> void get${key.key?cap_first}(Chest.ReadCallback<T> readCallback) {
         Iron.chest().get("${key.key}", readCallback);
     }
+</#if>
 
 <#if key.className?contains('java.util.ArrayList')>
     public static <T extends ${key.className?replace('java.util.ArrayList<', '')} void get${key.key?cap_first}ForField(final String fieldName, final Object searchValue, final Chest.ReadCallback<T> readCallback){
@@ -87,7 +92,12 @@ public enum Keys {
     }
 </#if>
     public static void remove${key.key?cap_first}() {
+        <#if key.async>
+        Iron.chest().remove("${key.key}");
+        </#if>
+        <#if !key.async>
         Iron.chest().delete("${key.key}");
+        </#if>
     }
 <#if key.transaction>
     public static <T extends ${key.className}> void execute${key.key?cap_first}Transaction(Chest.Transaction<T> transaction){
@@ -100,5 +110,6 @@ public enum Keys {
         Iron.chest().addOnDataChangeListener(dataChangeCallback);
     }
 </#if>
+
 </#list>
 }

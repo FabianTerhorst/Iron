@@ -32,7 +32,7 @@ Use the @Store annotation on any plain old Java object.
 ```java
 @Store
 public class Main {
-    @Name(value = "contributors", transaction = true, listener = true)
+    @Name(value = "contributors", transaction = true, listener = true, loader = true, async = true)
     ArrayList<Contributor> contributors;
     @Name("username")
     String userName;
@@ -44,8 +44,20 @@ Now you can access the generated Methods from your Main + "Store" file.
  MainStore.setContributors(contributors); // set contributors
 ```
 
+Get value synced
+
 ```java
  MainStore.getContributors(contributors); // get contributors
+```
+
+Get value asynced
+
+```java
+MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
+    @Override
+    public void onResult(ArrayList<Contributor> contributors) {
+    }
+});
 ```
 
 ```java
@@ -59,14 +71,6 @@ Now you can access the generated Methods from your Main + "Store" file.
         if(key.equals(MainStore.Keys.CONTRIBUTORS.toString())){
             Log.d(TAG, MainStore.getContributors().toString()); // get contributors
         }
-    }
-});
-```
-
-```java
-MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
-    @Override
-    public void onResult(ArrayList<Contributor> contributors) {
     }
 });
 ```

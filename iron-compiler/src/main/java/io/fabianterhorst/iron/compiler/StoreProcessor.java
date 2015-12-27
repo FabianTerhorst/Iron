@@ -68,7 +68,8 @@ public class StoreProcessor extends AbstractProcessor {
 
                     Name fieldNameAnnot = variableElement.getAnnotation(Name.class);
                     String keyName = getKeyName(fieldName, fieldNameAnnot);
-                    prefList.add(new StoreEntry(keyName, fieldType.toString(), fieldNameAnnot.transaction(), fieldNameAnnot.listener()));
+                    prefList.add(new StoreEntry(keyName, fieldType.toString(), fieldNameAnnot.transaction(),
+                                                fieldNameAnnot.listener(), fieldNameAnnot.loader(), fieldNameAnnot.async()));
                 }
 
                 Map<String, Object> args = new HashMap<String, Object>();

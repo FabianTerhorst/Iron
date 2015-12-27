@@ -89,35 +89,35 @@ public class Chest {
      * @param key          object key to read
      * @param readCallback callback that return the readed object
      */
-    public void get(String key, ReadCallback readCallback) {
-        AsyncTask<Object, Void, Object> task = new AsyncTask<Object, Void, Object>() {
+    public <T> void get(String key, ReadCallback<T> readCallback) {
+        AsyncTask<Object, Void, T> task = new AsyncTask<Object, Void, T>() {
 
-            protected ReadCallback mReadCallback;
+            protected ReadCallback<T> mReadCallback;
 
             @Override
-            protected Object doInBackground(Object... objects) {
+            protected T doInBackground(Object... objects) {
                 String key = (String) objects[0];
-                mReadCallback = (ReadCallback) objects[1];
+                mReadCallback = (ReadCallback<T>) objects[1];
                 return read(key);
             }
 
             @Override
-            protected void onPostExecute(Object o) {
-                mReadCallback.onResult(o);
+            protected void onPostExecute(T value) {
+                mReadCallback.onResult(value);
             }
         };
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, readCallback);
     }
 
-    public void execute(String key, Transaction transaction, Object defaultObject) {
+    public <T> void execute(String key, Transaction<T> transaction, Object defaultObject) {
         AsyncTask<Object, Void, Void> task = new AsyncTask<Object, Void, Void>() {
 
             @Override
             protected Void doInBackground(Object... objects) {
                 String key = (String) objects[0];
-                Transaction transaction = (Transaction) objects[1];
-                Object defaultObject = objects[2];
-                Object value = read(key);
+                Transaction<T> transaction = (Transaction<T>) objects[1];
+                T defaultObject = (T)objects[2];
+                T value = read(key);
                 if (value == null)
                     value = defaultObject;
                 transaction.execute(value);
