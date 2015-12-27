@@ -304,8 +304,8 @@ public class Chest {
      * load objects from loader extension
      *
      * @param ironLoadExtension extension
-     * @param call               extension call
-     * @param key                key to save
+     * @param call              extension call
+     * @param key               key to save
      */
     public <T> void load(IronLoadExtension ironLoadExtension, T call, String key) {
         ironLoadExtension.load(call, key);
@@ -313,5 +313,21 @@ public class Chest {
 
     public <T> void load(IronLoadExtension ironLoadExtension, T call, Class clazz) {
         load(ironLoadExtension, call, clazz.getName());
+    }
+
+    /**
+     * Clears cache for given key.
+     *
+     * @param key object key
+     */
+    public void invalidateCache(String key) {
+        mStorage.invalidateCache(key);
+    }
+
+    /**
+     * Clears cache.
+     */
+    public void invalidateCache() {
+        mStorage.invalidateCache();
     }
 }

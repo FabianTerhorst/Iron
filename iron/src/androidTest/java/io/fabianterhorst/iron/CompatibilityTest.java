@@ -35,6 +35,7 @@ public class CompatibilityTest {
 
         // Save original class. Only class name is changed to TestClassNew
         Iron.chest().write("test", testClass);
+        Iron.chest().invalidateCache("test");
 
         // Read and instantiate a modified class TestClassNew based on saved data in TestClass
         TestClassNew newTestClass = Iron.chest().read("test");
@@ -52,6 +53,7 @@ public class CompatibilityTest {
                 TestClassNotCompatible.class.getName());
         testClass.timestamp = 123;
         Iron.chest().write("not-compatible", testClass);
+        Iron.chest().invalidateCache("not-compatible");
 
         Iron.chest().<TestClassNotCompatible>read("not-compatible");
     }
@@ -63,6 +65,7 @@ public class CompatibilityTest {
         tc.transientField = "changed";
 
         Iron.chest().write("transient-class", tc);
+        Iron.chest().invalidateCache("transient-class");
 
         TestClassTransient readTc = Iron.chest().read("transient-class");
         assertThat(readTc.timestamp).isEqualTo(123);

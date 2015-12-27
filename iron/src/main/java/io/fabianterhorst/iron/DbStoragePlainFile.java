@@ -331,5 +331,15 @@ public class DbStoragePlainFile implements Storage {
         }
         return false;
     }
+
+    @Override
+    public void invalidateCache() {
+        mMemoryCache.evictAll();
+    }
+
+    @Override
+    public void invalidateCache(String key) {
+        mMemoryCache.remove(key);
+    }
 }
 

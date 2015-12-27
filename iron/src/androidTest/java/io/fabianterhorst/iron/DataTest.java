@@ -66,7 +66,7 @@ public class DataTest {
 
         final Person savedPerson = Iron.chest().read("profile");
         assertThat(savedPerson).isEqualTo(person);
-        assertThat(savedPerson).isNotSameAs(person);
+        assertThat(savedPerson).isSameAs(person);
     }
 
     @Test

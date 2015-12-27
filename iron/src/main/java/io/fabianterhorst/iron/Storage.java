@@ -17,4 +17,8 @@ interface Storage {
     void deleteIfExists(String key);
 
     List<String> getAllKeys();
+
+    void invalidateCache();
+
+    void invalidateCache(String key);
 }
