@@ -41,13 +41,13 @@ public class Main {
 Now you can access the generated Methods from your Main + "Store" file.
 
 ```java
- MainStore.setContributors(contributors); // set contributors
+ MainStore.setContributors(contributors);
 ```
 
 Get value synced
 
 ```java
- MainStore.getContributors(contributors); // get contributors
+ MainStore.getContributors(contributors);
 ```
 
 Get value asynced
@@ -60,8 +60,10 @@ MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
 });
 ```
 
+Remove value
+
 ```java
- MainStore.removeContributors(); // remove contributors
+ MainStore.removeContributors();
 ```
 
 ```java
@@ -69,11 +71,13 @@ MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
     @Override
     public void onDataChange(String key, Object value) {
         if(key.equals(MainStore.Keys.CONTRIBUTORS.toString())){
-            Log.d(TAG, MainStore.getContributors().toString()); // get contributors
+            Log.d(TAG, ((ArrayList<Contributor>)value).toString());
         }
     }
 });
 ```
+
+transactions (changes will be saved)
 
 ```java
  MainStore.executeContributorsTransaction(new Chest.Transaction<ArrayList<Contributor>>() {
@@ -86,6 +90,8 @@ MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
 });
 ```
 
+Data change listener
+
 ```java
 MainStore.addOnContributorsDataChangeListener(new DataChangeCallback<ArrayList<Contributor>>(this) {
     @Override
@@ -93,6 +99,8 @@ MainStore.addOnContributorsDataChangeListener(new DataChangeCallback<ArrayList<C
     }
 });
 ```
+
+Generic data change listener
 
 ```java
 MainStore.addOnDataChangeListener(new DataChangeCallback(this) {
@@ -104,6 +112,8 @@ MainStore.addOnDataChangeListener(new DataChangeCallback(this) {
 });
 ```
 
+Search for object with field and value
+
 ```java
 MainStore.getContributorsForField("login", "fabianterhorst", new Chest.ReadCallback<Contributor>() {
     @Override
@@ -113,6 +123,8 @@ MainStore.getContributorsForField("login", "fabianterhorst", new Chest.ReadCallb
     }
 });
 ```
+
+Remove listener to prevent memory leaks
 
 ```java
 @Override
