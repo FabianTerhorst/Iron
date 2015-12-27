@@ -7,15 +7,28 @@
 Fast and easy to use NoSQL data storage
 
 #### Add dependency
+
+Add apt plugin in your top level gradle build file
+
 ```groovy
 classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-...
+```
+
+Apply apt plugin in your application gradle build file.
+
+```groovy
 apply plugin: 'com.neenbedankt.android-apt'
-...
+```
+
+Add dependencies to your application gradle build file (the compiler and the retrofit extension is optional)
+
+```groovy
 compile 'io.fabianterhorst:iron:0.1'
 compile 'io.fabianterhorst:iron-retrofit:0.1'
 apt 'io.fabianterhorst:iron-compiler:0.1'
 ```
+
+Initiate Iron instance with application context
 
 ```java
 public class MyApplication extends Application {
@@ -124,6 +137,18 @@ MainStore.getContributorsForField("login", "fabianterhorst", new Chest.ReadCallb
 });
 ```
 
+You can also use Iron.chest()´s methods. Your custom classes must have no-arg constructor
+
+```java
+Iron.chest().write("username", "fabian");
+```
+
+Read data objects. Iron instantiates exactly the classes which has been used in saved data. The limited backward and forward compatibility is supported.
+
+```java
+String username = Iron.chest().read("username");
+```
+
 Remove listener to prevent memory leaks
 
 ```java
@@ -134,6 +159,28 @@ protected void onDestroy() {
     //Iron.chest().removeListener(this);
 }
 ```
+
+#### Handle data structure changes
+Class fields which has been removed will be ignored on restore and new fields will have their default values. For example, if you have following data class saved in Paper storage:
+
+```java
+class User {
+    public String name; //Fabian
+    public boolean isActive;
+}
+```
+
+And then you realized you need to change the class like:
+
+```java
+class User {
+    public String name; //Fabian
+    // public boolean isActive; removed field
+    public Location location; // New field
+}
+```
+
+Then on restore the _isActive_ field will be ignored and new _location_ field will have its default value _null_.
 
 Retrofit support
 ```java
