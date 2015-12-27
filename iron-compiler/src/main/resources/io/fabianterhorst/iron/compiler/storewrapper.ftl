@@ -9,23 +9,23 @@ import io.fabianterhorst.iron.IronLoadExtension;
 
 public class ${keyWrapperClassName} {
 
-public enum Keys {
-    <#list keyList as key>
-    ${key.key?upper_case}("${key.key}"),
-    </#list>
-    ;
+    public enum Keys {
+        <#list keyList as key>
+        ${key.key?upper_case}("${key.key}"),
+        </#list>
+        ;
 
-    private final String text;
+        private final String text;
 
-    private Keys(final String text) {
-        this.text = text;
+        private Keys(final String text) {
+            this.text = text;
+        }
+
+        @Override
+        public String toString() {
+            return text;
+        }
     }
-
-    @Override
-    public String toString() {
-        return text;
-    }
-}
 
     public static void addOnDataChangeListener(DataChangeCallback  dataChangeCallback){
         dataChangeCallback.setValues(Keys.values());
