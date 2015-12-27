@@ -86,18 +86,19 @@ public enum Keys {
         });
     }
 </#if>
-
     public static void remove${key.key?cap_first}() {
         Iron.chest().delete("${key.key}");
     }
-
+<#if key.transaction>
     public static <T extends ${key.className}> void execute${key.key?cap_first}Transaction(Chest.Transaction<T> transaction){
         Iron.chest().execute("${key.key}", transaction, new ${key.className}());
     }
-
+</#if>
+<#if key.listener>
     public static <T extends ${key.className}> void addOn${key.key?cap_first}DataChangeListener(DataChangeCallback<T>  dataChangeCallback){
         dataChangeCallback.setKey("${key.key}");
         Iron.chest().addOnDataChangeListener(dataChangeCallback);
     }
+</#if>
 </#list>
 }

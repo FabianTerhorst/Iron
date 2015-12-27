@@ -32,8 +32,10 @@ Use the @Store annotation on any plain old Java object.
 ```java
 @Store
 public class Main {
-    @Name("contributors")
+    @Name(value = "contributors", transaction = true, listener = true)
     ArrayList<Contributor> contributors;
+    @Name("username")
+    String userName;
 }
 ```
 Now you can access the generated Methods from your Main + "Store" file.

@@ -9,4 +9,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Name {
     String value();
+    boolean transaction() default false;
+    boolean listener() default false;
 }
