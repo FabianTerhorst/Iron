@@ -63,10 +63,10 @@ public class DataTest {
     public void testPutPOJO() {
         final Person person = genPerson(1);
         Iron.chest().write("profile", person);
-
+        Iron.chest().invalidateCache("profile");
         final Person savedPerson = Iron.chest().read("profile");
         assertThat(savedPerson).isEqualTo(person);
-        assertThat(savedPerson).isSameAs(person);
+        assertThat(savedPerson).isNotSameAs(person);
     }
 
     @Test
@@ -141,6 +141,7 @@ public class DataTest {
 
     private Object testReadWriteWithoutClassCheck(Object originObj) {
         Iron.chest().write("obj", originObj);
+        Iron.chest().invalidateCache("obj");
         Object readObj = Iron.chest().read("obj");
         assertThat(readObj).isEqualTo(originObj);
         return readObj;

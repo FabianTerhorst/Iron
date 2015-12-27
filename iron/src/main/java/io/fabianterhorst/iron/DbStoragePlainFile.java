@@ -41,7 +41,7 @@ public class DbStoragePlainFile implements Storage {
         protected Object create(Object key) {
             return doSelect(key.toString());
         }
-    };;
+    };
 
     private Kryo getKryo() {
         return mKryo.get();
