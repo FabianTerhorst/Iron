@@ -34,7 +34,14 @@ public class DbStoragePlainFile implements Storage {
     private String mFilesDir;
     private boolean mIronDirIsCreated;
 
-    private LruCache mMemoryCache;
+    final int cacheSize = 1024 * 10; // 10Mb //24 * memClass / 8;
+
+    private final LruCache mMemoryCache = new LruCache(cacheSize) {
+        @Override
+        protected Object create(Object key) {
+            return doSelect(key.toString());
+        }
+    };;
 
     private Kryo getKryo() {
         return mKryo.get();
@@ -77,14 +84,12 @@ public class DbStoragePlainFile implements Storage {
         //final int memClass = ((ActivityManager) mContext.getSystemService(
         //        Context.ACTIVITY_SERVICE)).getMemoryClass();
 
-        final int cacheSize = 1024 * 10; // 10Mb //24 * memClass / 8;
-
-        mMemoryCache = new LruCache(cacheSize) {
+        /*mMemoryCache = new LruCache(cacheSize) {
             @Override
             protected Object create(Object key) {
                 return doSelect(key.toString());
             }
-        };
+        };*/
     }
 
     @Override
@@ -242,8 +247,6 @@ public class DbStoragePlainFile implements Storage {
             }
             throw new IronException("Couldn't save table: " + key + ". " +
                     "Backed up table will be used on next read attempt", e);
-        } catch (Exception ex) {
-            throw new IronException(ex);
         }
     }
 
