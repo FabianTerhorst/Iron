@@ -213,7 +213,7 @@ public class DbStoragePlainFile implements Storage {
      * from the backup.
      *
      * @param key          table key
-     * @param ironTable   table instance
+     * @param ironTable    table instance
      * @param originalFile file to write new data
      * @param backupFile   backup file to be used if write is failed
      */
@@ -242,6 +242,8 @@ public class DbStoragePlainFile implements Storage {
             }
             throw new IronException("Couldn't save table: " + key + ". " +
                     "Backed up table will be used on next read attempt", e);
+        } catch (Exception ex) {
+            throw new IronException(ex);
         }
     }
 
