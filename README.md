@@ -1,9 +1,9 @@
 <img src="https://img.shields.io/badge/Methods and size-core: 198 | deps: 9494 | 21 KB-e91e63.svg"></img>
 <img src="https://travis-ci.org/FabianTerhorst/Iron.svg?branch=master"></img>
+[![Join the chat at https://gitter.im/FabianTerhorst/Iron](https://badges.gitter.im/FabianTerhorst/Iron.svg)](https://gitter.im/FabianTerhorst/Iron?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 # Iron
 
-[![Join the chat at https://gitter.im/FabianTerhorst/Iron](https://badges.gitter.im/FabianTerhorst/Iron.svg)](https://gitter.im/FabianTerhorst/Iron?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Fast and easy to use NoSQL data storage
 
 #### Add dependency
