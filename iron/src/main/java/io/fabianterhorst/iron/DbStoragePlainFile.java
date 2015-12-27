@@ -34,7 +34,7 @@ public class DbStoragePlainFile implements Storage {
     private String mFilesDir;
     private boolean mIronDirIsCreated;
 
-    final int cacheSize = 1024 * 10; // 10Mb //24 * memClass / 8;
+    final int cacheSize = 1024 * 50; // 50Mb //24 * memClass / 8;
 
     private final LruCache mMemoryCache = new LruCache(cacheSize) {
         @Override
