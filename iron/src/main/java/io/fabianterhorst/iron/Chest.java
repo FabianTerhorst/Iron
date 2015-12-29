@@ -21,8 +21,11 @@ public class Chest {
 
     protected transient ArrayList<DataChangeCallback> mCallbacks;
 
-    protected Chest(Context context, String dbName) {
+    private final IronLoadExtension mLoaderExtension;
+
+    protected Chest(Context context, String dbName, IronLoadExtension loadExtension) {
         mStorage = new DbStoragePlainFile(context.getApplicationContext(), dbName);
+        mLoaderExtension = loadExtension;
     }
 
     /**
@@ -303,16 +306,21 @@ public class Chest {
     /**
      * load objects from loader extension
      *
-     * @param ironLoadExtension extension
      * @param call              extension call
      * @param key               key to save
      */
-    public <T> void load(IronLoadExtension ironLoadExtension, T call, String key) {
-        ironLoadExtension.load(call, key);
+    public <T> void load(T call, String key) {
+        mLoaderExtension.load(call, key);
     }
 
-    public <T> void load(IronLoadExtension ironLoadExtension, T call, Class clazz) {
-        load(ironLoadExtension, call, clazz.getName());
+    /**
+     * load objects from loader extension
+     *
+     * @param call              extension call
+     * @param clazz             classname to save
+     */
+    public <T> void load(T call, Class clazz) {
+        load(call, clazz.getName());
     }
 
     /**

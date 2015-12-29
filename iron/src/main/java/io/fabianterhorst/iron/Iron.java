@@ -25,6 +25,8 @@ public class Iron {
 
     private static Context mContext;
 
+    private static IronLoadExtension mLoaderExtension;
+
     private static final ConcurrentHashMap<String, Chest> mChestMap = new ConcurrentHashMap<>();
 
     /**
@@ -36,6 +38,15 @@ public class Iron {
      */
     public static void init(Context context) {
         mContext = context.getApplicationContext();
+    }
+
+    /**
+     * Set the loader extension to the Iron instance
+     *
+     * @param loaderExtension loader extension for the iron instance
+     */
+    public static void setLoaderExtension(IronLoadExtension loaderExtension){
+        mLoaderExtension = loaderExtension;
     }
 
     /**
@@ -66,7 +77,7 @@ public class Iron {
         synchronized (mChestMap) {
             Chest chest = mChestMap.get(name);
             if (chest == null) {
-                chest = new Chest(mContext, name);
+                chest = new Chest(mContext, name, mLoaderExtension);
                 mChestMap.put(name, chest);
             }
             return chest;

@@ -36,6 +36,8 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Iron.init(getApplicationContext());
+        //Optional if iron-retrofit is included
+        Iron.setLoaderExtension(new IronRetrofit());
     }
 }
 ```
@@ -149,6 +151,13 @@ Read data objects. Iron instantiates exactly the classes which has been used in 
 String username = Iron.chest().read("username");
 ```
 
+Laod and save data with retrofit. Need loader extension to be added in application.
+
+```java
+Call<List<Repo>> reposCall = service.listRepos("fabianterhorst");
+Iron.chest().load(reposCall, Repo.class);
+```
+
 Remove listener to prevent memory leaks
 
 ```java
@@ -185,7 +194,7 @@ Then on restore the _isActive_ field will be ignored and new _location_ field wi
 Retrofit support
 ```java
 Call<List<Contributor>> userCall = service.contributors("fabianterhorst", "iron");
-MainStore.loadContributors(new IronRetrofit(), userCall);
+MainStore.loadContributors(userCall);
 ```
 
 with Cache:

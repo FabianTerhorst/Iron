@@ -47,8 +47,8 @@ public class ${keyWrapperClassName} {
     }
 
 <#if key.loader>
-    public static <T> void load${key.key?cap_first}(IronLoadExtension ironLoadExtension, T call) {
-        Iron.chest().load(ironLoadExtension, call, "${key.key}");
+    public static <T> void load${key.key?cap_first}(T call) {
+        Iron.chest().load(call, "${key.key}");
     }
 </#if>
 <#if !key.async>

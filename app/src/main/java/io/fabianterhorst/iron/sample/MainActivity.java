@@ -12,7 +12,6 @@ import java.util.List;
 import io.fabianterhorst.iron.Chest;
 import io.fabianterhorst.iron.DataChangeCallback;
 import io.fabianterhorst.iron.Iron;
-import io.fabianterhorst.iron.retrofit.IronRetrofit;
 import retrofit.Call;
 import retrofit.MoshiConverterFactory;
 import retrofit.Retrofit;
@@ -30,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
         MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
             @Override
             public void onResult(ArrayList<Contributor> contributors) {
-                Log.d("size", contributors.size() + "");
+                if(contributors != null)
+                    Log.d("size", contributors.size() + "");
             }
         });
 
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         Call<List<Repo>> reposCall = service.listRepos("fabianterhorst");
 
-        Iron.chest().load(new IronRetrofit(), reposCall, Repo.class);
+        Iron.chest().load(reposCall, Repo.class);
 
         Iron.chest().addOnDataChangeListener(new DataChangeCallback(this) {
             @Override
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //Call<List<Contributor>> userCall = service.contributors("fabianterhorst", "iron");
-        //MainStore.loadContributors(new IronRetrofit(), userCall);
+        //MainStore.loadContributors(userCall);
     }
 
     @Override
@@ -126,8 +126,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            Iron.chest().load(new IronRetrofit(),
-                    new Retrofit.Builder()
+            Iron.chest().load(new Retrofit.Builder()
                             .baseUrl("https://api.github.com")
                             .addConverterFactory(MoshiConverterFactory.create())
                             .build()
