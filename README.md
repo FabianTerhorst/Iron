@@ -216,7 +216,7 @@ Running [Benchmark](https://github.com/fabianterhorst/Iron/master/iron/src/andro
 | Read 500 contacts         | 0       | 24      |          |
 
 ### License
-    Copyright 2015 Fabian Terhorst
+    Copyright 2016 Fabian Terhorst
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
