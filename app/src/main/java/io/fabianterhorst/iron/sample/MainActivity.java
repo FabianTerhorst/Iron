@@ -12,9 +12,9 @@ import java.util.List;
 import io.fabianterhorst.iron.Chest;
 import io.fabianterhorst.iron.DataChangeCallback;
 import io.fabianterhorst.iron.Iron;
-import retrofit.Call;
-import retrofit.MoshiConverterFactory;
-import retrofit.Retrofit;
+import retrofit2.Call;
+import retrofit2.MoshiConverterFactory;
+import retrofit2.Retrofit;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -68,13 +68,6 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(String key, Object value) {
                 if(key.equals(MainStore.Keys.CONTRIBUTORS.toString()))
                     Log.d(TAG, "contributors change listener mainstore all");
-            }
-        });
-
-        MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
-            @Override
-            public void onResult(ArrayList<Contributor> contributors) {
-
             }
         });
 
