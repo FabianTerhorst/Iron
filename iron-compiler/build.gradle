@@ -86,6 +86,12 @@ bintray {
     }
 }
 
+repositories {
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
+}
+
 dependencies {
     compile 'org.freemarker:freemarker:2.3.22'
     compile 'commons-io:commons-io:2.4'
