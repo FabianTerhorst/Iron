@@ -310,6 +310,8 @@ public class Chest {
      * @param key               key to save
      */
     public <T> void load(T call, String key) {
+        if(mLoaderExtension == null)
+            throw new IronException("To use load() you have to set the loader extension in your application onCreate()");
         mLoaderExtension.load(call, key);
     }
 
