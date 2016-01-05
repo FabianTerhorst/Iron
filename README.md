@@ -31,26 +31,6 @@ compile 'io.fabianterhorst:iron-retrofit:0.2'
 apt 'io.fabianterhorst:iron-compiler:0.1'
 ```
 
-#### Snapshot Builds
-
-Add the jitpack repository in your root build.gradle at the end of repositories
-```groovy
-allprojects {
-	repositories {
-		maven { url "https://jitpack.io" }
-	}
-}
-```
-
-```groovy
-//Latest commit
-compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
-
-compile 'com.github.FabianTerhorst.Iron:iron-compiler:0.3'
-compile 'com.github.FabianTerhorst.Iron:iron:0.3'
-compile 'com.github.FabianTerhorst.Iron:iron-retrofit:0.3'
-```
-
 Initiate Iron instance with application context
 
 ```java
