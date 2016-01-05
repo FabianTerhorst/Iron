@@ -1,9 +1,9 @@
 <img src="https://img.shields.io/badge/Methods and size-core: 198 | deps: 9494 | 21 KB-e91e63.svg"></img>
 <img src="https://travis-ci.org/FabianTerhorst/Iron.svg?branch=master"></img>
 [![Join the chat at https://gitter.im/FabianTerhorst/Iron](https://badges.gitter.im/FabianTerhorst/Iron.svg)](https://gitter.im/FabianTerhorst/Iron?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-Core[ ![Download](https://api.bintray.com/packages/fabianterhorst/maven/iron/images/download.svg) ](https://bintray.com/fabianterhorst/maven/iron/_latestVersion)
-Compiler[ ![Download](https://api.bintray.com/packages/fabianterhorst/maven/iron-compiler/images/download.svg) ](https://bintray.com/fabianterhorst/maven/iron-compiler/_latestVersion)
-Retrofit[ ![Download](https://api.bintray.com/packages/fabianterhorst/maven/iron-retrofit/images/download.svg) ](https://bintray.com/fabianterhorst/maven/iron-retrofit/_latestVersion)
+[ ![Download Core](https://api.bintray.com/packages/fabianterhorst/maven/iron/images/download.svg) ](https://bintray.com/fabianterhorst/maven/iron/_latestVersion)
+[ ![Download Compiler](https://api.bintray.com/packages/fabianterhorst/maven/iron-compiler/images/download.svg) ](https://bintray.com/fabianterhorst/maven/iron-compiler/_latestVersion)
+[ ![Download Retrofit](https://api.bintray.com/packages/fabianterhorst/maven/iron-retrofit/images/download.svg) ](https://bintray.com/fabianterhorst/maven/iron-retrofit/_latestVersion)
 
 # Iron
 
