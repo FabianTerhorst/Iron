@@ -47,7 +47,7 @@ allprojects {
 //Latest commit
 compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
 
-compile 'com.github.FabianTerhorst.Iron:iron-compiler:0.3'
+apt 'com.github.FabianTerhorst.Iron:iron-compiler:0.3'
 compile 'com.github.FabianTerhorst.Iron:iron:0.3'
 compile 'com.github.FabianTerhorst.Iron:iron-retrofit:0.3'
 ```
