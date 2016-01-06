@@ -36,10 +36,10 @@ public class DbStoragePlainFile implements Storage {
 
     final int cacheSize = 1024 * 50; // 50Mb //24 * memClass / 8;
 
-    private final LruCache mMemoryCache = new LruCache(cacheSize) {
+    private final LruCache<String, Object> mMemoryCache = new LruCache<String, Object>(cacheSize) {
         @Override
-        protected Object create(Object key) {
-            return doSelect(key.toString());
+        protected Object create(String key) {
+            return doSelect(key);
         }
     };
 
