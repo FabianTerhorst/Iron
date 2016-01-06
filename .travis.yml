@@ -14,7 +14,7 @@ before_script:
   - adb shell input keyevent 82 &
   - echo > local.properties
 
-script: ./gradlew connectedAndroidTest coveralls
+script: ./gradlew connectedAndroidTest coveralls --stacktrace
 
 before_install:
   - pip install --user codecov
