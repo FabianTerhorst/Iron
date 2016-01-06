@@ -6,11 +6,6 @@ android:
     - android-23
     - extra-android-m2repository
 
-before_install:
-  - pip install --user codecov
-after_success:
-  - codecov
-
 # Emulator Management: Create, Start and Wait
 before_script:
   - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
@@ -19,4 +14,10 @@ before_script:
   - adb shell input keyevent 82 &
   - echo > local.properties
 
-script: ./gradlew connectedAndroidTest --stacktrace 
+script: ./gradlew connectedAndroidTest coveralls
+
+before_install:
+  - pip install --user codecov
+
+after_success:
+  - codecov
