@@ -13,7 +13,7 @@ public class IronRetrofit implements IronLoadExtension {
             ((Call<T>) call).enqueue(new Callback<T>() {
                 @Override
                 public void onResponse(Response<T> response) {
-                    if (response.body() != null)
+                    if (response.isSuccess())
                         Iron.chest().write(key, response.body());
                 }
 
