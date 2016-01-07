@@ -222,7 +222,6 @@ public class DbStoragePlainFile implements Storage {
             final Output kryoOutput = new Output(fileStream);
             getKryo().writeObject(kryoOutput, ironTable);
             if (mEncryptionExtension != null) {
-                Log.d("write", "crypt");
                 String text = mEncryptionExtension.encrypt(kryoOutput.toBytes());
                 kryoOutput.clear();
                 //Todo : test
@@ -264,9 +263,7 @@ public class DbStoragePlainFile implements Storage {
             final Input i = new Input(new FileInputStream(originalFile));
             final Kryo kryo = getKryo();
             if (mEncryptionExtension != null) {
-                Log.d("read", "crypt");
                 String result = convertStreamToString(i.getInputStream());
-                Log.d("result", result);
                 i.close();
                 if (result.split(":").length >= 3) {
                     InputStream stream = mEncryptionExtension.decrypt(result);
