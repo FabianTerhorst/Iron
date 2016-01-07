@@ -30,7 +30,8 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':iron')
     compile project(':iron-retrofit')
-    compile project(':iron-compiler')
+    compile project(':iron-encryption')
+    compile project(':iron-annotations')
     apt project(':iron-compiler')
 
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta3'

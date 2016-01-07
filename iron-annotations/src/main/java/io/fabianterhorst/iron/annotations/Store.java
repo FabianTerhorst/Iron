@@ -1,4 +1,4 @@
-package io.fabianterhorst.iron.compiler;
+package io.fabianterhorst.iron.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

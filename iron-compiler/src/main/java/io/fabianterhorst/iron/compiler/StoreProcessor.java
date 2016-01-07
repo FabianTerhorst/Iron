@@ -26,8 +26,9 @@ import javax.tools.JavaFileObject;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
+import io.fabianterhorst.iron.annotations.Name;
 
-@SupportedAnnotationTypes("io.fabianterhorst.iron.compiler.Store")
+@SupportedAnnotationTypes("io.fabianterhorst.iron.Store")
 public class StoreProcessor extends AbstractProcessor {
     private static final String SUFFIX_PREF_WRAPPER = "Store";
 

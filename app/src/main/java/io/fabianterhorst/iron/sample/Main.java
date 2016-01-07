@@ -2,8 +2,8 @@ package io.fabianterhorst.iron.sample;
 
 import java.util.ArrayList;
 
-import io.fabianterhorst.iron.compiler.Name;
-import io.fabianterhorst.iron.compiler.Store;
+import io.fabianterhorst.iron.annotations.Name;
+import io.fabianterhorst.iron.annotations.Store;
 
 @Store
 public class Main {

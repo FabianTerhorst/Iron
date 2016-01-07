@@ -41,7 +41,7 @@ install {
                 packaging 'aar'
 
                 // Add your description here
-                name 'compiler for iron'
+                name 'annotations for iron'
                 url siteUrl
 
                 // Set your license
@@ -78,7 +78,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "iron-compiler"
+        name = "iron-annotations"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ['Apache-2.0']
@@ -93,8 +93,4 @@ repositories {
 }
 
 dependencies {
-    compile 'org.freemarker:freemarker:2.3.22'
-    compile 'commons-io:commons-io:2.4'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile project(':iron-annotations')
 }
