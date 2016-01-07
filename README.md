@@ -32,6 +32,7 @@ Add dependencies to your application gradle build file (the compiler and the ret
 compile 'io.fabianterhorst:iron:0.3'
 compile 'io.fabianterhorst:iron-retrofit:0.2'
 compile 'io.fabianterhorst:iron-annotations:0.1'
+compile 'io.fabianterhorst:iron-encryption:0.1'
 apt 'io.fabianterhorst:iron-compiler:0.1'
 ```
 
