@@ -5,6 +5,7 @@
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-compiler.svg?label=Compiler"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-retrofit.svg?label=Retrofit"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-annotations.svg?label=Annotatins"></img>
+<img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-encryption.svg?label=Encryption"></img>
 <img src="https://img.shields.io/github/license/fabianterhorst/iron.svg"></img>
 
 # Iron
