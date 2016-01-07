@@ -3,9 +3,7 @@ package io.fabianterhorst.iron.encryption;
 import android.util.Log;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 
 import io.fabianterhorst.iron.Iron;
@@ -21,10 +19,10 @@ public class IronEncryption implements IronEncryptionExtension {
     }
 
     @Override
-    public String encrypt(String text) {
+    public String encrypt(byte[] bytes) {
         try {
-            return AesCbcWithIntegrity.encrypt(text, mKey, "UTF-8").toString();
-        } catch (GeneralSecurityException | UnsupportedEncodingException e) {
+            return AesCbcWithIntegrity.encrypt(bytes, mKey).toString();
+        } catch (GeneralSecurityException e) {
             e.printStackTrace();
         }
         return null;
@@ -33,11 +31,8 @@ public class IronEncryption implements IronEncryptionExtension {
     @Override
     public InputStream decrypt(String text) {
         try {
-            Log.d("decrypt", text);
-            Log.d("decryptResult", AesCbcWithIntegrity.decryptString(new AesCbcWithIntegrity.CipherTextIvMac(text), mKey, "UTF-8"));
-            return new ByteArrayInputStream(AesCbcWithIntegrity.decryptString(new AesCbcWithIntegrity.CipherTextIvMac(text), mKey, "UTF-8").getBytes("UTF-8"));
-            //return AesCbcWithIntegrity.decryptString(new AesCbcWithIntegrity.CipherTextIvMac(text), mKey);
-        } catch (GeneralSecurityException | IOException /*| UnsupportedEncodingException*/ e) {
+            return new ByteArrayInputStream(AesCbcWithIntegrity.decrypt(new AesCbcWithIntegrity.CipherTextIvMac(text), mKey));
+        } catch (GeneralSecurityException e) {
             e.printStackTrace();
         }
         return null;

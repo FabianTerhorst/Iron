@@ -224,13 +224,11 @@ public class DbStoragePlainFile implements Storage {
             getKryo().writeObject(kryoOutput, ironTable);
             if (mEncryptionExtension != null) {
                 Log.d("write", "crypt");
-                String text = new String(kryoOutput.toBytes(), "UTF-8");
-                Log.d("readText", text);
-                text = mEncryptionExtension.encrypt(text);
-                Log.d("readTextEncrypt", text);
+                String text = mEncryptionExtension.encrypt(kryoOutput.toBytes());
                 kryoOutput.clear();
-                kryoOutput.writeString(text);
-                //kryoOutput.write(text.getBytes());
+                //Todo : test
+                //kryoOutput.writeString(text);
+                kryoOutput.write(text.getBytes());
                 kryoOutput.flush();
                 fileStream.flush();
                 sync(fileStream);
@@ -266,7 +264,6 @@ public class DbStoragePlainFile implements Storage {
                 try {
                     String result = i.readString();
                     i.close();
-                    Log.d("readString", result);
                     if (result.split(":").length >= 3) {
                         InputStream stream = mEncryptionExtension.decrypt(result);
                         final Input decryptedInputStream = new Input(stream);
