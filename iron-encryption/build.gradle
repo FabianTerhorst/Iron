@@ -25,6 +25,7 @@ android {
 
 dependencies {
     compile project(':iron')
+    compile 'commons-io:commons-io:2.4'
 }
 
 apply from: '../publish-encryption.gradle'

@@ -1,6 +1,8 @@
 package io.fabianterhorst.iron;
 
+import java.io.InputStream;
+
 public interface IronEncryptionExtension {
     String encrypt(String text);
-    String decrypt(String text);
+    InputStream decrypt(String text);
 }

@@ -2,6 +2,9 @@ package io.fabianterhorst.iron.encryption;
 
 import android.util.Log;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 
@@ -13,22 +16,14 @@ public class IronEncryption implements IronEncryptionExtension {
     protected AesCbcWithIntegrity.SecretKeys mKey;
 
     public IronEncryption() {
-        mKey = Iron.chest().read("key");
-        if (mKey == null)
-            try {
-                mKey = AesCbcWithIntegrity.generateKey();
-                Iron.chest().write("key", mKey);
-                AesCbcWithIntegrity.SecretKeys key = Iron.chest().read("key");
-                Log.d("key", key.toString());
-            } catch (GeneralSecurityException gse) {
-                gse.printStackTrace();
-            }
+        mKey = getKey();
+        Log.d("crypt", "created with key:" + mKey.toString());
     }
 
     @Override
     public String encrypt(String text) {
         try {
-            return AesCbcWithIntegrity.encrypt(text, mKey).toString();
+            return AesCbcWithIntegrity.encrypt(text, mKey, "UTF-8").toString();
         } catch (GeneralSecurityException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -36,12 +31,29 @@ public class IronEncryption implements IronEncryptionExtension {
     }
 
     @Override
-    public String decrypt(String text) {
+    public InputStream decrypt(String text) {
         try {
-            return AesCbcWithIntegrity.decryptString(new AesCbcWithIntegrity.CipherTextIvMac(text), mKey);
-        } catch (GeneralSecurityException | UnsupportedEncodingException e) {
+            Log.d("decrypt", text);
+            Log.d("decryptResult", AesCbcWithIntegrity.decryptString(new AesCbcWithIntegrity.CipherTextIvMac(text), mKey, "UTF-8"));
+            return new ByteArrayInputStream(AesCbcWithIntegrity.decryptString(new AesCbcWithIntegrity.CipherTextIvMac(text), mKey, "UTF-8").getBytes("UTF-8"));
+            //return AesCbcWithIntegrity.decryptString(new AesCbcWithIntegrity.CipherTextIvMac(text), mKey);
+        } catch (GeneralSecurityException | IOException /*| UnsupportedEncodingException*/ e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public AesCbcWithIntegrity.SecretKeys getKey(){
+        AesCbcWithIntegrity.SecretKeys key = Iron.chest("keys").read("key");
+        if (key == null)
+            try {
+                key = AesCbcWithIntegrity.generateKey();
+                Iron.chest("keys").write("key", key);
+                AesCbcWithIntegrity.SecretKeys key2 = Iron.chest("keys").read("key");
+                Log.d("key", key2.toString());
+            } catch (GeneralSecurityException gse) {
+                gse.printStackTrace();
+            }
+        return key;
     }
 }
