@@ -29,10 +29,10 @@ apply plugin: 'com.neenbedankt.android-apt'
 Add dependencies to your application gradle build file (the compiler and the retrofit extension is optional)
 
 ```groovy
-compile 'io.fabianterhorst:iron:0.4'
+compile 'io.fabianterhorst:iron:0.5'
 compile 'io.fabianterhorst:iron-retrofit:0.3'
 compile 'io.fabianterhorst:iron-annotations:0.1'
-compile 'io.fabianterhorst:iron-encryption:0.1'
+compile 'io.fabianterhorst:iron-encryption:0.2'
 apt 'io.fabianterhorst:iron-compiler:0.2'
 ```
 
