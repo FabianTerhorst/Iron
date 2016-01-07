@@ -254,13 +254,19 @@ public class DbStoragePlainFile implements Storage {
         }
     }
 
+    static String convertStreamToString(java.io.InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
+    }
+
     private <E> E readTableFile(String key, File originalFile) {
         try {
             final Input i = new Input(new FileInputStream(originalFile));
             final Kryo kryo = getKryo();
             if (mEncryptionExtension != null) {
                 Log.d("read", "crypt");
-                String result = i.readString();
+                String result = convertStreamToString(i.getInputStream());
+                Log.d("result", result);
                 i.close();
                 if (result.split(":").length >= 3) {
                     InputStream stream = mEncryptionExtension.decrypt(result);
@@ -269,6 +275,12 @@ public class DbStoragePlainFile implements Storage {
                     final IronTable<E> ironTable = kryo.readObject(decryptedInputStream, IronTable.class);
                     stream.close();
                     decryptedInputStream.close();
+                    return ironTable.mContent;
+                } else {
+                    final Input i2 = new Input(new FileInputStream(originalFile));
+                    //noinspection unchecked
+                    final IronTable<E> ironTable = kryo.readObject(i2, IronTable.class);
+                    i2.close();
                     return ironTable.mContent;
                 }
             }
