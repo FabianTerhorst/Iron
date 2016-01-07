@@ -4,7 +4,7 @@
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron.svg?label=Core"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-compiler.svg?label=Compiler"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-retrofit.svg?label=Retrofit"></img>
-<img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-annotations.svg?label=Annotatins"></img>
+<img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-annotations.svg?label=Annotations"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-encryption.svg?label=Encryption"></img>
 <img src="https://img.shields.io/github/license/fabianterhorst/iron.svg"></img>
 
@@ -53,6 +53,7 @@ compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
 apt 'com.github.FabianTerhorst.Iron:iron-compiler:0.3'
 compile 'com.github.FabianTerhorst.Iron:iron:0.3'
 compile 'com.github.FabianTerhorst.Iron:iron-annotations:0.1'
+compile 'com.github.FabianTerhorst.Iron:iron-encryption:0.1'
 compile 'com.github.FabianTerhorst.Iron:iron-retrofit:0.3'
 ```
 
