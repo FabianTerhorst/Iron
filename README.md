@@ -51,11 +51,11 @@ allprojects {
 //Latest commit
 compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
 
-apt 'com.github.FabianTerhorst.Iron:iron-compiler:0.2'
-compile 'com.github.FabianTerhorst.Iron:iron:0.4'
-compile 'com.github.FabianTerhorst.Iron:iron-annotations:0.1'
-compile 'com.github.FabianTerhorst.Iron:iron-encryption:0.1'
-compile 'com.github.FabianTerhorst.Iron:iron-retrofit:0.3'
+compile 'com.github.fabianterhorst.iron:iron-retrofit:0.5'
+compile 'com.github.fabianterhorst.iron:iron:0.5'
+compile 'com.github.fabianterhorst.iron:iron-encryption:0.5'
+compile 'com.github.fabianterhorst.iron:iron-annotations:0.5'
+apt 'com.github.fabianterhorst.iron:iron-compiler:0.5'
 ```
 
 Initiate Iron instance with application context
