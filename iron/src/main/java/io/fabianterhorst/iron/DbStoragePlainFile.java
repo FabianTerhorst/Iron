@@ -10,11 +10,15 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -33,6 +37,8 @@ public class DbStoragePlainFile implements Storage {
     private final String mDbName;
     private String mFilesDir;
     private boolean mIronDirIsCreated;
+
+    private final IronEncryptionExtension mEncryptionExtension;
 
     final int cacheSize = 1024 * 50; // 50Mb //24 * memClass / 8;
 
@@ -77,9 +83,10 @@ public class DbStoragePlainFile implements Storage {
         return kryo;
     }
 
-    public DbStoragePlainFile(Context context, String dbName) {
+    public DbStoragePlainFile(Context context, String dbName, IronEncryptionExtension encryptionExtension) {
         mContext = context;
         mDbName = dbName;
+        mEncryptionExtension = encryptionExtension;
 
         //final int memClass = ((ActivityManager) mContext.getSystemService(
         //        Context.ACTIVITY_SERVICE)).getMemoryClass();
@@ -229,11 +236,22 @@ public class DbStoragePlainFile implements Storage {
 
             final Output kryoOutput = new Output(fileStream);
             getKryo().writeObject(kryoOutput, ironTable);
-            kryoOutput.flush();
-            fileStream.flush();
-            sync(fileStream);
-            kryoOutput.close(); //also close file stream
-
+            if(mEncryptionExtension != null){
+                Log.d("write", "crypt");
+                String text = new String(kryoOutput.getBuffer());
+                text = mEncryptionExtension.encrypt(text);
+                FileOutputStream encryptFileStream = new FileOutputStream(originalFile);
+                final PrintStream printStream = new PrintStream(encryptFileStream);
+                printStream.print(text);
+                encryptFileStream.flush();
+                sync(encryptFileStream);
+                printStream.close();
+            } else {
+                kryoOutput.flush();
+                fileStream.flush();
+                sync(fileStream);
+                kryoOutput.close(); //also close file stream
+            }
             // Writing was successful, delete the backup file if there is one.
             //noinspection ResultOfMethodCallIgnored
             backupFile.delete();
@@ -254,10 +272,20 @@ public class DbStoragePlainFile implements Storage {
         try {
             final Input i = new Input(new FileInputStream(originalFile));
             final Kryo kryo = getKryo();
-            //noinspection unchecked
-            final IronTable<E> ironTable = kryo.readObject(i, IronTable.class);
-            i.close();
-            return ironTable.mContent;
+            if(mEncryptionExtension != null){
+                String text = mEncryptionExtension.decrypt(i.readString());
+                final InputStream stream = new ByteArrayInputStream(text.getBytes(Charset.forName("UTF-8")));
+                final Input encryptedInputStream = new Input(stream);
+                //noinspection unchecked
+                final IronTable<E> ironTable = kryo.readObject(encryptedInputStream, IronTable.class);
+                encryptedInputStream.close();
+                return ironTable.mContent;
+            } else {
+                //noinspection unchecked
+                final IronTable<E> ironTable = kryo.readObject(i, IronTable.class);
+                i.close();
+                return ironTable.mContent;
+            }
         } catch (FileNotFoundException | KryoException e) {
             // Clean up an unsuccessfully written file
             if (originalFile.exists()) {

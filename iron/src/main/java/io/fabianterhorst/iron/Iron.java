@@ -27,6 +27,8 @@ public class Iron {
 
     private static IronLoadExtension mLoaderExtension;
 
+    private static IronEncryptionExtension mEncryptionExtension;
+
     private static final ConcurrentHashMap<String, Chest> mChestMap = new ConcurrentHashMap<>();
 
     /**
@@ -47,6 +49,15 @@ public class Iron {
      */
     public static void setLoaderExtension(IronLoadExtension loaderExtension){
         mLoaderExtension = loaderExtension;
+    }
+
+    /**
+     * Set the encryption extension to the Iron instance
+     *
+     * @param encryptionExtension encryption extension for the iron instance
+     */
+    public static void setEncryptionExtension(IronEncryptionExtension encryptionExtension){
+        mEncryptionExtension = encryptionExtension;
     }
 
     /**
@@ -77,7 +88,7 @@ public class Iron {
         synchronized (mChestMap) {
             Chest chest = mChestMap.get(name);
             if (chest == null) {
-                chest = new Chest(mContext, name, mLoaderExtension);
+                chest = new Chest(mContext, name, mLoaderExtension, mEncryptionExtension);
                 mChestMap.put(name, chest);
             }
             return chest;

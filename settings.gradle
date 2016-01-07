@@ -1,1 +1,1 @@
-include ':app', ':iron', ':iron-retrofit', ':iron-compiler'
+include ':app', ':iron', ':iron-retrofit', ':iron-compiler', ':iron-encryption', ':iron-annotations'

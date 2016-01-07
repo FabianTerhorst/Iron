@@ -23,8 +23,8 @@ public class Chest {
 
     private final IronLoadExtension mLoaderExtension;
 
-    protected Chest(Context context, String dbName, IronLoadExtension loadExtension) {
-        mStorage = new DbStoragePlainFile(context.getApplicationContext(), dbName);
+    protected Chest(Context context, String dbName, IronLoadExtension loadExtension, IronEncryptionExtension encryptionExtension) {
+        mStorage = new DbStoragePlainFile(context.getApplicationContext(), dbName, encryptionExtension);
         mLoaderExtension = loadExtension;
     }
 

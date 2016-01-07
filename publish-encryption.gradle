@@ -4,7 +4,7 @@ apply plugin: 'com.jfrog.bintray'
 def siteUrl = 'https://github.com/FabianTerhorst/Iron'
 def gitUrl = 'https://github.com/FabianTerhorst/Iron.git'
 
-version = "0.4"
+version = "0.1"
 group = "io.fabianterhorst"
 
 install {
@@ -16,7 +16,7 @@ install {
                 packaging 'aar'
 
                 // Add your description here
-                name 'Fast and easy to use NoSQL data storage'
+                name 'Encryption extension for iron'
                 url siteUrl
 
                 // Set your license
@@ -68,7 +68,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "iron"
+        name = "iron-encryption"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ['Apache-2.0']
