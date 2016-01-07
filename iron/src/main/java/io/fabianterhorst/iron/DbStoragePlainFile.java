@@ -15,7 +15,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.BufferUnderflowException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -261,20 +260,16 @@ public class DbStoragePlainFile implements Storage {
             final Kryo kryo = getKryo();
             if (mEncryptionExtension != null) {
                 Log.d("read", "crypt");
-                try {
-                    String result = i.readString();
-                    i.close();
-                    if (result.split(":").length >= 3) {
-                        InputStream stream = mEncryptionExtension.decrypt(result);
-                        final Input decryptedInputStream = new Input(stream);
-                        //noinspection unchecked
-                        final IronTable<E> ironTable = kryo.readObject(decryptedInputStream, IronTable.class);
-                        stream.close();
-                        decryptedInputStream.close();
-                        return ironTable.mContent;
-                    }
-                } catch (BufferUnderflowException | KryoException ex) {
-                    ex.printStackTrace();
+                String result = i.readString();
+                i.close();
+                if (result.split(":").length >= 3) {
+                    InputStream stream = mEncryptionExtension.decrypt(result);
+                    final Input decryptedInputStream = new Input(stream);
+                    //noinspection unchecked
+                    final IronTable<E> ironTable = kryo.readObject(decryptedInputStream, IronTable.class);
+                    stream.close();
+                    decryptedInputStream.close();
+                    return ironTable.mContent;
                 }
             }
             //noinspection unchecked

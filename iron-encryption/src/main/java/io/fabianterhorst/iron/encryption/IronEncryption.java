@@ -44,8 +44,6 @@ public class IronEncryption implements IronEncryptionExtension {
             try {
                 key = AesCbcWithIntegrity.generateKey();
                 Iron.chest("keys").write("key", key);
-                AesCbcWithIntegrity.SecretKeys key2 = Iron.chest("keys").read("key");
-                Log.d("key", key2.toString());
             } catch (GeneralSecurityException gse) {
                 gse.printStackTrace();
             }
