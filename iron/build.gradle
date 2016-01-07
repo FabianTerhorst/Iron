@@ -28,9 +28,9 @@ android {
         }
     }
 
-    jacoco {
+    /*jacoco {
         version "0.7.5.201505241946"
-    }
+    }*/
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
