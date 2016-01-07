@@ -24,5 +24,6 @@ before_install:
   - pip install --user codecov
 
 after_success:
-  - codecov --token=c9644bf2-666d-4cc2-9d95-e47e40f1d4e8
+  #- codecov
+  - bash <(curl -s https://codecov.io/bash)
   - ./gradlew jacocoTestReport coveralls
