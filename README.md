@@ -69,6 +69,8 @@ public class MyApplication extends Application {
         Iron.init(getApplicationContext());
         //Optional if iron-retrofit is included
         Iron.setLoaderExtension(new IronRetrofit());
+        //Optional if iron-encryption is included
+        Iron.setEncryptionExtension(new IronEncryption());
     }
 }
 ```
