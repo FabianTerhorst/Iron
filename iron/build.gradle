@@ -43,9 +43,10 @@ android {
 }
 
 dependencies {
-    compile 'com.esotericsoftware:kryo:3.0.2'
-    compile 'de.javakaffee:kryo-serializers:0.33'
+    compile 'com.esotericsoftware:kryo:3.0.3'//3.0.2
+    compile 'de.javakaffee:kryo-serializers:0.37'//0.33
 
+    androidTestCompile 'com.github.fabianterhorst.iron:iron-encryption:0.5@aar'
     androidTestCompile 'com.orhanobut:hawk:1.14'
     androidTestCompile 'com.android.support.test:runner:0.3'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'

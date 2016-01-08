@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import io.fabianterhorst.iron.encryption.IronEncryption;
 import io.fabianterhorst.iron.testdata.ClassWithoutPublicNoArgConstructor;
 import io.fabianterhorst.iron.testdata.Person;
 
@@ -32,13 +33,16 @@ public class DataTest {
     @Before
     public void setUp() throws Exception {
         Iron.init(getTargetContext());
+        Iron.chest("keys").destroy();
         Iron.chest().destroy();
+        Iron.setEncryptionExtension(new IronEncryption());
     }
 
     @Test
     public void testPutEmptyList() throws Exception {
         final List<Person> inserted = genPersonList(0);
         Iron.chest().write("persons", inserted);
+        Iron.chest().invalidateCache("persons");
         assertThat(Iron.chest().<List>read("persons")).isEmpty();
     }
 
@@ -46,6 +50,7 @@ public class DataTest {
     public void testPutGetList() {
         final List<Person> inserted = genPersonList(10000);
         Iron.chest().write("persons", inserted);
+        Iron.chest().invalidateCache("persons");
         List<Person> persons = Iron.chest().read("persons");
         assertThat(persons).isEqualTo(inserted);
     }
@@ -54,7 +59,7 @@ public class DataTest {
     public void testPutMap() {
         final Map<Integer, Person> inserted = genPersonMap(10000);
         Iron.chest().write("persons", inserted);
-
+        Iron.chest().invalidateCache("persons");
         final Map<Integer, Person> personMap = Iron.chest().read("persons");
         assertThat(personMap).isEqualTo(inserted);
     }
