@@ -245,6 +245,17 @@ Running [Benchmark](https://github.com/fabianterhorst/Iron/master/iron/src/andro
 | Write 500 contacts        | 11      | 25      |          |
 | Read 500 contacts         | 0       | 24      |          |
 
+with Encryption (only in Iron):
+
+Running [Benchmark](https://github.com/fabianterhorst/Iron/master/iron/src/androidTest/java/io/fabianterhorst/iron/benchmark/Benchmark.java) on Nexus 6p, in ms:
+
+| Benchmark                 | Iron    | [Hawk](https://github.com/orhanobut/hawk) | [sqlite](http://developer.android.com/reference/android/database/sqlite/package-summary.html) |
+|---------------------------|----------|----------|----------|
+| Read/write 500 contacts   | 53      | 142      |          |
+| Write 500 contacts        | 28      | 61      |          |
+| Read 500 contacts         | 23       | 63      |          |
+
+
 ### License
     Copyright 2016 Fabian Terhorst
 
