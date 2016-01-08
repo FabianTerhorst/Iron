@@ -265,7 +265,7 @@ public class DbStoragePlainFile implements Storage {
             if (mEncryptionExtension != null) {
                 String result = convertStreamToString(i.getInputStream());
                 i.close();
-                if (result.split(":").length >= 3) {
+                if (result.split(":").length == 3) {
                     InputStream stream = mEncryptionExtension.decrypt(result);
                     final Input decryptedInputStream = new Input(stream);
                     //noinspection unchecked
