@@ -274,10 +274,10 @@ public class DbStoragePlainFile implements Storage {
                     decryptedInputStream.close();
                     return ironTable.mContent;
                 } else {
-                    final Input i2 = new Input(new FileInputStream(originalFile));
+                    i.setInputStream(new FileInputStream(originalFile));
                     //noinspection unchecked
-                    final IronTable<E> ironTable = kryo.readObject(i2, IronTable.class);
-                    i2.close();
+                    final IronTable<E> ironTable = kryo.readObject(i, IronTable.class);
+                    i.close();
                     return ironTable.mContent;
                 }
             }
