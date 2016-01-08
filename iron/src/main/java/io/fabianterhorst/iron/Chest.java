@@ -93,6 +93,21 @@ public class Chest {
      * @param readCallback callback that return the readed object
      */
     public <T> void get(String key, ReadCallback<T> readCallback) {
+        get(key, readCallback, null);
+    }
+
+    /**
+     * Instantiates saved object using original object class (e.g. LinkedList). Support limited
+     * backward and forward compatibility: removed fields are ignored, new fields have their
+     * default values.
+     * <p/>
+     * All instantiated objects must have no-arg constructors.
+     *
+     * @param key           object key to read
+     * @param readCallback  callback that return the readed object
+     * @param defaultObject return the defaultObject if readed object is null
+     */
+    public <T> void get(String key, ReadCallback<T> readCallback, Object defaultObject) {
         AsyncTask<Object, Void, T> task = new AsyncTask<Object, Void, T>() {
 
             protected ReadCallback<T> mReadCallback;
@@ -101,7 +116,10 @@ public class Chest {
             protected T doInBackground(Object... objects) {
                 String key = (String) objects[0];
                 mReadCallback = (ReadCallback<T>) objects[1];
-                return read(key);
+                T defaultObject = null;
+                if (objects.length > 2)
+                    defaultObject = (T) objects[2];
+                return read(key, defaultObject);
             }
 
             @Override
@@ -109,7 +127,7 @@ public class Chest {
                 mReadCallback.onResult(value);
             }
         };
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, readCallback);
+        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, readCallback, defaultObject);
     }
 
     public <T> void execute(String key, Transaction<T> transaction, Object defaultObject) {
@@ -119,7 +137,7 @@ public class Chest {
             protected Void doInBackground(Object... objects) {
                 String key = (String) objects[0];
                 Transaction<T> transaction = (Transaction<T>) objects[1];
-                T defaultObject = (T)objects[2];
+                T defaultObject = (T) objects[2];
                 T value = read(key);
                 if (value == null)
                     value = defaultObject;
@@ -306,11 +324,11 @@ public class Chest {
     /**
      * load objects from loader extension
      *
-     * @param call              extension call
-     * @param key               key to save
+     * @param call extension call
+     * @param key  key to save
      */
     public <T> void load(T call, String key) {
-        if(mLoaderExtension == null)
+        if (mLoaderExtension == null)
             throw new IronException("To use load() you have to set the loader extension in your application onCreate()");
         mLoaderExtension.load(call, key);
     }
@@ -318,8 +336,8 @@ public class Chest {
     /**
      * load objects from loader extension
      *
-     * @param call              extension call
-     * @param clazz             classname to save
+     * @param call  extension call
+     * @param clazz classname to save
      */
     public <T> void load(T call, Class clazz) {
         load(call, clazz.getName());

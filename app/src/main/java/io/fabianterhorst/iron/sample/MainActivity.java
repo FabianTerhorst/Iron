@@ -26,13 +26,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //MainStore.setContributors(new ArrayList<Contributor>());
-
         MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
             @Override
             public void onResult(ArrayList<Contributor> contributors) {
-                if (contributors != null)
-                    Log.d("size", contributors.size() + "");
+                Log.d("size", contributors.size() + "");
             }
         });
 

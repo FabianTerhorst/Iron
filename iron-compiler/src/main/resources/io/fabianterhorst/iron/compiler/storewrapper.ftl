@@ -58,7 +58,7 @@ public class ${keyWrapperClassName} {
 </#if>
 <#if key.async>
     public static <T extends ${key.className}> void get${key.key?cap_first}(Chest.ReadCallback<T> readCallback) {
-        Iron.chest().get("${key.key}", readCallback);
+        Iron.chest().get("${key.key}", readCallback, new ${key.className}());
     }
 </#if>
 
