@@ -178,6 +178,16 @@ Call<List<Repo>> reposCall = service.listRepos("fabianterhorst");
 Iron.chest().load(reposCall, Repo.class);
 ```
 
+Get value asynced with default value
+
+```java
+Iron.chest().get("contributors", new Chest.ReadCallback<ArrayList<Contributor>>() {
+    @Override
+    public void onResult(ArrayList<Contributor> contributors) {      
+    }
+}, new ArrayList<Contributor>());
+```
+
 Remove listener to prevent memory leaks
 
 ```java
