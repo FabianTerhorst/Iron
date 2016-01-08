@@ -30,7 +30,7 @@ apply plugin: 'com.neenbedankt.android-apt'
 Add dependencies to your application gradle build file (the compiler and the retrofit extension is optional)
 
 ```groovy
-compile 'io.fabianterhorst:iron:0.5'
+compile 'io.fabianterhorst:iron:0.5.1'
 compile 'io.fabianterhorst:iron-retrofit:0.3'
 compile 'io.fabianterhorst:iron-annotations:0.1'
 compile 'io.fabianterhorst:iron-encryption:0.2'
@@ -52,11 +52,11 @@ allprojects {
 //Latest commit
 compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
 
-compile 'com.github.fabianterhorst.iron:iron-retrofit:0.5'
-compile 'com.github.fabianterhorst.iron:iron:0.5'
-compile 'com.github.fabianterhorst.iron:iron-encryption:0.5'
-compile 'com.github.fabianterhorst.iron:iron-annotations:0.5'
-apt 'com.github.fabianterhorst.iron:iron-compiler:0.5'
+compile 'com.github.fabianterhorst.iron:iron-retrofit:0.5.1'
+compile 'com.github.fabianterhorst.iron:iron:0.5.1'
+compile 'com.github.fabianterhorst.iron:iron-encryption:0.5.1'
+compile 'com.github.fabianterhorst.iron:iron-annotations:0.5.1'
+apt 'com.github.fabianterhorst.iron:iron-compiler:0.5.1'
 ```
 
 Initiate Iron instance with application context
