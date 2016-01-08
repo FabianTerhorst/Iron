@@ -15,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PushbackInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -225,8 +226,8 @@ public class DbStoragePlainFile implements Storage {
                 String text = mEncryptionExtension.encrypt(kryoOutput.toBytes());
                 kryoOutput.clear();
                 //Todo : test
-                //kryoOutput.writeString(text);
-                kryoOutput.write(text.getBytes());
+                kryoOutput.writeString(text);
+                //kryoOutput.write(text.getBytes());
                 kryoOutput.flush();
                 fileStream.flush();
                 sync(fileStream);
@@ -260,12 +261,13 @@ public class DbStoragePlainFile implements Storage {
 
     private <E> E readTableFile(String key, File originalFile) {
         try {
-            final Input i = new Input(new FileInputStream(originalFile));
+            PushbackInputStream pushbackInputStream = new PushbackInputStream(new FileInputStream(originalFile));
+            final Input i = new Input(pushbackInputStream, 8192);
             final Kryo kryo = getKryo();
             if (mEncryptionExtension != null) {
                 String result = convertStreamToString(i.getInputStream());
-                i.close();
                 if (result.split(":").length == 3) {
+                    i.close();
                     InputStream stream = mEncryptionExtension.decrypt(result);
                     final Input decryptedInputStream = new Input(stream);
                     //noinspection unchecked
@@ -274,14 +276,10 @@ public class DbStoragePlainFile implements Storage {
                     decryptedInputStream.close();
                     return ironTable.mContent;
                 } else {
-                    FileInputStream fileInputStream = new FileInputStream(originalFile);
-                    Log.d(TAG, "data cant encrypt:" + convertStreamToString(fileInputStream));
-                    fileInputStream.close();
-                    //i.setInputStream(new FileInputStream(originalFile));
                     //noinspection unchecked
-                    //final IronTable<E> ironTable = kryo.readObject(i, IronTable.class);
-                    //i.close();
-                    return null/*ironTable.mContent*/;
+                    final IronTable<E> ironTable = kryo.readObject(i, IronTable.class);
+                    i.close();
+                    return ironTable.mContent;
                 }
             }
             //noinspection unchecked
