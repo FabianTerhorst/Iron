@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         MainStore.getContributors(new Chest.ReadCallback<ArrayList<Contributor>>() {
             @Override
             public void onResult(ArrayList<Contributor> contributors) {
-                if(contributors != null)
+                if (contributors != null)
                     Log.d("size", contributors.size() + "");
             }
         });
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(String key, Object value) {
                 if (key.equals(MainStore.Keys.CONTRIBUTORS.toString())) {
-                    Log.d(TAG, ((ArrayList<Contributor>)value).toString()); // get contributors
+                    Log.d(TAG, ((ArrayList<Contributor>) value).toString()); // get contributors
                 }
             }
         });
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         MainStore.addOnDataChangeListener(new DataChangeCallback(this) {
             @Override
             public void onDataChange(String key, Object value) {
-                if(key.equals(MainStore.Keys.CONTRIBUTORS.toString()))
+                if (key.equals(MainStore.Keys.CONTRIBUTORS.toString()))
                     Log.d(TAG, "contributors change listener mainstore all");
             }
         });
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         MainStore.getContributorsForField("login", "fabianterhorst", new Chest.ReadCallback<Contributor>() {
             @Override
             public void onResult(Contributor contributor) {
-                if(contributor != null)
+                if (contributor != null)
                     Log.d(TAG, contributor.toString() + " single");
             }
         });
@@ -87,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "contributors change listener mainstore");
             }
         });
+
+        Contributor contributor = new Contributor();
+        contributor.setName("test");
+        MainStore.addContributor(contributor);
 
         MainStore.executeContributorsTransaction(new Chest.Transaction<ArrayList<Contributor>>() {
             @Override
@@ -101,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(List<Contributor> contributors) {
                 for (Contributor contributor : contributors) {
-                    Log.d(TAG, contributor.getName());
+                    if (contributor.getName() != null)
+                        Log.d(TAG, contributor.getName());
                 }
             }
         });
@@ -122,11 +127,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (id == R.id.action_settings) {
             Iron.chest().load(new Retrofit.Builder()
-                            .baseUrl("https://api.github.com")
-                            .addConverterFactory(MoshiConverterFactory.create())
-                            .build()
-                            .create(GitHubService.class)
-                            .listRepos("fabianterhorst"), Repo.class);
+                    .baseUrl("https://api.github.com")
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build()
+                    .create(GitHubService.class)
+                    .listRepos("fabianterhorst"), Repo.class);
             return true;
         }
 

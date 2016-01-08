@@ -35,7 +35,7 @@ compile 'io.fabianterhorst:iron-retrofit:0.3'
 compile 'io.fabianterhorst:iron-encryption:0.2'
 //is only required for using the compiler
 compile 'io.fabianterhorst:iron-annotations:0.1'
-apt 'io.fabianterhorst:iron-compiler:0.2'
+apt 'io.fabianterhorst:iron-compiler:0.3'
 ```
 
 Initiate Iron instance with application context
@@ -116,6 +116,14 @@ transactions (changes will be saved)
     }
 });
 ```
+Use a internal transaction to add a object to the list and save it automatically
+
+```java
+Contributor contributor = new Contributor();
+contributor.setName("test");
+MainStore.addContributor(contributor);
+```
+
 
 Data change listener
 

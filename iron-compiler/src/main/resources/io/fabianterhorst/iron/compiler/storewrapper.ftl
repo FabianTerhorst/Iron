@@ -103,6 +103,16 @@ public class ${keyWrapperClassName} {
     public static <T extends ${key.className}> void execute${key.key?cap_first}Transaction(Chest.Transaction<T> transaction){
         Iron.chest().execute("${key.key}", transaction, new ${key.className}());
     }
+    <#if key.className?contains('java.util.ArrayList')>
+    public static void add${key.key?cap_first?replace('s', '')}(final ${key.className?replace('java.util.ArrayList<', '')?replace('>', '')} object){
+        Iron.chest().execute("${key.key}", new Chest.Transaction<${key.className}>() {
+            @Override
+            public void execute(${key.className} objects) {
+                objects.add(object);
+            }
+        }, new ${key.className}());
+    }
+    </#if>
 </#if>
 <#if key.listener>
     public static <T extends ${key.className}> void addOn${key.key?cap_first}DataChangeListener(DataChangeCallback<T>  dataChangeCallback){
