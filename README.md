@@ -37,28 +37,6 @@ compile 'io.fabianterhorst:iron-encryption:0.2'
 apt 'io.fabianterhorst:iron-compiler:0.2'
 ```
 
-#### Snapshot Builds
-
-Add the jitpack repository in your root build.gradle at the end of repositories
-```groovy
-allprojects {
-	repositories {
-		maven { url "https://jitpack.io" }
-	}
-}
-```
-
-```groovy
-//Latest commit
-compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
-
-compile 'com.github.fabianterhorst.iron:iron-retrofit:0.5.1'
-compile 'com.github.fabianterhorst.iron:iron:0.5.1'
-compile 'com.github.fabianterhorst.iron:iron-encryption:0.5.1'
-compile 'com.github.fabianterhorst.iron:iron-annotations:0.5.1'
-apt 'com.github.fabianterhorst.iron:iron-compiler:0.5.1'
-```
-
 Initiate Iron instance with application context
 
 ```java
@@ -258,6 +236,28 @@ Running [Benchmark](https://github.com/fabianterhorst/Iron/master/iron/src/andro
 | Write 500 contacts        | 28      | 61      |          |
 | Read 500 contacts         | 23       | 63      |          |
 
+
+#### Snapshot Builds
+
+Add the jitpack repository in your root build.gradle at the end of repositories
+```groovy
+allprojects {
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+}
+```
+
+```groovy
+//Latest commit
+compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
+
+compile 'com.github.fabianterhorst.iron:iron-retrofit:0.5.1'
+compile 'com.github.fabianterhorst.iron:iron:0.5.1'
+compile 'com.github.fabianterhorst.iron:iron-encryption:0.5.1'
+compile 'com.github.fabianterhorst.iron:iron-annotations:0.5.1'
+apt 'com.github.fabianterhorst.iron:iron-compiler:0.5.1'
+```
 
 ### License
     Copyright 2016 Fabian Terhorst
