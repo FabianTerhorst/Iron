@@ -255,6 +255,7 @@ compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
 compile 'com.github.fabianterhorst.iron:iron-retrofit:0.5.1'
 compile 'com.github.fabianterhorst.iron:iron:0.5.1'
 compile 'com.github.fabianterhorst.iron:iron-encryption:0.5.1'
+//is only required for using the compiler
 compile 'com.github.fabianterhorst.iron:iron-annotations:0.5.1'
 apt 'com.github.fabianterhorst.iron:iron-compiler:0.5.1'
 ```
