@@ -262,7 +262,8 @@ public class DbStoragePlainFile implements Storage {
     private <E> E readTableFile(String key, File originalFile) {
         try {
             PushbackInputStream pushbackInputStream = new PushbackInputStream(new FileInputStream(originalFile));
-            final Input i = new Input(pushbackInputStream, 8192);
+            int bufferSize = pushbackInputStream.available() + 8192;
+            final Input i = new Input(pushbackInputStream, bufferSize);
             final Kryo kryo = getKryo();
             if (mEncryptionExtension != null) {
                 String result = convertStreamToString(i.getInputStream());
