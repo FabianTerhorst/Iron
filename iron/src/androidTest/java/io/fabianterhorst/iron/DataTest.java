@@ -1,5 +1,7 @@
 package io.fabianterhorst.iron;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
@@ -73,6 +75,29 @@ public class DataTest {
         Iron.chest().invalidateCache("persons");
         List<Person> persons = Iron.chest().read("persons");
         assertThat(persons).isEqualTo(inserted);
+    }
+
+    @Test
+    public void testPutDifferentThreads() {
+        List<Person> inserted = genPersonList(10000);
+        Iron.chest().put("persons", inserted);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                List<Person> inserted = genPersonList(10000);
+                Iron.chest().put("persons", inserted);
+            }
+        }).start();
+        Runnable runnable = new Runnable(){
+            @Override
+            public void run() {
+                List<Person> inserted = genPersonList(10000);
+                Iron.chest().put("persons", inserted);
+            }
+        };
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(runnable);
+        Iron.chest().put("persons", inserted);
     }
 
     @Test

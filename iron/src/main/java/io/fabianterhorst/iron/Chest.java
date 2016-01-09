@@ -43,7 +43,7 @@ public class Chest {
      * @param <T>   object type
      * @return this Chest instance
      */
-    public <T> Chest write(String key, T value) {
+    synchronized public <T> Chest write(String key, T value) {
         if (value == null) {
             throw new IronException("Iron doesn't support writing null root values");
         } else {
@@ -53,7 +53,7 @@ public class Chest {
         return this;
     }
 
-    public <T> Chest write(Class clazz, T value) {
+    synchronized public <T> Chest write(Class clazz, T value) {
         write(clazz.getName(), value);
         return this;
     }
@@ -66,7 +66,7 @@ public class Chest {
      * @param <T>   object type
      * @return this Chest instance
      */
-    public <T> Chest put(String key, T value) {
+    synchronized public <T> Chest put(String key, T value) {
         AsyncTask<Object, Void, Void> task = new AsyncTask<Object, Void, Void>() {
 
             @SuppressWarnings("unchecked")
@@ -107,7 +107,7 @@ public class Chest {
      * @param readCallback  callback that return the readed object
      * @param defaultObject return the defaultObject if readed object is null
      */
-    public <T> void get(String key, ReadCallback<T> readCallback, Object defaultObject) {
+    synchronized public <T> void get(String key, ReadCallback<T> readCallback, Object defaultObject) {
         AsyncTask<Object, Void, T> task = new AsyncTask<Object, Void, T>() {
 
             protected ReadCallback<T> mReadCallback;
@@ -130,7 +130,7 @@ public class Chest {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, readCallback, defaultObject);
     }
 
-    public <T> void execute(String key, Transaction<T> transaction, Object defaultObject) {
+    synchronized public <T> void execute(String key, Transaction<T> transaction, Object defaultObject) {
         AsyncTask<Object, Void, Void> task = new AsyncTask<Object, Void, Void>() {
 
             @Override
@@ -150,7 +150,7 @@ public class Chest {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, transaction, defaultObject);
     }
 
-    public void remove(String key) {
+    synchronized public void remove(String key) {
         AsyncTask<Object, Void, Void> task = new AsyncTask<Object, Void, Void>() {
             @Override
             protected Void doInBackground(Object... objects) {
@@ -162,7 +162,7 @@ public class Chest {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
     }
 
-    public void removeAll() {
+    synchronized public void removeAll() {
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -173,7 +173,7 @@ public class Chest {
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
-    public void execute(String key, Transaction transaction) {
+   synchronized public void execute(String key, Transaction transaction) {
         execute(key, transaction, null);
     }
 
@@ -265,7 +265,7 @@ public class Chest {
      *
      * @param object Object with listeners
      */
-    public void removeListener(Object object) {
+    synchronized public void removeListener(Object object) {
         Iterator<DataChangeCallback> i = mCallbacks.iterator();
         while (i.hasNext()) {
             DataChangeCallback callback = i.next();

@@ -7,6 +7,8 @@ import io.fabianterhorst.iron.DataChangeCallback;
 import io.fabianterhorst.iron.Iron;
 import io.fabianterhorst.iron.IronLoadExtension;
 
+import java.util.Collections;
+
 public class ${keyWrapperClassName} {
 
     public enum Keys {
@@ -68,7 +70,7 @@ public class ${keyWrapperClassName} {
             @Override
             public void onResult(${key.className} ${key.key}) {
                 if(${key.key} != null){
-                    for(${key.className?replace('java.util.ArrayList<', '')?replace('>', '')} object : ${key.key}) {
+                    for(${key.className?replace('java.util.ArrayList<', '')?replace('>', '')} object :  Collections.synchronizedList(${key.key})) {
                         try {
                             Field field = object.getClass().getDeclaredField(fieldName);
                             field.setAccessible(true);
@@ -113,6 +115,16 @@ public class ${keyWrapperClassName} {
         }, new ${key.className}());
     }
     </#if>
+     <#if key.className?contains('java.util.ArrayList')>
+        public static void add${key.key?cap_first}(final ${key.className} object){
+            Iron.chest().execute("${key.key}", new Chest.Transaction<${key.className}>() {
+                @Override
+                public void execute(${key.className} objects) {
+                    objects.addAll(object);
+                }
+            }, new ${key.className}());
+        }
+     </#if>
 </#if>
 <#if key.listener>
     public static <T extends ${key.className}> void addOn${key.key?cap_first}DataChangeListener(DataChangeCallback<T>  dataChangeCallback){
