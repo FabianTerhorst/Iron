@@ -30,12 +30,12 @@ apply plugin: 'com.neenbedankt.android-apt'
 Add dependencies to your application gradle build file (only compile 'io.fabianterhorst:iron:0.5.2' is required)
 
 ```groovy
-compile 'io.fabianterhorst:iron:0.5.6'
+compile 'io.fabianterhorst:iron:0.5.7'
 compile 'io.fabianterhorst:iron-retrofit:0.3'
 compile 'io.fabianterhorst:iron-encryption:0.3'
 //is only required for using the compiler
 compile 'io.fabianterhorst:iron-annotations:0.1'
-apt 'io.fabianterhorst:iron-compiler:0.3.1'
+apt 'io.fabianterhorst:iron-compiler:0.3.2'
 ```
 
 Initiate Iron instance with application context
@@ -122,6 +122,18 @@ Use a internal transaction to add a object to the list and save it automatically
 Contributor contributor = new Contributor();
 contributor.setName("test");
 MainStore.addContributor(contributor);
+```
+
+Use a internal transaction to add objects to the list and save it automatically
+
+```java
+ArrayList<Contributor> contributors = new ArrayList<>();
+for(int i = 0;i < 10;i++){
+    Contributor contributor = new Contributor();
+    contributor.setName("name" + i);
+    contributors.add(contributor);
+}
+MainStore.addContributors(contributors);
 ```
 
 
@@ -271,12 +283,12 @@ allprojects {
 //Latest commit
 compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
 
-compile 'com.github.fabianterhorst.iron:iron-retrofit:0.5.6'
-compile 'com.github.fabianterhorst.iron:iron:0.5.6'
-compile 'com.github.fabianterhorst.iron:iron-encryption:0.5.6'
+compile 'com.github.fabianterhorst.iron:iron-retrofit:0.5.7'
+compile 'com.github.fabianterhorst.iron:iron:0.5.7'
+compile 'com.github.fabianterhorst.iron:iron-encryption:0.5.7'
 //is only required for using the compiler
-compile 'com.github.fabianterhorst.iron:iron-annotations:0.5.6'
-apt 'com.github.fabianterhorst.iron:iron-compiler:0.5.6'
+compile 'com.github.fabianterhorst.iron:iron-annotations:0.5.7'
+apt 'com.github.fabianterhorst.iron:iron-compiler:0.5.7'
 ```
 
 ### License
