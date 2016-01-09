@@ -218,7 +218,7 @@ public class DbStoragePlainFile implements Storage {
      * @param originalFile file to write new data
      * @param backupFile   backup file to be used if write is failed
      */
-    private <E> void writeTableFile(String key, IronTable<E> ironTable,
+    synchronized private <E> void writeTableFile(String key, IronTable<E> ironTable,
                                     File originalFile, File backupFile) {
         try {
             if(mEncryptionExtension == null) {
