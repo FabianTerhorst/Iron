@@ -6,7 +6,6 @@
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-compiler.svg?label=Compiler"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-retrofit.svg?label=Retrofit"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-annotations.svg?label=Annotations"></img>
-<img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-encryption.svg?label=Encryption"></img>
 <img src="https://img.shields.io/github/license/fabianterhorst/iron.svg"></img>
 
 # Iron
@@ -32,7 +31,6 @@ Add dependencies to your application gradle build file (only compile 'io.fabiant
 ```groovy
 compile 'io.fabianterhorst:iron:0.5.4'
 compile 'io.fabianterhorst:iron-retrofit:0.3'
-compile 'io.fabianterhorst:iron-encryption:0.2'
 //is only required for using the compiler
 compile 'io.fabianterhorst:iron-annotations:0.1'
 apt 'io.fabianterhorst:iron-compiler:0.3.1'
@@ -48,8 +46,6 @@ public class MyApplication extends Application {
         Iron.init(getApplicationContext());
         //Optional if iron-retrofit is included
         Iron.setLoaderExtension(new IronRetrofit());
-        //Optional if iron-encryption is included
-        Iron.setEncryptionExtension(new IronEncryption());
     }
 }
 ```
@@ -273,7 +269,6 @@ compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
 
 compile 'com.github.fabianterhorst.iron:iron-retrofit:0.5.4'
 compile 'com.github.fabianterhorst.iron:iron:0.5.4'
-compile 'com.github.fabianterhorst.iron:iron-encryption:0.5.4'
 //is only required for using the compiler
 compile 'com.github.fabianterhorst.iron:iron-annotations:0.5.4'
 apt 'com.github.fabianterhorst.iron:iron-compiler:0.5.4'
