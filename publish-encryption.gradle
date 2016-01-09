@@ -4,7 +4,7 @@ apply plugin: 'com.jfrog.bintray'
 def siteUrl = 'https://github.com/FabianTerhorst/Iron'
 def gitUrl = 'https://github.com/FabianTerhorst/Iron.git'
 
-version = "0.2"
+version = "0.3"
 group = "io.fabianterhorst"
 
 install {

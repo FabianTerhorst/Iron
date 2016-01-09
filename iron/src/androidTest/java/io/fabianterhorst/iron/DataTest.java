@@ -14,7 +14,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import io.fabianterhorst.iron.encryption.IronEncryption;
 import io.fabianterhorst.iron.testdata.ClassWithoutPublicNoArgConstructor;
 import io.fabianterhorst.iron.testdata.Person;
 
@@ -35,7 +34,7 @@ public class DataTest {
         Iron.init(getTargetContext());
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setEncryptionExtension(new IronEncryption());
     }
 
     @Test
@@ -51,18 +50,18 @@ public class DataTest {
         Iron.init(getTargetContext());
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setEncryptionExtension(new IronEncryption());
         assertThat(Iron.chest().<List>read("persons2")).isNull();
         assertThat(Iron.chest().read("persons2", new ArrayList<Person>())).isNotNull();
         Iron.chest().write("persons2", genPersonList(1));
         Iron.chest().invalidateCache("persons2");
         Iron.init(getTargetContext());
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setEncryptionExtension(new IronEncryption());
         assertThat(Iron.chest().read("persons2")).isNotNull();
         assertThat(Iron.chest().<List>read("persons2")).isNotEmpty();
         Iron.chest().invalidateCache("persons2");
         Iron.init(getTargetContext());
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setEncryptionExtension(new IronEncryption());
         assertThat(Iron.chest().read("persons2")).isNotNull();
         assertThat(Iron.chest().<List>read("persons2")).isNotEmpty();
     }
