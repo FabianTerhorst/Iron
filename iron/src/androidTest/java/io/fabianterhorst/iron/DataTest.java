@@ -35,7 +35,7 @@ public class DataTest {
     @Before
     public void setUp() throws Exception {
         Iron.init(getTargetContext());
-        Iron.setCache(new LruCache());
+        //Iron.setCache(new LruCache());
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
         Iron.setEncryptionExtension(new IronEncryption());
@@ -52,23 +52,23 @@ public class DataTest {
     @Test
     public void testReadEmptyListInEmptyChest() {
         Iron.init(getTargetContext());
-        Iron.setCache(new LruCache());
-        Iron.chest("keys").destroy();
+        //Iron.setCache(new LruCache());
+        //Iron.chest("keys").destroy();
         Iron.chest().destroy();
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setEncryptionExtension(new IronEncryption());
         assertThat(Iron.chest().<List>read("persons2")).isNull();
         assertThat(Iron.chest().read("persons2", new ArrayList<Person>())).isNotNull();
         Iron.chest().write("persons2", genPersonList(1));
-        Iron.chest().invalidateCache("persons2");
+        //Iron.chest().invalidateCache("persons2");
         Iron.init(getTargetContext());
-        Iron.setCache(new LruCache());
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setCache(new LruCache());
+        //Iron.setEncryptionExtension(new IronEncryption());
         assertThat(Iron.chest().read("persons2")).isNotNull();
         assertThat(Iron.chest().<List>read("persons2")).isNotEmpty();
-        Iron.chest().invalidateCache("persons2");
+        //Iron.chest().invalidateCache("persons2");
         Iron.init(getTargetContext());
-        Iron.setCache(new LruCache());
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setCache(new LruCache());
+        //Iron.setEncryptionExtension(new IronEncryption());
         assertThat(Iron.chest().read("persons2")).isNotNull();
         assertThat(Iron.chest().<List>read("persons2")).isNotEmpty();
     }

@@ -78,10 +78,7 @@ public class DbStoragePlainFile implements Storage {
         mContext = context;
         mDbName = dbName;
         mEncryptionExtension = encryptionExtension;
-        if (cache == null)
-            mMemoryCache = Cache.NONE;
-        else
-            mMemoryCache = cache;
+        mMemoryCache = cache;
         mMemoryCache.setStorage(this);
     }
 
