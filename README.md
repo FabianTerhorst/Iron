@@ -46,7 +46,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Iron.init(getApplicationContext());
-        Iron.setCache(new LruCache());
+        Iron.setCache(Cache.MEMORY);//default is NONE
         //Optional if iron-retrofit is included
         Iron.setLoaderExtension(new IronRetrofit());
         //Optional if iron-encryption is included
