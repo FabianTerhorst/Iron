@@ -2,7 +2,6 @@ package io.fabianterhorst.iron;
 
 import android.content.Context;
 import android.util.Log;
-import android.util.LruCache;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.KryoException;
@@ -39,14 +38,7 @@ public class DbStoragePlainFile implements Storage {
 
     private final IronEncryptionExtension mEncryptionExtension;
 
-    final int cacheSize = 1024 * 50; // 50Mb //24 * memClass / 8;
-
-    private final LruCache<String, Object> mMemoryCache = new LruCache<String, Object>(cacheSize) {
-        @Override
-        protected Object create(String key) {
-            return doSelect(key);
-        }
-    };
+    private final Cache mMemoryCache;
 
     private Kryo getKryo() {
         return mKryo.get();
@@ -82,10 +74,15 @@ public class DbStoragePlainFile implements Storage {
         return kryo;
     }
 
-    public DbStoragePlainFile(Context context, String dbName, IronEncryptionExtension encryptionExtension) {
+    public DbStoragePlainFile(Context context, String dbName, IronEncryptionExtension encryptionExtension, Cache cache) {
         mContext = context;
         mDbName = dbName;
         mEncryptionExtension = encryptionExtension;
+        if (cache == null)
+            mMemoryCache = Cache.NONE;
+        else
+            mMemoryCache = cache;
+        mMemoryCache.setStorage(this);
     }
 
     @Override
@@ -219,9 +216,9 @@ public class DbStoragePlainFile implements Storage {
      * @param backupFile   backup file to be used if write is failed
      */
     synchronized private <E> void writeTableFile(String key, IronTable<E> ironTable,
-                                    File originalFile, File backupFile) {
+                                                 File originalFile, File backupFile) {
         try {
-            if(mEncryptionExtension == null) {
+            if (mEncryptionExtension == null) {
                 FileOutputStream outputStream = new FileOutputStream(originalFile);
                 final Output kryoOutput = new Output(outputStream);
                 getKryo().writeObject(kryoOutput, ironTable);
@@ -237,17 +234,20 @@ public class DbStoragePlainFile implements Storage {
                 final Output kryoOutput = new Output(fileOutputStream);
                 CipherOutputStream outputStream = mEncryptionExtension.encrypt(kryoOutput);
                 Output cipherOutput = new Output(outputStream, 256) {
-                    public void close () throws KryoException {
+                    public void close() throws KryoException {
                         // Don't allow the CipherOutputStream to close the output.
                     }
                 };
                 getKryo().writeObject(cipherOutput, ironTable);
                 cipherOutput.flush();
+                fileOutputStream.flush();//Todo : better test
+                sync(fileOutputStream);//Todo : better test
                 try {
                     outputStream.close();
                 } catch (IOException ex) {
                     throw new KryoException(ex);
                 }
+                kryoOutput.close();//Todo : better test
                 // Writing was successful, delete the backup file if there is one.
                 //noinspection ResultOfMethodCallIgnored
                 backupFile.delete();
@@ -275,7 +275,7 @@ public class DbStoragePlainFile implements Storage {
     private <E> E readTableFile(String key, File originalFile) {
         try {
             final Kryo kryo = getKryo();
-            if(mEncryptionExtension == null) {
+            if (mEncryptionExtension == null) {
                 InputStream inputStream = new FileInputStream(originalFile);
                 final Input i = new Input(inputStream);
                 //noinspection unchecked
@@ -285,7 +285,7 @@ public class DbStoragePlainFile implements Storage {
             } else {
                 FileInputStream fileInputStream = new FileInputStream(originalFile);
                 ByteArrayInputStream inputStream = mEncryptionExtension.decrypt(fileInputStream);
-                Input i = new Input(inputStream, 256);
+                Input i = new Input(inputStream == null ? fileInputStream : inputStream, inputStream == null ? 4096 : 256);
                 //noinspection unchecked
                 final IronTable<E> ironTable = kryo.readObject(i, IronTable.class);
                 i.close();

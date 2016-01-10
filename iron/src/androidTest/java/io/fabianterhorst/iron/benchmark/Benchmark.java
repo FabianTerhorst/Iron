@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import io.fabianterhorst.iron.Iron;
-import io.fabianterhorst.iron.encryption.IronEncryption;
+import io.fabianterhorst.iron.LruCache;
 import io.fabianterhorst.iron.testdata.Person;
 import io.fabianterhorst.iron.testdata.TestDataGenerator;
 
@@ -33,9 +33,10 @@ public class Benchmark extends AndroidTestCase {
     public void testReadWrite500Contacts() throws Exception {
         final List<Person> contacts = TestDataGenerator.genPersonList(500);
         Iron.init(getTargetContext());
+        Iron.setCache(new LruCache());
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setEncryptionExtension(new IronEncryption());
         long ironTime = runTest(new IronReadWriteContactsTest(), contacts, REPEAT_COUNT);
 
         Hawk.init(getTargetContext());
@@ -49,9 +50,10 @@ public class Benchmark extends AndroidTestCase {
     public void testWrite500Contacts() throws Exception {
         final List<Person> contacts = TestDataGenerator.genPersonList(500);
         Iron.init(getTargetContext());
+        Iron.setCache(new LruCache());
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setEncryptionExtension(new IronEncryption());
         long ironTime = runTest(new IronWriteContactsTest(), contacts, REPEAT_COUNT);
 
         Hawk.init(getTargetContext());
@@ -65,9 +67,10 @@ public class Benchmark extends AndroidTestCase {
     public void testRead500Contacts() throws Exception {
         final List<Person> contacts = TestDataGenerator.genPersonList(500);
         Iron.init(getTargetContext());
+        Iron.setCache(new LruCache());
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setEncryptionExtension(new IronEncryption());
         runTest(new IronWriteContactsTest(), contacts, REPEAT_COUNT); //Prepare
         long ironTime = runTest(new IronReadContactsTest(), contacts, REPEAT_COUNT);
 
@@ -101,7 +104,7 @@ public class Benchmark extends AndroidTestCase {
         public void run(int i, List<Person> extra) {
             String key = "contacts" + i;
             Iron.chest().write(key, extra);
-            Iron.chest().invalidateCache(key);
+            //Iron.chest().invalidateCache(key);
             Iron.chest().<List<Person>>read(key);
         }
     }
@@ -120,7 +123,7 @@ public class Benchmark extends AndroidTestCase {
         public void run(int i, List<Person> extra) {
             String key = "contacts" + i;
             Iron.chest().write(key, extra);
-            Iron.chest().invalidateCache(key);
+            //Iron.chest().invalidateCache(key);
         }
     }
 

@@ -36,6 +36,7 @@ public class DataTest {
         Iron.init(getTargetContext());
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
+        Iron.setCache(new LruCache());
         //Iron.setEncryptionExtension(new IronEncryption());
     }
 
@@ -50,6 +51,7 @@ public class DataTest {
     @Test
     public void testReadEmptyListInEmptyChest() {
         Iron.init(getTargetContext());
+        Iron.setCache(new LruCache());
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
         //Iron.setEncryptionExtension(new IronEncryption());
@@ -58,11 +60,13 @@ public class DataTest {
         Iron.chest().write("persons2", genPersonList(1));
         Iron.chest().invalidateCache("persons2");
         Iron.init(getTargetContext());
+        Iron.setCache(new LruCache());
         //Iron.setEncryptionExtension(new IronEncryption());
         assertThat(Iron.chest().read("persons2")).isNotNull();
         assertThat(Iron.chest().<List>read("persons2")).isNotEmpty();
         Iron.chest().invalidateCache("persons2");
         Iron.init(getTargetContext());
+        Iron.setCache(new LruCache());
         //Iron.setEncryptionExtension(new IronEncryption());
         assertThat(Iron.chest().read("persons2")).isNotNull();
         assertThat(Iron.chest().<List>read("persons2")).isNotEmpty();
