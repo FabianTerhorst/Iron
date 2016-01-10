@@ -27,7 +27,7 @@ Apply apt plugin in your application gradle build file.
 apply plugin: 'com.neenbedankt.android-apt'
 ```
 
-Add dependencies to your application gradle build file (only compile 'io.fabianterhorst:iron:0.5.2' is required)
+Add dependencies to your application gradle build file (only compile 'io.fabianterhorst:iron:0.6.4' is required)
 
 ```groovy
 compile 'io.fabianterhorst:iron:0.6.4'
