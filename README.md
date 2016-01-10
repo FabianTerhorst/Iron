@@ -284,12 +284,12 @@ allprojects {
 //Latest commit
 compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
 
-compile 'com.github.fabianterhorst.iron:iron-retrofit:0.6.0'
-compile 'com.github.fabianterhorst.iron:iron:0.6.0'
-compile 'com.github.fabianterhorst.iron:iron-encryption:0.6.0'
+compile 'com.github.fabianterhorst.iron:iron-retrofit:0.6.1'
+compile 'com.github.fabianterhorst.iron:iron:0.6.1'
+compile 'com.github.fabianterhorst.iron:iron-encryption:0.6.1'
 //is only required for using the compiler
-compile 'com.github.fabianterhorst.iron:iron-annotations:0.6.0'
-apt 'com.github.fabianterhorst.iron:iron-compiler:0.6.0'
+compile 'com.github.fabianterhorst.iron:iron-annotations:0.6.1'
+apt 'com.github.fabianterhorst.iron:iron-compiler:0.6.1'
 ```
 
 ### License
