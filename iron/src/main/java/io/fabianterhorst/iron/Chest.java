@@ -2,6 +2,7 @@ package io.fabianterhorst.iron;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -78,7 +79,11 @@ public class Chest {
                 return null;
             }
         };
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, value);
+        if(Build.VERSION.SDK_INT > 10) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, value);
+        } else {
+            task.execute(key, value);
+        }
         return this;
     }
 
@@ -127,7 +132,11 @@ public class Chest {
                 mReadCallback.onResult(value);
             }
         };
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, readCallback, defaultObject);
+        if(Build.VERSION.SDK_INT > 10) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, readCallback, defaultObject);
+        } else {
+            task.execute(key, readCallback, defaultObject);
+        }
     }
 
     synchronized public <T> void execute(String key, Transaction<T> transaction, Object defaultObject) {
@@ -147,7 +156,11 @@ public class Chest {
                 return null;
             }
         };
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, transaction, defaultObject);
+        if(Build.VERSION.SDK_INT > 10) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key, transaction, defaultObject);
+        } else {
+            task.execute(key, transaction, defaultObject);
+        }
     }
 
     synchronized public void remove(String key) {
@@ -159,7 +172,11 @@ public class Chest {
                 return null;
             }
         };
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
+        if(Build.VERSION.SDK_INT > 10) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, key);
+        } else {
+            task.execute(key);
+        }
     }
 
     synchronized public void removeAll() {
@@ -170,7 +187,11 @@ public class Chest {
                 return null;
             }
         };
-        task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        if(Build.VERSION.SDK_INT > 10) {
+            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        } else {
+            task.execute();
+        }
     }
 
    synchronized public void execute(String key, Transaction transaction) {
