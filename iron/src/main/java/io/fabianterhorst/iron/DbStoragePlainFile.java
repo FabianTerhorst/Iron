@@ -74,12 +74,38 @@ public class DbStoragePlainFile implements Storage {
         return kryo;
     }
 
-    public DbStoragePlainFile(Context context, String dbName, IronEncryptionExtension encryptionExtension, Cache cache) {
+    public DbStoragePlainFile(Context context, String dbName, IronEncryptionExtension encryptionExtension, int cache) {
         mContext = context;
         mDbName = dbName;
         mEncryptionExtension = encryptionExtension;
-        mMemoryCache = cache;
-        mMemoryCache.setStorage(this);
+        if(cache == Cache.NONE)
+            mMemoryCache = new Cache() {
+                @Override
+                public void evictAll() {
+                }
+
+                @Override
+                public Object put(String key, Object value) {
+                    return null;
+                }
+
+                @Override
+                public Object get(String key) {
+                    return doSelect(key);
+                }
+
+                @Override
+                public Object remove(String key) {
+                    return null;
+                }
+            };
+        else
+            mMemoryCache = new LruCache() {
+                @Override
+                public Object create(String key) {
+                    return doSelect(key);
+                }
+            };
     }
 
     @Override

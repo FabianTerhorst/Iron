@@ -46,8 +46,6 @@ import java.util.Map;
 public class LruCache implements Cache {
     private final LinkedHashMap<String, Object> map;
 
-    private Storage storage;
-
     /** Size of this cache in units. Not necessarily the number of elements. */
     private int size;
     private int maxSize;
@@ -268,7 +266,7 @@ public class LruCache implements Cache {
      * key.
      */
     public Object create(String key) {
-        return storage.doSelect(key);
+        return null;
     }
 
     private int safeSizeOf(String key, Object value) {
@@ -366,10 +364,5 @@ public class LruCache implements Cache {
         int hitPercent = accesses != 0 ? (100 * hitCount / accesses) : 0;
         return String.format("LruCache[maxSize=%d,hits=%d,misses=%d,hitRate=%d%%]",
                 maxSize, hitCount, missCount, hitPercent);
-    }
-
-    @Override
-    public void setStorage(Storage storage){
-        this.storage = storage;
     }
 }

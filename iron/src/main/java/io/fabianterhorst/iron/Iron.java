@@ -29,7 +29,7 @@ public class Iron {
 
     private static IronEncryptionExtension mEncryptionExtension;
 
-    private static Cache mCache = Cache.NONE;
+    private static int mCache = Cache.NONE;
 
     private static final ConcurrentHashMap<String, Chest> mChestMap = new ConcurrentHashMap<>();
 
@@ -62,7 +62,7 @@ public class Iron {
         mEncryptionExtension = encryptionExtension;
     }
 
-    public static void setCache(Cache cache){
+    public static void setCache(int cache){
         mCache = cache;
     }
 

@@ -10,36 +10,7 @@ public interface Cache {
 
     Object remove(String key);
 
-    void setStorage(Storage storage);
+    int NONE = 1;
 
-    Cache MEMORY = new LruCache();
-
-    Cache NONE = new Cache() {
-
-        Storage storage;
-
-        @Override
-        public void evictAll() {
-        }
-
-        @Override
-        public Object put(String key, Object value) {
-            return null;
-        }
-
-        @Override
-        public Object get(String key) {
-            return storage.doSelect(key);
-        }
-
-        @Override
-        public Object remove(String key) {
-            return null;
-        }
-
-        @Override
-        public void setStorage(Storage storage) {
-            this.storage = storage;
-        }
-    };
+    int MEMORY = 2;
 }
