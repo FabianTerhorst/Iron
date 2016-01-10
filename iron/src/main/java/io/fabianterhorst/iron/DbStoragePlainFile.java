@@ -244,7 +244,9 @@ public class DbStoragePlainFile implements Storage {
             if (mEncryptionExtension == null) {
                 FileOutputStream outputStream = new FileOutputStream(originalFile);
                 final Output kryoOutput = new Output(outputStream);
-                getKryo().writeObject(kryoOutput, ironTable);
+                synchronized(this) {
+                    getKryo().writeObject(kryoOutput, ironTable);
+                }
                 kryoOutput.flush();
                 outputStream.flush();
                 sync(outputStream);
@@ -261,7 +263,9 @@ public class DbStoragePlainFile implements Storage {
                         // Don't allow the CipherOutputStream to close the output.
                     }
                 };
-                getKryo().writeObject(cipherOutput, ironTable);
+                synchronized(this) {
+                    getKryo().writeObject(cipherOutput, ironTable);
+                }
                 cipherOutput.flush();
                 fileOutputStream.flush();//Todo : better test
                 sync(fileOutputStream);//Todo : better test
