@@ -12,7 +12,7 @@ public interface Cache {
 
     void setStorage(Storage storage);
 
-    Object create(String key);
+    Cache MEMORY = new LruCache();
 
     Cache NONE = new Cache() {
 
@@ -23,18 +23,13 @@ public interface Cache {
         }
 
         @Override
-        public Object create(String key) {
-            return storage.doSelect(key);
-        }
-
-        @Override
         public Object put(String key, Object value) {
             return null;
         }
 
         @Override
         public Object get(String key) {
-            return null;
+            return storage.doSelect(key);
         }
 
         @Override

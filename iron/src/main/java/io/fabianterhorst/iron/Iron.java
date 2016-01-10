@@ -29,7 +29,7 @@ public class Iron {
 
     private static IronEncryptionExtension mEncryptionExtension;
 
-    private static Cache mCache = new LruCache();
+    private static Cache mCache = Cache.NONE;
 
     private static final ConcurrentHashMap<String, Chest> mChestMap = new ConcurrentHashMap<>();
 

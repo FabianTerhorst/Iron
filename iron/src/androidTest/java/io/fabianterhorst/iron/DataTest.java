@@ -16,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import io.fabianterhorst.iron.encryption.IronEncryption;
 import io.fabianterhorst.iron.testdata.ClassWithoutPublicNoArgConstructor;
 import io.fabianterhorst.iron.testdata.Person;
 
@@ -35,49 +34,25 @@ public class DataTest {
     @Before
     public void setUp() throws Exception {
         Iron.init(getTargetContext());
-        //Iron.setCache(new LruCache());
-        Iron.chest("keys").destroy();
+        //Iron.setCache(Cache.MEMORY);
+        //Iron.chest("keys").destroy();
         Iron.chest().destroy();
-        Iron.setEncryptionExtension(new IronEncryption());
+        //Iron.setEncryptionExtension(new IronEncryption());
     }
 
     @Test
     public void testPutEmptyList() throws Exception {
         final List<Person> inserted = genPersonList(0);
         Iron.chest().write("persons", inserted);
-        Iron.chest().invalidateCache("persons");
+        //Iron.chest().invalidateCache("persons");
         assertThat(Iron.chest().<List>read("persons")).isEmpty();
-    }
-
-    @Test
-    public void testReadEmptyListInEmptyChest() {
-        Iron.init(getTargetContext());
-        //Iron.setCache(new LruCache());
-        //Iron.chest("keys").destroy();
-        Iron.chest().destroy();
-        //Iron.setEncryptionExtension(new IronEncryption());
-        assertThat(Iron.chest().<List>read("persons2")).isNull();
-        assertThat(Iron.chest().read("persons2", new ArrayList<Person>())).isNotNull();
-        Iron.chest().write("persons2", genPersonList(1));
-        //Iron.chest().invalidateCache("persons2");
-        Iron.init(getTargetContext());
-        //Iron.setCache(new LruCache());
-        //Iron.setEncryptionExtension(new IronEncryption());
-        assertThat(Iron.chest().read("persons2")).isNotNull();
-        assertThat(Iron.chest().<List>read("persons2")).isNotEmpty();
-        //Iron.chest().invalidateCache("persons2");
-        Iron.init(getTargetContext());
-        //Iron.setCache(new LruCache());
-        //Iron.setEncryptionExtension(new IronEncryption());
-        assertThat(Iron.chest().read("persons2")).isNotNull();
-        assertThat(Iron.chest().<List>read("persons2")).isNotEmpty();
     }
 
     @Test
     public void testPutGetList() {
         final List<Person> inserted = genPersonList(10000);
         Iron.chest().write("persons", inserted);
-        Iron.chest().invalidateCache("persons");
+        //Iron.chest().invalidateCache("persons");
         List<Person> persons = Iron.chest().read("persons");
         assertThat(persons).isEqualTo(inserted);
     }
@@ -109,7 +84,7 @@ public class DataTest {
     public void testPutMap() {
         final Map<Integer, Person> inserted = genPersonMap(10000);
         Iron.chest().write("persons", inserted);
-        Iron.chest().invalidateCache("persons");
+        //Iron.chest().invalidateCache("persons");
         final Map<Integer, Person> personMap = Iron.chest().read("persons");
         assertThat(personMap).isEqualTo(inserted);
     }
@@ -118,7 +93,7 @@ public class DataTest {
     public void testPutPOJO() {
         final Person person = genPerson(1);
         Iron.chest().write("profile", person);
-        Iron.chest().invalidateCache("profile");
+        //Iron.chest().invalidateCache("profile");
         final Person savedPerson = Iron.chest().read("profile");
         assertThat(savedPerson).isEqualTo(person);
         assertThat(savedPerson).isNotSameAs(person);
@@ -196,7 +171,7 @@ public class DataTest {
 
     private Object testReadWriteWithoutClassCheck(Object originObj) {
         Iron.chest().write("obj", originObj);
-        Iron.chest().invalidateCache("obj");
+        //Iron.chest().invalidateCache("obj");
         Object readObj = Iron.chest().read("obj");
         assertThat(readObj).isEqualTo(originObj);
         return readObj;

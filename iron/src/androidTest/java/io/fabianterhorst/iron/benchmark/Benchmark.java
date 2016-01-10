@@ -14,7 +14,6 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import io.fabianterhorst.iron.Iron;
-import io.fabianterhorst.iron.LruCache;
 import io.fabianterhorst.iron.testdata.Person;
 import io.fabianterhorst.iron.testdata.TestDataGenerator;
 
@@ -33,7 +32,7 @@ public class Benchmark extends AndroidTestCase {
     public void testReadWrite500Contacts() throws Exception {
         final List<Person> contacts = TestDataGenerator.genPersonList(500);
         Iron.init(getTargetContext());
-        Iron.setCache(new LruCache());
+        //Iron.setCache(Cache.MEMORY);
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
         //Iron.setEncryptionExtension(new IronEncryption());
@@ -50,7 +49,7 @@ public class Benchmark extends AndroidTestCase {
     public void testWrite500Contacts() throws Exception {
         final List<Person> contacts = TestDataGenerator.genPersonList(500);
         Iron.init(getTargetContext());
-        Iron.setCache(new LruCache());
+        //Iron.setCache(Cache.MEMORY);
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
         //Iron.setEncryptionExtension(new IronEncryption());
@@ -67,7 +66,7 @@ public class Benchmark extends AndroidTestCase {
     public void testRead500Contacts() throws Exception {
         final List<Person> contacts = TestDataGenerator.genPersonList(500);
         Iron.init(getTargetContext());
-        Iron.setCache(new LruCache());
+        //Iron.setCache(Cache.MEMORY);
         Iron.chest("keys").destroy();
         Iron.chest().destroy();
         //Iron.setEncryptionExtension(new IronEncryption());
