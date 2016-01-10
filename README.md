@@ -31,8 +31,8 @@ Add dependencies to your application gradle build file (only compile 'io.fabiant
 
 ```groovy
 compile 'io.fabianterhorst:iron:0.6.0'
-compile 'io.fabianterhorst:iron-retrofit:0.3'
-compile 'io.fabianterhorst:iron-encryption:0.3'
+compile 'io.fabianterhorst:iron-retrofit:0.4'
+compile 'io.fabianterhorst:iron-encryption:0.4'
 //is only required for using the compiler
 compile 'io.fabianterhorst:iron-annotations:0.1'
 apt 'io.fabianterhorst:iron-compiler:0.3.2'
@@ -46,6 +46,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Iron.init(getApplicationContext());
+        Iron.setCache(new LruCache());
         //Optional if iron-retrofit is included
         Iron.setLoaderExtension(new IronRetrofit());
         //Optional if iron-encryption is included
