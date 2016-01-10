@@ -66,7 +66,7 @@ public class DataTest {
 
         final Person savedPerson = Iron.get("profile");
         assertThat(savedPerson).isEqualTo(person);
-        assertThat(savedPerson).isSameAs(person);
+        assertThat(savedPerson).isNotSameAs(person);
     }
 
     @Test
