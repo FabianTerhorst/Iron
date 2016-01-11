@@ -14,7 +14,7 @@ public class MyApplication extends Application {
         super.onCreate();
         Iron.init(getApplicationContext());
         Iron.setCache(Cache.MEMORY);
-        Iron.setLoaderExtension(new IronRetrofit());
-        Iron.setEncryptionExtension(new IronEncryption());
+        Iron.setLoader(new IronRetrofit());
+        Iron.setEncryption(new IronEncryption());
     }
 }

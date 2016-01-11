@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
 
-public interface IronEncryptionExtension {
+public interface Encryption {
     Cipher getCipher(int mode);
     ByteArrayInputStream decrypt(InputStream text);
     CipherOutputStream encrypt(OutputStream bytes);

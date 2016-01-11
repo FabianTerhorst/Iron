@@ -22,9 +22,9 @@ public class Iron {
 
     private static Context mContext;
 
-    private static IronLoadExtension mLoaderExtension;
+    private static Loader mLoader;
 
-    private static IronEncryptionExtension mEncryptionExtension;
+    private static Encryption mEncryption;
 
     private static int mCache = Cache.NONE;
 
@@ -42,19 +42,19 @@ public class Iron {
     /**
      * Set the loader extension to the Iron instance
      *
-     * @param loaderExtension loader extension for the iron instance
+     * @param loader loader extension for the iron instance
      */
-    public static void setLoaderExtension(IronLoadExtension loaderExtension){
-        mLoaderExtension = loaderExtension;
+    public static void setLoader(Loader loader){
+        mLoader = loader;
     }
 
     /**
      * Set the encryption extension to the Iron instance
      *
-     * @param encryptionExtension encryption extension for the iron instance
+     * @param encryption encryption extension for the iron instance
      */
-    public static void setEncryptionExtension(IronEncryptionExtension encryptionExtension){
-        mEncryptionExtension = encryptionExtension;
+    public static void setEncryption(Encryption encryption){
+        mEncryption = encryption;
     }
 
     public static void setCache(int cache){
@@ -89,7 +89,7 @@ public class Iron {
         synchronized (mChestMap) {
             Chest chest = mChestMap.get(name);
             if (chest == null) {
-                chest = new Chest(mContext, name, mLoaderExtension, mEncryptionExtension, mCache);
+                chest = new Chest(mContext, name, mLoader, mEncryption, mCache);
                 mChestMap.put(name, chest);
             }
             return chest;

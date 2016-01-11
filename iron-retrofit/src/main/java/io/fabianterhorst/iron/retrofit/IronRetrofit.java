@@ -1,12 +1,12 @@
 package io.fabianterhorst.iron.retrofit;
 
 import io.fabianterhorst.iron.Iron;
-import io.fabianterhorst.iron.IronLoadExtension;
+import io.fabianterhorst.iron.Loader;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class IronRetrofit implements IronLoadExtension {
+public class IronRetrofit implements Loader {
     @SuppressWarnings("unchecked")
     public <T> void load(T call, final String key) {
         if (call instanceof Call) {

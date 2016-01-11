@@ -14,7 +14,7 @@ public class Chest {
 
     protected transient ArrayList<DataChangeCallback> mCallbacks;
 
-    private final IronLoadExtension mLoaderExtension;
+    private final Loader mLoader;
 
     public interface Transaction<T> {
         void execute(T value);
@@ -24,9 +24,9 @@ public class Chest {
         void onResult(T value);
     }
 
-    protected Chest(Context context, String dbName, IronLoadExtension loadExtension, IronEncryptionExtension encryptionExtension, int cache) {
-        mStorage = new DbStoragePlainFile(context.getApplicationContext(), dbName, encryptionExtension, cache);
-        mLoaderExtension = loadExtension;
+    protected Chest(Context context, String dbName, Loader loader, Encryption encryption, int cache) {
+        mStorage = new DbStoragePlainFile(context.getApplicationContext(), dbName, encryption, cache);
+        mLoader = loader;
     }
 
     /**
@@ -345,21 +345,21 @@ public class Chest {
     }
 
     /**
-     * load objects from loader extension
+     * load objects from loader
      *
      * @param call extension call
      * @param key  key to save
      */
     public <T> void load(T call, String key) {
-        if (mLoaderExtension == null)
-            throw new IronException("To use load() you have to set the loader extension in your application onCreate()");
-        mLoaderExtension.load(call, key);
+        if (mLoader == null)
+            throw new IronException("To use load() you have to set the loader in your application onCreate() with Iron.setLoader(new IronLoader())");
+        mLoader.load(call, key);
     }
 
     /**
-     * load objects from loader extension
+     * load objects from loader
      *
-     * @param call  extension call
+     * @param call  call
      * @param clazz classname to save
      */
     public <T> void load(T call, Class clazz) {
