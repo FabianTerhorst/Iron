@@ -19,10 +19,10 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 
+import io.fabianterhorst.iron.Encryption;
 import io.fabianterhorst.iron.Iron;
-import io.fabianterhorst.iron.IronEncryptionExtension;
 
-public class IronEncryption implements IronEncryptionExtension {
+public class IronEncryption implements Encryption {
 
     protected AesCbcWithIntegrity.SecretKeys mKey;
 

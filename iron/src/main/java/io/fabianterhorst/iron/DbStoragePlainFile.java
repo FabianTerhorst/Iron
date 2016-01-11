@@ -34,7 +34,7 @@ public class DbStoragePlainFile implements Storage {
     private String mFilesDir;
     private boolean mIronDirIsCreated;
 
-    private final IronEncryptionExtension mEncryptionExtension;
+    private final Encryption mEncryption;
 
     private final Cache mMemoryCache;
 
@@ -72,10 +72,10 @@ public class DbStoragePlainFile implements Storage {
         return kryo;
     }
 
-    public DbStoragePlainFile(Context context, String dbName, IronEncryptionExtension encryptionExtension, int cache) {
+    public DbStoragePlainFile(Context context, String dbName, Encryption encryption, int cache) {
         mContext = context;
         mDbName = dbName;
-        mEncryptionExtension = encryptionExtension;
+        mEncryption = encryption;
         if (cache == Cache.NONE)
             mMemoryCache = new Cache() {
                 @Override
@@ -239,7 +239,7 @@ public class DbStoragePlainFile implements Storage {
     synchronized private <E> void writeTableFile(String key, IronTable<E> ironTable,
                                                  File originalFile, File backupFile) {
         try {
-            if (mEncryptionExtension == null) {
+            if (mEncryption == null) {
                 FileOutputStream outputStream = new FileOutputStream(originalFile);
                 final Output kryoOutput = new Output(outputStream);
                 synchronized (this) {
@@ -255,7 +255,7 @@ public class DbStoragePlainFile implements Storage {
             } else {
                 FileOutputStream fileOutputStream = new FileOutputStream(originalFile);
                 final Output kryoOutput = new Output(fileOutputStream);
-                CipherOutputStream outputStream = mEncryptionExtension.encrypt(kryoOutput);
+                CipherOutputStream outputStream = mEncryption.encrypt(kryoOutput);
                 Output cipherOutput = new Output(outputStream, 256) {
                     public void close() throws KryoException {
                         // Don't allow the CipherOutputStream to close the output.
@@ -292,7 +292,7 @@ public class DbStoragePlainFile implements Storage {
     private <E> E readTableFile(String key, File originalFile) {
         try {
             final Kryo kryo = getKryo();
-            if (mEncryptionExtension == null) {
+            if (mEncryption == null) {
                 InputStream inputStream = new FileInputStream(originalFile);
                 final Input i = new Input(inputStream);
                 //noinspection unchecked
@@ -301,7 +301,7 @@ public class DbStoragePlainFile implements Storage {
                 return ironTable.getContent();
             } else {
                 FileInputStream fileInputStream = new FileInputStream(originalFile);
-                ByteArrayInputStream inputStream = mEncryptionExtension.decrypt(fileInputStream);
+                ByteArrayInputStream inputStream = mEncryption.decrypt(fileInputStream);
                 Input i = new Input(inputStream == null ? fileInputStream : inputStream, inputStream == null ? 4096 : 256);
                 //noinspection unchecked
                 final IronTable<E> ironTable = kryo.readObject(i, IronTable.class);
