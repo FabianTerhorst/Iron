@@ -44,17 +44,19 @@ public class Chest {
      * @param <T>   object type
      * @return this Chest instance
      */
-    synchronized public <T> Chest write(String key, T value) {
+    public <T> Chest write(String key, T value) {
         if (value == null) {
             throw new IronException("Iron doesn't support writing null root values");
         } else {
-            mStorage.insert(key, value);
-            callCallbacks(key, value);
+            synchronized (this) {
+                mStorage.insert(key, value);
+                callCallbacks(key, value);
+            }
         }
         return this;
     }
 
-    synchronized public <T> Chest write(Class clazz, T value) {
+    public <T> Chest write(Class clazz, T value) {
         write(clazz.getName(), value);
         return this;
     }

@@ -298,7 +298,7 @@ public class DbStoragePlainFile implements Storage {
                 //noinspection unchecked
                 final IronTable<E> ironTable = kryo.readObject(i, IronTable.class);
                 i.close();
-                return ironTable.mContent;
+                return ironTable.getContent();
             } else {
                 FileInputStream fileInputStream = new FileInputStream(originalFile);
                 ByteArrayInputStream inputStream = mEncryptionExtension.decrypt(fileInputStream);
@@ -306,7 +306,7 @@ public class DbStoragePlainFile implements Storage {
                 //noinspection unchecked
                 final IronTable<E> ironTable = kryo.readObject(i, IronTable.class);
                 i.close();
-                return ironTable.mContent;
+                return ironTable.getContent();
             }
         } catch (KryoException | IllegalArgumentException | IOException e) {
             // Clean up an unsuccessfully written file

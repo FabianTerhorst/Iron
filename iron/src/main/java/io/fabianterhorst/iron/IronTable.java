@@ -2,6 +2,8 @@ package io.fabianterhorst.iron;
 
 class IronTable<T> {
 
+    private T mContent;
+
     @SuppressWarnings("UnusedDeclaration")
     IronTable() {
     }
@@ -10,6 +12,7 @@ class IronTable<T> {
         mContent = content;
     }
 
-    // Serialized content
-    T mContent;
+    public T getContent() {
+        return mContent;
+    }
 }
