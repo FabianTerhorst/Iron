@@ -3,10 +3,6 @@ package io.fabianterhorst.iron;
 
 public abstract class DataChangeCallback<T> {
 
-    public Class<?> getType(){
-        return DAOUtil.getTypeArguments(DataChangeCallback.class, this.getClass()).get(0);
-    }
-
     protected String mKey;
     protected String mClassName;
     protected Enum[] mValues;
@@ -19,6 +15,10 @@ public abstract class DataChangeCallback<T> {
     public DataChangeCallback(Object object, Class clazz) {
         this.mKey = clazz.getName();
         this.mClassName = object.getClass().getName();
+    }
+
+    public Class<?> getType(){
+        return DAOUtil.getTypeArguments(DataChangeCallback.class, this.getClass()).get(0);
     }
 
     public DataChangeCallback(Object object) {

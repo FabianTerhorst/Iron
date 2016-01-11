@@ -99,7 +99,7 @@ public class LruCache implements Cache {
     @Override
     public final Object get(String key) {
         if (key == null) {
-            throw new NullPointerException("key == null");
+            throw new IronException("key == null");
         }
 
         Object mapValue;
@@ -154,7 +154,7 @@ public class LruCache implements Cache {
     @Override
     public final Object put(String key, Object value) {
         if (key == null || value == null) {
-            throw new NullPointerException("key == null || value == null");
+            throw new IronException("key == null || value == null");
         }
 
         Object previous;
@@ -215,7 +215,7 @@ public class LruCache implements Cache {
     @Override
     public final Object remove(String key) {
         if (key == null) {
-            throw new NullPointerException("key == null");
+            throw new IronException("key == null");
         }
 
         Object previous;

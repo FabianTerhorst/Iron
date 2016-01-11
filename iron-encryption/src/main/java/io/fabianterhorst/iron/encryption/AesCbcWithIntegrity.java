@@ -506,23 +506,6 @@ public class AesCbcWithIntegrity {
         private SecretKeySpec confidentialityKey;
         private SecretKeySpec integrityKey;
 
-        /**
-         * Construct the secret keys container.
-         *
-         * @param confidentialityKeyIn The AES key
-         * @param integrityKeyIn       the HMAC key
-         */
-        /*public SecretKeys(SecretKey confidentialityKeyIn, SecretKey integrityKeyIn) {
-            setConfidentialityKey(confidentialityKeyIn);
-            setIntegrityKey(integrityKeyIn);
-        }*/
-
-        /**
-         * Construct the secret keys container.
-         */
-        public SecretKeys() {
-        }
-
         public SecretKeySpec getConfidentialityKey() {
             return confidentialityKey;
         }

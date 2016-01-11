@@ -1,6 +1,9 @@
 package io.fabianterhorst.iron;
 
 public interface Cache {
+    int NONE = 1;
+
+    int MEMORY = 2;
 
     void evictAll();
 
@@ -9,8 +12,4 @@ public interface Cache {
     Object get(String key);
 
     Object remove(String key);
-
-    int NONE = 1;
-
-    int MEMORY = 2;
 }

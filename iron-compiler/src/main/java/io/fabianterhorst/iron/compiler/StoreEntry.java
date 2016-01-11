@@ -2,12 +2,12 @@ package io.fabianterhorst.iron.compiler;
 
 public class StoreEntry {
 
-    String key;
-    String className;
-    boolean transaction;
-    boolean listener;
-    boolean loader;
-    boolean async;
+    private String key;
+    private String className;
+    private boolean transaction;
+    private boolean listener;
+    private boolean loader;
+    private boolean async;
 
     public StoreEntry(String key, String className, boolean transaction,boolean listener, boolean loader, boolean async) {
         this.key = key;

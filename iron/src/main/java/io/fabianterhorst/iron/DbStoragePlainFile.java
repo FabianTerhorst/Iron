@@ -78,7 +78,7 @@ public class DbStoragePlainFile implements Storage {
         mContext = context;
         mDbName = dbName;
         mEncryptionExtension = encryptionExtension;
-        if(cache == Cache.NONE)
+        if (cache == Cache.NONE)
             mMemoryCache = new Cache() {
                 @Override
                 public void evictAll() {
@@ -244,7 +244,7 @@ public class DbStoragePlainFile implements Storage {
             if (mEncryptionExtension == null) {
                 FileOutputStream outputStream = new FileOutputStream(originalFile);
                 final Output kryoOutput = new Output(outputStream);
-                synchronized(this) {
+                synchronized (this) {
                     getKryo().writeObject(kryoOutput, ironTable);
                 }
                 kryoOutput.flush();
@@ -263,7 +263,7 @@ public class DbStoragePlainFile implements Storage {
                         // Don't allow the CipherOutputStream to close the output.
                     }
                 };
-                synchronized(this) {
+                synchronized (this) {
                     getKryo().writeObject(cipherOutput, ironTable);
                 }
                 cipherOutput.flush();
@@ -282,21 +282,13 @@ public class DbStoragePlainFile implements Storage {
 
         } catch (IOException | KryoException e) {
             // Clean up an unsuccessfully written file
-            if (originalFile.exists()) {
-                if (!originalFile.delete()) {
-                    throw new IronException("Couldn't clean up partially-written file "
-                            + originalFile, e);
-                }
+            if (originalFile.exists() && !originalFile.delete()) {
+                throw new IronException("Couldn't clean up partially-written file "
+                        + originalFile, e);
             }
             throw new IronException("Couldn't save table: " + key + ". " +
                     "Backed up table will be used on next read attempt", e);
         }
-    }
-
-    //Todo : remove (just for debug)
-    static String convertStreamToString(java.io.InputStream is) {
-        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
-        return s.hasNext() ? s.next() : "";
     }
 
     private <E> E readTableFile(String key, File originalFile) {
@@ -354,7 +346,7 @@ public class DbStoragePlainFile implements Storage {
         if (!new File(mFilesDir).exists()) {
             boolean isReady = new File(mFilesDir).mkdirs();
             if (!isReady) {
-                throw new RuntimeException("Couldn't create Iron dir: " + mFilesDir);
+                throw new IronException("Couldn't create Iron dir: " + mFilesDir);
             }
         }
     }

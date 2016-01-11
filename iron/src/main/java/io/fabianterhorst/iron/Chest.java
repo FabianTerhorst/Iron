@@ -10,6 +10,12 @@ import java.util.List;
 
 public class Chest {
 
+    private final Storage mStorage;
+
+    protected transient ArrayList<DataChangeCallback> mCallbacks;
+
+    private final IronLoadExtension mLoaderExtension;
+
     public interface Transaction<T> {
         void execute(T value);
     }
@@ -17,12 +23,6 @@ public class Chest {
     public interface ReadCallback<T> {
         void onResult(T value);
     }
-
-    private final Storage mStorage;
-
-    protected transient ArrayList<DataChangeCallback> mCallbacks;
-
-    private final IronLoadExtension mLoaderExtension;
 
     protected Chest(Context context, String dbName, IronLoadExtension loadExtension, IronEncryptionExtension encryptionExtension, int cache) {
         mStorage = new DbStoragePlainFile(context.getApplicationContext(), dbName, encryptionExtension, cache);

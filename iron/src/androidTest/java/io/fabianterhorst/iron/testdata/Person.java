@@ -45,17 +45,8 @@ public class Person {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Person.class != o.getClass()) return false;
-
         Person person = (Person) o;
-
-        if (mAge != person.mAge) return false;
-        if (!Arrays.equals(mBikes, person.mBikes)) return false;
-        if (mName != null ? !mName.equals(person.mName) : person.mName != null) return false;
-        //noinspection RedundantIfStatement
-        if (mPhoneNumbers != null ? !mPhoneNumbers.equals(person.mPhoneNumbers) : person.mPhoneNumbers != null)
-            return false;
-
-        return true;
+        return mAge == person.mAge && Arrays.equals(mBikes, person.mBikes) && (mName != null ? mName.equals(person.mName) : person.mName == null && (mPhoneNumbers != null ? mPhoneNumbers.equals(person.mPhoneNumbers) : person.mPhoneNumbers == null));
     }
 
     @Override
