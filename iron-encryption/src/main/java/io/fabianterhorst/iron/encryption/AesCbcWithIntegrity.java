@@ -698,13 +698,7 @@ public class AesCbcWithIntegrity {
             if (getClass() != obj.getClass())
                 return false;
             CipherTextIvMac other = (CipherTextIvMac) obj;
-            if (!Arrays.equals(cipherText, other.cipherText))
-                return false;
-            if (!Arrays.equals(iv, other.iv))
-                return false;
-            if (!Arrays.equals(mac, other.mac))
-                return false;
-            return true;
+            return Arrays.equals(cipherText, other.cipherText) && Arrays.equals(iv, other.iv) && Arrays.equals(mac, other.mac);
         }
     }
 
