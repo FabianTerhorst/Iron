@@ -2,7 +2,6 @@ package io.fabianterhorst.iron;
 
 import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,8 +34,6 @@ public class Iron {
 
     /**
      * Lightweight method to init Iron instance. Should be executed in {@link Application#onCreate()}
-     * or {@link android.app.Activity#onCreate(Bundle)}.
-     * <p/>
      *
      * @param context context, used to get application context
      */
