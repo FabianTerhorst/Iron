@@ -27,6 +27,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
 import io.fabianterhorst.iron.annotations.Name;
+import io.fabianterhorst.iron.annotations.Store;
 
 @SupportedAnnotationTypes("io.fabianterhorst.iron.annotations.Store")
 public class StoreProcessor extends AbstractProcessor {
@@ -78,10 +79,11 @@ public class StoreProcessor extends AbstractProcessor {
 
                 JavaFileObject javaFileObject = null;
                 try {
+                    Store fieldStoreAnnot = element.getAnnotation(Store.class);
                     // StoreWrapper
                     javaFileObject = processingEnv.getFiler().createSourceFile(classElement.getQualifiedName() + SUFFIX_PREF_WRAPPER);
                     Template template = getFreemarkerConfiguration().getTemplate("storewrapper.ftl");
-                    args.put("package", packageElement.getQualifiedName());
+                    args.put("package", fieldStoreAnnot.value().length() > 0 ? fieldStoreAnnot.value() : packageElement.getQualifiedName());
                     args.put("keyWrapperClassName", classElement.getSimpleName() + SUFFIX_PREF_WRAPPER);
                     args.put("keyList", prefList);
                     Writer writer = javaFileObject.openWriter();
