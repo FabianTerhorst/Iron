@@ -1,7 +1,5 @@
 package io.fabianterhorst.iron;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Before;
@@ -15,6 +13,7 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import io.fabianterhorst.iron.testdata.ClassWithoutPublicNoArgConstructor;
 import io.fabianterhorst.iron.testdata.Person;
@@ -57,7 +56,7 @@ public class DataTest {
         assertThat(persons).isEqualTo(inserted);
     }
 
-    @Test
+    /*@Test
     public void testPutDifferentThreads() {
         List<Person> inserted = genPersonList(10000);
         Iron.chest().put("persons", inserted);
@@ -78,7 +77,7 @@ public class DataTest {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(runnable);
         Iron.chest().put("persons", inserted);
-    }
+    }*/
 
     @Test
     public void testPutMap() {
@@ -103,70 +102,80 @@ public class DataTest {
     public void testPutSubAbstractListRandomAccess() {
         final List<Person> origin = genPersonList(100);
         List<Person> sublist = origin.subList(10, 30);
-        testReadWriteWithoutClassCheck(sublist);
+        assertThat(testReadWriteWithoutClassCheck(sublist)).isEqualTo(sublist);
     }
 
     @Test
     public void testPutSubAbstractList() {
         final LinkedList<Person> origin = new LinkedList<>(genPersonList(100));
         List<Person> sublist = origin.subList(10, 30);
-        testReadWriteWithoutClassCheck(sublist);
+        assertThat(testReadWriteWithoutClassCheck(sublist)).isEqualTo(sublist);
     }
 
     @Test
     public void testPutLinkedList() {
         final LinkedList<Person> origin = new LinkedList<>(genPersonList(100));
-        testReadWrite(origin);
+        assertThat(testReadWrite(origin)).isEqualTo(origin.getClass());
     }
 
     @Test
     public void testPutArraysAsLists() {
-        testReadWrite(Arrays.asList("123", "345"));
+        List list = Arrays.asList("123", "345");
+        assertThat(testReadWrite(list)).isEqualTo(list.getClass());
     }
 
     @Test
     public void testPutCollectionsEmptyList() {
-        testReadWrite(Collections.emptyList());
+        List list = Collections.emptyList();
+        assertThat(testReadWrite(list)).isEqualTo(list.getClass());
     }
 
     @Test
     public void testPutCollectionsEmptyMap() {
-        testReadWrite(Collections.emptyMap());
+        Map map = Collections.emptyMap();
+        assertThat(testReadWrite(map)).isEqualTo(map.getClass());
     }
 
     @Test
     public void testPutCollectionsEmptySet() {
-        testReadWrite(Collections.emptySet());
+        Set set = Collections.emptySet();
+        assertThat(testReadWrite(set)).isEqualTo(set.getClass());
     }
 
     @Test
     public void testPutSingletonList() {
-        testReadWrite(Collections.singletonList("item"));
+        List list = Collections.singletonList("item");
+        assertThat(testReadWrite(list)).isEqualTo(list.getClass());
     }
 
     @Test
     public void testPutSingletonSet() {
-        testReadWrite(Collections.singleton("item"));
+        Set set = Collections.singleton("item");
+        assertThat(testReadWrite(set)).isEqualTo(set.getClass());
     }
 
     @Test
     public void testPutSingletonMap() {
-        testReadWrite(Collections.singletonMap("key", "value"));
+        Map map = Collections.singletonMap("key", "value");
+        assertThat(testReadWrite(map)).isEqualTo(map.getClass());
     }
 
     @Test
     public void testPutGeorgianCalendar() {
-        testReadWrite(new GregorianCalendar());
+        GregorianCalendar calendar = new GregorianCalendar();
+        assertThat(testReadWrite(calendar)).isEqualTo(calendar.getClass());
     }
 
     @Test
     public void testPutSynchronizedList() {
-        testReadWrite(Collections.synchronizedList(new ArrayList<>()));
+        List list = Collections.synchronizedList(new ArrayList<>());
+        assertThat(testReadWrite(list)).isEqualTo(list.getClass());
     }
 
     @Test(expected = IronException.class)
     public void testReadWriteClassWithoutNoArgConstructor() {
-        testReadWrite(new ClassWithoutPublicNoArgConstructor("constructor argument"));
+        ClassWithoutPublicNoArgConstructor constructor = new ClassWithoutPublicNoArgConstructor("constructor argument");
+        assertThat(testReadWrite(constructor)).isEqualTo(constructor.getClass());
     }
 
     private Object testReadWriteWithoutClassCheck(Object originObj) {
@@ -177,9 +186,10 @@ public class DataTest {
         return readObj;
     }
 
-    private void testReadWrite(Object originObj) {
+    private Class testReadWrite(Object originObj) {
         Object readObj = testReadWriteWithoutClassCheck(originObj);
         assertThat(readObj.getClass()).isEqualTo(originObj.getClass());
+        return readObj.getClass();
     }
 
 }

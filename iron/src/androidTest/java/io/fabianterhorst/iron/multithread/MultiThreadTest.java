@@ -46,6 +46,7 @@ public class MultiThreadTest extends AndroidTestCase {
         for (Future<Object> future : futures) {
             future.get();
         }
+        assertFalse(Iron.chest().<List>read("persons").isEmpty());
     }
 
     private Runnable getInsertRunnable() {
