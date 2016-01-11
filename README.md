@@ -31,12 +31,12 @@ apply plugin: 'com.neenbedankt.android-apt'
 Add dependencies to your application gradle build file (only compile 'io.fabianterhorst:iron:0.6.4' is required)
 
 ```groovy
-compile 'io.fabianterhorst:iron:0.6.4'
-compile 'io.fabianterhorst:iron-retrofit:0.4.1'
-compile 'io.fabianterhorst:iron-encryption:0.4.1'
+compile 'io.fabianterhorst:iron:0.6.5'
+compile 'io.fabianterhorst:iron-retrofit:0.4.2'
+compile 'io.fabianterhorst:iron-encryption:0.4.2'
 //is only required for using the compiler
 compile 'io.fabianterhorst:iron-annotations:0.1'
-apt 'io.fabianterhorst:iron-compiler:0.3.2'
+apt 'io.fabianterhorst:iron-compiler:0.3.3'
 ```
 
 Initiate Iron instance with application context
@@ -49,9 +49,9 @@ public class MyApplication extends Application {
         Iron.init(getApplicationContext());
         Iron.setCache(Cache.MEMORY);//default is NONE
         //Optional if iron-retrofit is included
-        Iron.setLoaderExtension(new IronRetrofit());
+        Iron.setLoader(new IronRetrofit());
         //Optional if iron-encryption is included
-        Iron.setEncryptionExtension(new IronEncryption());
+        Iron.setEncryption(new IronEncryption());
     }
 }
 ```
@@ -285,12 +285,12 @@ allprojects {
 //Latest commit
 compile 'com.github.FabianTerhorst:Iron:-SNAPSHOT'
 
-compile 'com.github.fabianterhorst.iron:iron-retrofit:0.6.4'
-compile 'com.github.fabianterhorst.iron:iron:0.6.4'
-compile 'com.github.fabianterhorst.iron:iron-encryption:0.6.4'
+compile 'com.github.fabianterhorst.iron:iron-retrofit:0.6.5'
+compile 'com.github.fabianterhorst.iron:iron:0.6.5'
+compile 'com.github.fabianterhorst.iron:iron-encryption:0.6.5'
 //is only required for using the compiler
-compile 'com.github.fabianterhorst.iron:iron-annotations:0.6.4'
-apt 'com.github.fabianterhorst.iron:iron-compiler:0.6.4'
+compile 'com.github.fabianterhorst.iron:iron-annotations:0.6.5'
+apt 'com.github.fabianterhorst.iron:iron-compiler:0.6.5'
 ```
 
 ### License

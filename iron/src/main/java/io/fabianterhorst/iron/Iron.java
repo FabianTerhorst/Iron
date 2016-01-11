@@ -57,6 +57,12 @@ public class Iron {
         mEncryption = encryption;
     }
 
+
+    /**
+     * Set the cache strategy to store the written objects in memory
+     *
+     * @param cache the cache strategy Cache#Memory or Cache#NONE
+     */
     public static void setCache(int cache){
         mCache = cache;
     }
