@@ -58,6 +58,8 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 
+import io.fabianterhorst.iron.IronException;
+
 /**
  * Simple library for the "right" defaults for AES key generation, encryption,
  * and decryption using 128-bit AES, CBC, PKCS5 padding, and a random 16-byte IV
@@ -801,7 +803,7 @@ public class AesCbcWithIntegrity {
             // insertProviderAt, etc., so synchronizing on the class should
             // make things more stable, and prevent race conditions with other
             // versions of this code.
-            synchronized (java.security.Security.class) {
+            synchronized (Security.class) {
                 if ((secureRandomProviders == null)
                         || (secureRandomProviders.length < 1)
                         || (!secureRandomProviders[0].getClass().getSimpleName().equals("LinuxPRNGSecureRandomProvider"))) {
@@ -1034,7 +1036,7 @@ public class AesCbcWithIntegrity {
             try {
                 return result.toString().getBytes("UTF-8");
             } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException("UTF-8 encoding not supported");
+                throw new IronException("UTF-8 encoding not supported");
             }
         }
     }
