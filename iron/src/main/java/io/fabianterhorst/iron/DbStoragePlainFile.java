@@ -27,10 +27,8 @@ import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer;
 import de.javakaffee.kryoserializers.UnmodifiableCollectionsSerializer;
 import io.fabianterhorst.iron.serializer.NoArgCollectionSerializer;
 
-import static io.fabianterhorst.iron.Iron.TAG;
-
 public class DbStoragePlainFile implements Storage {
-
+    private static final String TAG = DbStoragePlainFile.class.getName();
     private final Context mContext;
     private final String mDbName;
     private String mFilesDir;
@@ -312,11 +310,9 @@ public class DbStoragePlainFile implements Storage {
             }
         } catch (KryoException | IllegalArgumentException | IOException e) {
             // Clean up an unsuccessfully written file
-            if (originalFile.exists()) {
-                if (!originalFile.delete()) {
-                    throw new IronException("Couldn't clean up broken/unserializable file "
-                            + originalFile, e);
-                }
+            if (originalFile.exists() && !originalFile.delete()) {
+                throw new IronException("Couldn't clean up broken/unserializable file "
+                        + originalFile, e);
             }
             String errorMessage = "Couldn't read/deserialize file "
                     + originalFile + " for table " + key;

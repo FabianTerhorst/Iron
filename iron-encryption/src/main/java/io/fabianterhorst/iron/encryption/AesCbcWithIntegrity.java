@@ -82,7 +82,7 @@ public class AesCbcWithIntegrity {
     //Made BASE_64_FLAGS public as it's useful to know for compatibility.
     public static final int BASE64_FLAGS = Base64.NO_WRAP;
     //default for testing
-    static final AtomicBoolean prngFixed = new AtomicBoolean(false);
+    private static final AtomicBoolean prngFixed = new AtomicBoolean(false);
 
     private static final String HMAC_ALGORITHM = "HmacSHA256";
     private static final int HMAC_KEY_LENGTH_BITS = 256;
@@ -553,11 +553,7 @@ public class AesCbcWithIntegrity {
             if (getClass() != obj.getClass())
                 return false;
             SecretKeys other = (SecretKeys) obj;
-            if (!integrityKey.equals(other.integrityKey))
-                return false;
-            if (!confidentialityKey.equals(other.confidentialityKey))
-                return false;
-            return true;
+            return integrityKey.equals(other.integrityKey) && confidentialityKey.equals(other.confidentialityKey);
         }
     }
 

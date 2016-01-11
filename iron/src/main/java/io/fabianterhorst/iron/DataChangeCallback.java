@@ -1,7 +1,10 @@
 package io.fabianterhorst.iron;
 
 
+import android.util.Log;
+
 public abstract class DataChangeCallback<T> {
+    public static final String TAG = DataChangeCallback.class.getName();
 
     protected String mKey;
     protected String mClassName;
@@ -46,14 +49,14 @@ public abstract class DataChangeCallback<T> {
     }
 
     public void onDataChange(String key, T value) {
-
+        Log.d(TAG, "onDataChange(" + key + ", " + value + ")");
     }
 
     public void onDataChange(T value) {
-
+        Log.d(TAG, "onDataChange(" + value + ")");
     }
 
     public void onDataChange(Class clazz, T value) {
-
+        Log.d(TAG, "onDataChange(" + clazz.getSimpleName() + ", " + value + ")");
     }
 }
