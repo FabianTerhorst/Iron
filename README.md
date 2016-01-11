@@ -3,6 +3,7 @@
 [![Join the chat at https://gitter.im/FabianTerhorst/Iron](https://badges.gitter.im/FabianTerhorst/Iron.svg)](https://gitter.im/FabianTerhorst/Iron?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Iron-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2990)
 <img src="https://img.shields.io/badge/Kappa-Keepo-yellowgreen.svg"></img>
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/c0703e14011042bf9233a2604af85636)](https://www.codacy.com/app/fabian-terhorst/Iron)
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron.svg?label=Core"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-compiler.svg?label=Compiler"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-retrofit.svg?label=Retrofit"></img>
