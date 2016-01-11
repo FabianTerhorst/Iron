@@ -1,8 +1,10 @@
-<img src="https://img.shields.io/badge/Methods and size-core: 198 | deps: 9494 | 21 KB-e91e63.svg"></img>
 <img src="https://travis-ci.org/FabianTerhorst/Iron.svg?branch=master"></img>
 [![Join the chat at https://gitter.im/FabianTerhorst/Iron](https://badges.gitter.im/FabianTerhorst/Iron.svg)](https://gitter.im/FabianTerhorst/Iron?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Iron-brightgreen.svg?style=flat)](http://android-arsenal.com/details/1/2990)
 [![Codacy Badge](https://api.codacy.com/project/badge/grade/c0703e14011042bf9233a2604af85636)](https://www.codacy.com/app/fabian-terhorst/Iron)
+<a href="http://www.methodscount.com/?lib=io.fabianterhorst%3Airon%3A0.6.4"><img src="https://img.shields.io/badge/Core-Size-28 KB-e91e63.svg"></img></a>
+<a href="http://www.methodscount.com/?lib=io.fabianterhorst%3Airon-encryption%3A0.4.1"><img src="https://img.shields.io/badge/Encryption-Size-19 KB-e91e63.svg"></img></a>
+<a href="http://www.methodscount.com/?lib=io.fabianterhorst%3Airon-retrofit%3A0.4.1"><img src="https://img.shields.io/badge/Retrofit-Size-4 KB-e91e63.svg"></img></a>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron.svg?label=Core"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-compiler.svg?label=Compiler"></img>
 <img src="https://img.shields.io/bintray/v/fabianterhorst/maven/iron-retrofit.svg?label=Retrofit"></img>
