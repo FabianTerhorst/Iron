@@ -12,7 +12,7 @@ public class Chest {
 
     private final Storage mStorage;
 
-    protected transient ArrayList<DataChangeCallback> mCallbacks;
+    private final transient ArrayList<DataChangeCallback> mCallbacks = new ArrayList<>();
 
     private final Loader mLoader;
 
@@ -44,12 +44,14 @@ public class Chest {
      * @param <T>   object type
      * @return this Chest instance
      */
-    public <T> Chest write(String key, T value) {
+    public synchronized <T> Chest write(String key, T value) {
         if (value == null) {
             throw new IronException("Iron doesn't support writing null root values");
         } else {
-            synchronized (this) {
+            synchronized (mStorage) {
                 mStorage.insert(key, value);
+            }
+            synchronized (mCallbacks) {
                 callCallbacks(key, value);
             }
         }
@@ -278,8 +280,6 @@ public class Chest {
      * @param callback data change callback
      */
     public void addOnDataChangeListener(DataChangeCallback callback) {
-        if (mCallbacks == null)
-            mCallbacks = new ArrayList<>();
         mCallbacks.add(callback);
     }
 

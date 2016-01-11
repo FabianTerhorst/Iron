@@ -120,7 +120,7 @@ public class DbStoragePlainFile implements Storage {
     }
 
     @Override
-    public synchronized <E> void insert(String key, E value) {
+    public <E> void insert(String key, E value) {
         assertInit();
 
         final IronTable<E> ironTable = new IronTable<>(value);
@@ -237,45 +237,41 @@ public class DbStoragePlainFile implements Storage {
      * @param originalFile file to write new data
      * @param backupFile   backup file to be used if write is failed
      */
-    synchronized private <E> void writeTableFile(String key, IronTable<E> ironTable,
-                                                 File originalFile, File backupFile) {
+    private <E> void writeTableFile(String key, IronTable<E> ironTable,
+                                    File originalFile, File backupFile) {
         try {
             if (mEncryption == null) {
-                synchronized (this) {
-                    FileOutputStream outputStream = new FileOutputStream(originalFile);
-                    final Output kryoOutput = new Output(outputStream);
-                    getKryo().writeObject(kryoOutput, ironTable);
-                    kryoOutput.flush();
-                    outputStream.flush();
-                    sync(outputStream);
-                    kryoOutput.close(); //also close file stream
-                }
+                FileOutputStream outputStream = new FileOutputStream(originalFile);
+                final Output kryoOutput = new Output(outputStream);
+                getKryo().writeObject(kryoOutput, ironTable);
+                kryoOutput.flush();
+                outputStream.flush();
+                sync(outputStream);
+                kryoOutput.close(); //also close file stream
                 // Writing was successful, delete the backup file if there is one.
                 //noinspection ResultOfMethodCallIgnored
                 backupFile.delete();
             } else {
-                synchronized (this) {
-                    FileOutputStream fileOutputStream = new FileOutputStream(originalFile);
-                    final Output kryoOutput = new Output(fileOutputStream);
-                    CipherOutputStream outputStream = mEncryption.encrypt(kryoOutput);
-                    Output cipherOutput = new Output(outputStream, 256) {
-                        public void close() throws KryoException {
-                            // Don't allow the CipherOutputStream to close the output.
-                        }
-                    };
-
-                    getKryo().writeObject(cipherOutput, ironTable);
-
-                    cipherOutput.flush();
-                    fileOutputStream.flush();//Todo : better test
-                    sync(fileOutputStream);//Todo : better test
-                    try {
-                        outputStream.close();
-                    } catch (IOException ex) {
-                        throw new KryoException(ex);
+                FileOutputStream fileOutputStream = new FileOutputStream(originalFile);
+                final Output kryoOutput = new Output(fileOutputStream);
+                CipherOutputStream outputStream = mEncryption.encrypt(kryoOutput);
+                Output cipherOutput = new Output(outputStream, 256) {
+                    public void close() throws KryoException {
+                        // Don't allow the CipherOutputStream to close the output.
                     }
-                    kryoOutput.close();//Todo : better test
+                };
+
+                getKryo().writeObject(cipherOutput, ironTable);
+
+                cipherOutput.flush();
+                fileOutputStream.flush();//Todo : better test
+                sync(fileOutputStream);//Todo : better test
+                try {
+                    outputStream.close();
+                } catch (IOException ex) {
+                    throw new KryoException(ex);
                 }
+                kryoOutput.close();//Todo : better test
                 // Writing was successful, delete the backup file if there is one.
                 //noinspection ResultOfMethodCallIgnored
                 backupFile.delete();
