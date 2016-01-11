@@ -2,6 +2,8 @@ package io.fabianterhorst.iron.multithread;
 
 import android.test.AndroidTestCase;
 
+import org.junit.Before;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -14,10 +16,19 @@ import io.fabianterhorst.iron.Iron;
 import io.fabianterhorst.iron.testdata.Person;
 import io.fabianterhorst.iron.testdata.TestDataGenerator;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
+
 /**
  * Tests read/write into iron data from multiple threads
  */
 public class MultiThreadTest extends AndroidTestCase {
+
+    @Before
+    public void setUp() throws Exception {
+        Iron.init(getTargetContext());
+        Iron.chest().destroy();
+    }
+
     public void testMultiThreadAccess() throws Exception {
         ExecutorService executor = Executors.newFixedThreadPool(10);
         List<Callable<Object>> todo = new LinkedList<>();

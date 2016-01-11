@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * All Iron files are created in the /files/io.iron dir in app's private storage.
  */
 public class Iron {
-    private static final String DEFAULT_DB_NAME = "io.iron";
+    public static final String DEFAULT_DB_NAME = "io.iron";
 
     private static Context mContext;
 
