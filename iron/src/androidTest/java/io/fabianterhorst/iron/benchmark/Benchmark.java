@@ -38,6 +38,8 @@ public class Benchmark extends AndroidTestCase {
         //Iron.setEncryptionExtension(new IronEncryption());
         long ironTime = runTest(new IronReadWriteContactsTest(), contacts, REPEAT_COUNT);
 
+        assertFalse(Iron.chest().<List<Person>>read("contacts1").isEmpty());
+
         Hawk.init(getTargetContext());
         Hawk.clear();
         long hawkTime = runTest(new HawkReadWriteContactsTest(), contacts, REPEAT_COUNT);
@@ -54,6 +56,8 @@ public class Benchmark extends AndroidTestCase {
         Iron.chest().destroy();
         //Iron.setEncryptionExtension(new IronEncryption());
         long ironTime = runTest(new IronWriteContactsTest(), contacts, REPEAT_COUNT);
+
+        assertFalse(Iron.chest().<List<Person>>read("contacts1").isEmpty());
 
         Hawk.init(getTargetContext());
         Hawk.clear();
@@ -72,6 +76,8 @@ public class Benchmark extends AndroidTestCase {
         //Iron.setEncryptionExtension(new IronEncryption());
         runTest(new IronWriteContactsTest(), contacts, REPEAT_COUNT); //Prepare
         long ironTime = runTest(new IronReadContactsTest(), contacts, REPEAT_COUNT);
+
+        assertFalse(Iron.chest().<List<Person>>read("contacts1").isEmpty());
 
         Hawk.init(getTargetContext());
         Hawk.clear();

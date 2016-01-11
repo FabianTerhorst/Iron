@@ -1,10 +1,7 @@
 package io.fabianterhorst.iron;
 
 
-import android.util.Log;
-
 public abstract class DataChangeCallback<T> {
-    public static final String TAG = DataChangeCallback.class.getName();
 
     protected String mKey;
     protected String mClassName;
@@ -48,15 +45,32 @@ public abstract class DataChangeCallback<T> {
         return mValues;
     }
 
+    /**
+     * Called when data is changed with the data key and the value
+     *
+     * @param key the key
+     * @param value the value
+     */
     public void onDataChange(String key, T value) {
-        Log.d(TAG, "onDataChange(" + key + ", " + value + ")");
+       //Should be override when listener is set
     }
 
+    /**
+     * Called when data is changed with the value (should be used with a Typed DataChangeListener)
+     *
+     * @param value the value
+     */
     public void onDataChange(T value) {
-        Log.d(TAG, "onDataChange(" + value + ")");
+        //Should be override when listener is set
     }
 
+    /**
+     * Called when data is changed with the data class key and the value
+     *
+     * @param clazz the class key
+     * @param value the value
+     */
     public void onDataChange(Class clazz, T value) {
-        Log.d(TAG, "onDataChange(" + clazz.getSimpleName() + ", " + value + ")");
+        //Should be override when listener is set
     }
 }

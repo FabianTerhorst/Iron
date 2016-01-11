@@ -88,6 +88,7 @@ public class DataTest {
     public void testPutLinkedList() {
         final LinkedList<Person> origin = new LinkedList<>(genPersonList(100));
         testReadWrite(origin);
+        assertThat(testReadWrite(origin)).isEqualTo(origin.getClass());
     }
 
     @Test

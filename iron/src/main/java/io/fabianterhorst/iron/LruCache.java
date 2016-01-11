@@ -248,7 +248,9 @@ public class LruCache implements Cache {
      *     this removal was caused by a {@link #put}. Otherwise it was caused by
      *     an eviction or a {@link #remove}.
      */
-    protected void entryRemoved(boolean evicted, String key, Object oldValue, Object newValue) {}
+    protected void entryRemoved(boolean evicted, String key, Object oldValue, Object newValue) {
+        //Should be override when LruCache is initialized
+    }
 
     /**
      * Called after a cache miss to compute a value for the corresponding key.

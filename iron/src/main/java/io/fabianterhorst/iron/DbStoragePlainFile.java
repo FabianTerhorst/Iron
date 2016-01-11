@@ -80,6 +80,7 @@ public class DbStoragePlainFile implements Storage {
             mMemoryCache = new Cache() {
                 @Override
                 public void evictAll() {
+                    //don not need to clear the cache
                 }
 
                 @Override
