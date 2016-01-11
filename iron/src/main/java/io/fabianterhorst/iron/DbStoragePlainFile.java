@@ -241,39 +241,41 @@ public class DbStoragePlainFile implements Storage {
                                                  File originalFile, File backupFile) {
         try {
             if (mEncryption == null) {
-                FileOutputStream outputStream = new FileOutputStream(originalFile);
-                final Output kryoOutput = new Output(outputStream);
                 synchronized (this) {
+                    FileOutputStream outputStream = new FileOutputStream(originalFile);
+                    final Output kryoOutput = new Output(outputStream);
                     getKryo().writeObject(kryoOutput, ironTable);
+                    kryoOutput.flush();
+                    outputStream.flush();
+                    sync(outputStream);
+                    kryoOutput.close(); //also close file stream
                 }
-                kryoOutput.flush();
-                outputStream.flush();
-                sync(outputStream);
-                kryoOutput.close(); //also close file stream
                 // Writing was successful, delete the backup file if there is one.
                 //noinspection ResultOfMethodCallIgnored
                 backupFile.delete();
             } else {
-                FileOutputStream fileOutputStream = new FileOutputStream(originalFile);
-                final Output kryoOutput = new Output(fileOutputStream);
-                CipherOutputStream outputStream = mEncryption.encrypt(kryoOutput);
-                Output cipherOutput = new Output(outputStream, 256) {
-                    public void close() throws KryoException {
-                        // Don't allow the CipherOutputStream to close the output.
-                    }
-                };
                 synchronized (this) {
+                    FileOutputStream fileOutputStream = new FileOutputStream(originalFile);
+                    final Output kryoOutput = new Output(fileOutputStream);
+                    CipherOutputStream outputStream = mEncryption.encrypt(kryoOutput);
+                    Output cipherOutput = new Output(outputStream, 256) {
+                        public void close() throws KryoException {
+                            // Don't allow the CipherOutputStream to close the output.
+                        }
+                    };
+
                     getKryo().writeObject(cipherOutput, ironTable);
+
+                    cipherOutput.flush();
+                    fileOutputStream.flush();//Todo : better test
+                    sync(fileOutputStream);//Todo : better test
+                    try {
+                        outputStream.close();
+                    } catch (IOException ex) {
+                        throw new KryoException(ex);
+                    }
+                    kryoOutput.close();//Todo : better test
                 }
-                cipherOutput.flush();
-                fileOutputStream.flush();//Todo : better test
-                sync(fileOutputStream);//Todo : better test
-                try {
-                    outputStream.close();
-                } catch (IOException ex) {
-                    throw new KryoException(ex);
-                }
-                kryoOutput.close();//Todo : better test
                 // Writing was successful, delete the backup file if there is one.
                 //noinspection ResultOfMethodCallIgnored
                 backupFile.delete();
