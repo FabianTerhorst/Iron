@@ -35,7 +35,7 @@ public class IronEncryption implements Encryption {
 
     private static final int IV_LENGTH_BYTES = 16;
 
-    static final AtomicBoolean prngFixed = new AtomicBoolean(false);
+    private static final AtomicBoolean prngFixed = new AtomicBoolean(false);
 
     public IronEncryption() {
         mKey = getKey();
