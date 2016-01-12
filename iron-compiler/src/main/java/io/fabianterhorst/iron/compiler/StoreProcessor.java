@@ -3,6 +3,7 @@ package io.fabianterhorst.iron.compiler;
 import org.apache.commons.io.IOUtils;
 
 import java.io.Writer;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +27,13 @@ import javax.tools.JavaFileObject;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
+import io.fabianterhorst.iron.annotations.DefaultBoolean;
+import io.fabianterhorst.iron.annotations.DefaultFloat;
+import io.fabianterhorst.iron.annotations.DefaultInt;
+import io.fabianterhorst.iron.annotations.DefaultLong;
+import io.fabianterhorst.iron.annotations.DefaultObject;
+import io.fabianterhorst.iron.annotations.DefaultString;
+import io.fabianterhorst.iron.annotations.DefaultStringSet;
 import io.fabianterhorst.iron.annotations.Name;
 import io.fabianterhorst.iron.annotations.Store;
 
@@ -66,18 +74,36 @@ public class StoreProcessor extends AbstractProcessor {
                     }
 
                     TypeMirror fieldType = variableElement.asType();
+
+                    String fieldDefaultValue = getDefaultValue(variableElement, fieldType);
+                    /*if (fieldDefaultValue == null) {
+                        // Problem detected: halt
+                        return true;
+                    }*/
+
                     String fieldName = variableElement.getSimpleName().toString();
+
+                    boolean transaction = false;
+                    boolean async = false;
+                    boolean listener = false;
+                    boolean loader = false;
 
                     Name fieldNameAnnot = variableElement.getAnnotation(Name.class);
                     String keyName = getKeyName(fieldName, fieldNameAnnot);
-                    prefList.add(new StoreEntry(keyName, fieldType.toString(), fieldNameAnnot.transaction(),
-                                                fieldNameAnnot.listener(), fieldNameAnnot.loader(), fieldNameAnnot.async()));
+                    if(fieldNameAnnot != null) {
+                        transaction = fieldNameAnnot.transaction();
+                        listener = fieldNameAnnot.listener();
+                        loader = fieldNameAnnot.loader();
+                        async = fieldNameAnnot.async();
+                    }
+                    prefList.add(new StoreEntry(fieldName, keyName, fieldType.toString(), transaction,
+                            listener, loader, async, fieldDefaultValue));
                 }
 
-                Map<String, Object> args = new HashMap<String, Object>();
+                Map<String, Object> args = new HashMap<>();
 
 
-                JavaFileObject javaFileObject = null;
+                JavaFileObject javaFileObject;
                 try {
                     Store fieldStoreAnnot = element.getAnnotation(Store.class);
                     // StoreWrapper
@@ -101,8 +127,87 @@ public class StoreProcessor extends AbstractProcessor {
         }
         return true;
     }
+
+    private String getDefaultValue(VariableElement variableElement, TypeMirror fieldType) {
+        Class<? extends Annotation> annotClass = DefaultBoolean.class;
+        ObjectType compatiblePrefType = ObjectType.BOOLEAN;
+        DefaultBoolean defaultBooleanAnnot = (DefaultBoolean) variableElement.getAnnotation(annotClass);
+        if (defaultBooleanAnnot != null) {
+            if (!ensureCompatibleAnnotation(compatiblePrefType, fieldType, annotClass, variableElement)) return null;
+            return String.valueOf(defaultBooleanAnnot.value());
+        }
+
+        annotClass = DefaultFloat.class;
+        compatiblePrefType = ObjectType.FLOAT;
+        DefaultFloat defaultFloatAnnot = (DefaultFloat) variableElement.getAnnotation(annotClass);
+        if (defaultFloatAnnot != null) {
+            if (!ensureCompatibleAnnotation(compatiblePrefType, fieldType, annotClass, variableElement)) return null;
+            return String.valueOf(defaultFloatAnnot.value()) + "f";
+        }
+
+        annotClass = DefaultInt.class;
+        compatiblePrefType = ObjectType.INTEGER;
+        DefaultInt defaultIntAnnot = (DefaultInt) variableElement.getAnnotation(annotClass);
+        if (defaultIntAnnot != null) {
+            if (!ensureCompatibleAnnotation(compatiblePrefType, fieldType, annotClass, variableElement)) return null;
+            return String.valueOf(defaultIntAnnot.value());
+        }
+
+        annotClass = DefaultLong.class;
+        compatiblePrefType = ObjectType.LONG;
+        DefaultLong defaultLongAnnot = (DefaultLong) variableElement.getAnnotation(annotClass);
+        if (defaultLongAnnot != null) {
+            if (!ensureCompatibleAnnotation(compatiblePrefType, fieldType, annotClass, variableElement)) return null;
+            return String.valueOf(defaultLongAnnot.value()) + "L";
+        }
+
+        annotClass = DefaultString.class;
+        compatiblePrefType = ObjectType.STRING;
+        DefaultString defaultStringAnnot = (DefaultString) variableElement.getAnnotation(annotClass);
+        if (defaultStringAnnot != null) {
+            if (!ensureCompatibleAnnotation(compatiblePrefType, fieldType, annotClass, variableElement)) return null;
+            return "\"" + defaultStringAnnot.value() + "\"";
+        }
+
+        annotClass = DefaultStringSet.class;
+        compatiblePrefType = ObjectType.STRING_SET;
+        DefaultStringSet defaultStringSetAnnot = (DefaultStringSet) variableElement.getAnnotation(annotClass);
+        if (defaultStringSetAnnot != null) {
+            if (!ensureCompatibleAnnotation(compatiblePrefType, fieldType, annotClass, variableElement)) return null;
+            StringBuilder res = new StringBuilder("new HashSet<String>(Arrays.asList(");
+            int i = 0;
+            for (String s : defaultStringSetAnnot.value()) {
+                if (i > 0) res.append(", ");
+                res.append("\"");
+                res.append(s);
+                res.append("\"");
+                i++;
+            }
+            res.append("))");
+            return res.toString();
+        }
+
+        annotClass = DefaultObject.class;
+        DefaultObject defaultObjectAnnot = (DefaultObject) variableElement.getAnnotation(annotClass);
+        if (defaultObjectAnnot != null) {
+            return "new " + variableElement.asType().toString() + "()";
+        }
+
+        // Default default value :)
+        return "null";
+    }
+
+    private boolean ensureCompatibleAnnotation(ObjectType objectType, TypeMirror fieldType, Class<?> annotClass, VariableElement variableElement) {
+        if (!objectType.isCompatible(fieldType)) {
+            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR,
+                    annotClass.getSimpleName() + " annotation is only allowed on " + objectType.getSimpleName() + " fields", variableElement);
+            return false;
+        }
+        return true;
+    }
+
     private static String getKeyName(String fieldName, Name fieldNameAnnot) {
-        if (fieldNameAnnot != null) {
+        if (fieldNameAnnot != null && fieldNameAnnot.value() != null) {
             return fieldNameAnnot.value();
         }
         return fieldName;

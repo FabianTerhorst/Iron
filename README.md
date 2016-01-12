@@ -39,8 +39,8 @@ The Extensions
 compile 'io.fabianterhorst:iron-retrofit:0.4.2'
 compile 'io.fabianterhorst:iron-encryption:0.4.2'
 //is only required for using the compiler
-compile 'io.fabianterhorst:iron-annotations:0.1'
-apt 'io.fabianterhorst:iron-compiler:0.3.3'
+compile 'io.fabianterhorst:iron-annotations:0.2'
+apt 'io.fabianterhorst:iron-compiler:0.4.0'
 ```
 
 Initiate Iron instance with application context
@@ -65,10 +65,14 @@ Use the @Store annotation on any plain old Java object.
 ```java
 @Store
 public class Main {
-    @Name(value = "contributors", transaction = true, listener = true, loader = true, async = true)
+    @DefaultObject
+    @Name(value = "contributor_list", transaction = true, listener = true, loader = true, async = true)
     ArrayList<Contributor> contributors;
-    @Name("username")
+
     String userName;
+
+    @DefaultLong(120)
+    Long myLong;
 }
 ```
 Now you can access the generated Methods from your Main + "Store" file.

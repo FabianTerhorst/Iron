@@ -39,7 +39,7 @@ public class ${keyWrapperClassName} {
     }
 
 <#list keyList as key>
-    public static void set${key.key?cap_first}(${key.className} ${key.key}) {
+    public static void set${key.name?cap_first}(${key.className} ${key.key}) {
         <#if !key.async>
         Iron.chest().write("${key.key}", ${key.key});
         </#if>
@@ -49,23 +49,23 @@ public class ${keyWrapperClassName} {
     }
 
 <#if key.loader>
-    public static <T> void load${key.key?cap_first}(T call) {
+    public static <T> void load${key.name?cap_first}(T call) {
         Iron.chest().load(call, "${key.key}");
     }
 </#if>
 <#if !key.async>
-    public static ${key.className} get${key.key?cap_first}() {
-        return Iron.chest().read("${key.key}", new ${key.className}());
+    public static ${key.className} get${key.name?cap_first}() {
+        return Iron.chest().read("${key.key}", ${key.defaultValue});
     }
 </#if>
 <#if key.async>
-    public static <T extends ${key.className}> void get${key.key?cap_first}(Chest.ReadCallback<T> readCallback) {
-        Iron.chest().get("${key.key}", readCallback, new ${key.className}());
+    public static <T extends ${key.className}> void get${key.name?cap_first}(Chest.ReadCallback<T> readCallback) {
+        Iron.chest().get("${key.key}", readCallback, ${key.defaultValue});
     }
 </#if>
 
 <#if key.className?contains('java.util.ArrayList')>
-    public static <T extends ${key.className?replace('java.util.ArrayList<', '')} void get${key.key?cap_first}ForField(final String fieldName, final Object searchValue, final Chest.ReadCallback<T> readCallback){
+    public static <T extends ${key.className?replace('java.util.ArrayList<', '')} void get${key.name?cap_first}ForField(final String fieldName, final Object searchValue, final Chest.ReadCallback<T> readCallback){
         Iron.chest().get("${key.key}", new Chest.ReadCallback<${key.className}>() {
             @Override
             public void onResult(${key.className} ${key.key}) {
@@ -93,7 +93,7 @@ public class ${keyWrapperClassName} {
         });
     }
 </#if>
-    public static void remove${key.key?cap_first}() {
+    public static void remove${key.name?cap_first}() {
         <#if key.async>
         Iron.chest().remove("${key.key}");
         </#if>
@@ -102,11 +102,11 @@ public class ${keyWrapperClassName} {
         </#if>
     }
 <#if key.transaction>
-    public static <T extends ${key.className}> void execute${key.key?cap_first}Transaction(Chest.Transaction<T> transaction){
+    public static <T extends ${key.className}> void execute${key.name?cap_first}Transaction(Chest.Transaction<T> transaction){
         Iron.chest().execute("${key.key}", transaction, new ${key.className}());
     }
     <#if key.className?contains('java.util.ArrayList')>
-    public static void add${key.key?cap_first?replace('s', '')}(final ${key.className?replace('java.util.ArrayList<', '')?replace('>', '')} object){
+    public static void add${key.name?cap_first?replace('s', '')}(final ${key.className?replace('java.util.ArrayList<', '')?replace('>', '')} object){
         Iron.chest().execute("${key.key}", new Chest.Transaction<${key.className}>() {
             @Override
             public void execute(${key.className} objects) {
@@ -116,7 +116,7 @@ public class ${keyWrapperClassName} {
     }
     </#if>
      <#if key.className?contains('java.util.ArrayList')>
-        public static void add${key.key?cap_first}(final ${key.className} object){
+        public static void add${key.name?cap_first}(final ${key.className} object){
             Iron.chest().execute("${key.key}", new Chest.Transaction<${key.className}>() {
                 @Override
                 public void execute(${key.className} objects) {
@@ -127,7 +127,7 @@ public class ${keyWrapperClassName} {
      </#if>
 </#if>
 <#if key.listener>
-    public static <T extends ${key.className}> void addOn${key.key?cap_first}DataChangeListener(DataChangeCallback<T>  dataChangeCallback){
+    public static <T extends ${key.className}> void addOn${key.name?cap_first}DataChangeListener(DataChangeCallback<T>  dataChangeCallback){
         dataChangeCallback.setKey("${key.key}");
         Iron.chest().addOnDataChangeListener(dataChangeCallback);
     }
