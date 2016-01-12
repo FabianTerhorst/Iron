@@ -40,7 +40,7 @@ compile 'io.fabianterhorst:iron-retrofit:0.4.2'
 compile 'io.fabianterhorst:iron-encryption:0.4.2'
 //is only required for using the compiler
 compile 'io.fabianterhorst:iron-annotations:0.2'
-apt 'io.fabianterhorst:iron-compiler:0.4.0'
+apt 'io.fabianterhorst:iron-compiler:0.4'
 ```
 
 Initiate Iron instance with application context
