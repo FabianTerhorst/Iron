@@ -120,7 +120,7 @@ public class DbStoragePlainFile implements Storage {
     }
 
     @Override
-    public <E> void insert(String key, E value) {
+    public synchronized <E> void insert(String key, E value) {
         assertInit();
 
         final IronTable<E> ironTable = new IronTable<>(value);
@@ -162,7 +162,7 @@ public class DbStoragePlainFile implements Storage {
     }
 
     @Override
-    public synchronized <E> E doSelect(String key) {
+    public<E> E doSelect(String key) {
         assertInit();
         final File originalFile = getOriginalFile(key);
         final File backupFile = makeBackupFile(originalFile);
@@ -264,14 +264,14 @@ public class DbStoragePlainFile implements Storage {
                 getKryo().writeObject(cipherOutput, ironTable);
 
                 cipherOutput.flush();
-                fileOutputStream.flush();//Todo : better test
-                sync(fileOutputStream);//Todo : better test
+                fileOutputStream.flush();
+                sync(fileOutputStream);
                 try {
                     outputStream.close();
                 } catch (IOException ex) {
                     throw new KryoException(ex);
                 }
-                kryoOutput.close();//Todo : better test
+                kryoOutput.close();
                 // Writing was successful, delete the backup file if there is one.
                 //noinspection ResultOfMethodCallIgnored
                 backupFile.delete();
