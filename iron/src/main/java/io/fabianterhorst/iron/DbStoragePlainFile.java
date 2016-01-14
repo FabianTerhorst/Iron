@@ -162,7 +162,7 @@ public class DbStoragePlainFile implements Storage {
     }
 
     @Override
-    public<E> E doSelect(String key) {
+    public <E> E doSelect(String key) {
         assertInit();
         final File originalFile = getOriginalFile(key);
         final File backupFile = makeBackupFile(originalFile);

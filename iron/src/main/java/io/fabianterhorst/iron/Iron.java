@@ -28,6 +28,8 @@ public class Iron {
 
     private static int mCache = Cache.NONE;
 
+    private static int mStorage = Storage.FILE;
+
     private static final ConcurrentHashMap<String, Chest> mChestMap = new ConcurrentHashMap<>();
 
     /**
@@ -40,7 +42,7 @@ public class Iron {
     }
 
     /**
-     * Set the loader extension to the Iron instance
+     * Set the loader to the Iron instance
      *
      * @param loader loader extension for the iron instance
      */
@@ -49,7 +51,7 @@ public class Iron {
     }
 
     /**
-     * Set the encryption extension to the Iron instance
+     * Set the encryption to the Iron instance
      *
      * @param encryption encryption extension for the iron instance
      */
@@ -57,6 +59,14 @@ public class Iron {
         mEncryption = encryption;
     }
 
+    /**
+     * Set the storage type
+     *
+     * @param storage the storage type Storage#FILE or Storage#OBJECT
+     */
+    public static void setStorage(int storage){
+        mStorage = storage;
+    }
 
     /**
      * Set the cache strategy to store the written objects in memory
@@ -95,7 +105,7 @@ public class Iron {
         synchronized (mChestMap) {
             Chest chest = mChestMap.get(name);
             if (chest == null) {
-                chest = new Chest(mContext, name, mLoader, mEncryption, mCache);
+                chest = new Chest(mContext, name, mLoader, mEncryption, mCache, mStorage);
                 mChestMap.put(name, chest);
             }
             return chest;

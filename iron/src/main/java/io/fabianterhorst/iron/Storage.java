@@ -2,7 +2,15 @@ package io.fabianterhorst.iron;
 
 import java.util.List;
 
-interface Storage {
+public interface Storage {
+    /**
+     * use file storage
+     */
+    int FILE = 0;
+    /**
+     * use file and object storage to load all your object to the list at start
+     */
+    int FILE_OBJECT = 1;
 
     void destroy();
 

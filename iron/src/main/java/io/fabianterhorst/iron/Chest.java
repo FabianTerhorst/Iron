@@ -9,8 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Chest {
-
     private final Storage mStorage;
+    private final ObjectStorage mObjectStorage;
 
     private final transient ArrayList<DataChangeCallback> mCallbacks = new ArrayList<>();
 
@@ -24,9 +24,31 @@ public class Chest {
         void onResult(T value);
     }
 
-    protected Chest(Context context, String dbName, Loader loader, Encryption encryption, int cache) {
+    protected Chest(Context context, String dbName, Loader loader, Encryption encryption, int cache, int storage) {
         mStorage = new DbStoragePlainFile(context.getApplicationContext(), dbName, encryption, cache);
+        if(storage == Storage.OBJECT)
+            mObjectStorage = new ObjectStorage(mStorage);
+        else
+            mObjectStorage = null;
         mLoader = loader;
+    }
+
+    public void add(String key, Object object){
+        if(mObjectStorage == null)
+            throw new IronException("You have to set Iron.setStorage(Storage.Object) in your Application create()");
+        mObjectStorage.add(key, object);
+    }
+
+    public <T> T get(String key){
+        if(mObjectStorage == null)
+            throw new IronException("You have to set Iron.setStorage(Storage.Object) in your Application create()");
+        return mObjectStorage.get(key);
+    }
+
+    public void save(){
+        if(mObjectStorage == null)
+            throw new IronException("You have to set Iron.setStorage(Storage.Object) in your Application create()");
+        mObjectStorage.save();
     }
 
     /**
@@ -357,7 +379,7 @@ public class Chest {
      */
     public <T> void load(T call, String key) {
         if (mLoader == null)
-            throw new IronException("To use load() you have to set the loader in your application onCreate() with Iron.setLoader(new IronLoader())");
+            throw new IronException("To use load() you have to set the loader in your application onCreate() with Iron.setLoader(new IronRetrofit())");
         mLoader.load(call, key);
     }
 
