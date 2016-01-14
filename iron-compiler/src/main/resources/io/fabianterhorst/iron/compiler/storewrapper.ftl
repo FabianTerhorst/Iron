@@ -90,7 +90,7 @@ public class ${keyWrapperClassName} {
                     }
                 }
             }
-        });
+        }, ${key.defaultValue});
     }
 </#if>
     public static void remove${key.name?cap_first}() {
@@ -103,7 +103,7 @@ public class ${keyWrapperClassName} {
     }
 <#if key.transaction>
     public static <T extends ${key.className}> void execute${key.name?cap_first}Transaction(Chest.Transaction<T> transaction){
-        Iron.chest().execute("${key.key}", transaction, new ${key.className}());
+        Iron.chest().execute("${key.key}", transaction, ${key.defaultValue});
     }
     <#if key.className?contains('java.util.ArrayList')>
     public static void add${key.name?cap_first?replace('s', '')}(final ${key.className?replace('java.util.ArrayList<', '')?replace('>', '')} object){
