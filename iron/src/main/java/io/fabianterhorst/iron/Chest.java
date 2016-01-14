@@ -26,7 +26,7 @@ public class Chest {
 
     protected Chest(Context context, String dbName, Loader loader, Encryption encryption, int cache, int storage) {
         mStorage = new DbStoragePlainFile(context.getApplicationContext(), dbName, encryption, cache);
-        if(storage == Storage.OBJECT)
+        if(storage == Storage.FILE_OBJECT)
             mObjectStorage = new ObjectStorage(mStorage);
         else
             mObjectStorage = null;
