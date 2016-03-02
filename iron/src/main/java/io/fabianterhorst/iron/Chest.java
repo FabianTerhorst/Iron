@@ -9,8 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Chest {
+
     private final Storage mStorage;
-    private final ObjectStorage mObjectStorage;
 
     private final transient ArrayList<DataChangeCallback> mCallbacks = new ArrayList<>();
 
@@ -24,31 +24,9 @@ public class Chest {
         void onResult(T value);
     }
 
-    protected Chest(Context context, String dbName, Loader loader, Encryption encryption, int cache, int storage) {
+    protected Chest(Context context, String dbName, Loader loader, Encryption encryption, int cache) {
         mStorage = new DbStoragePlainFile(context.getApplicationContext(), dbName, encryption, cache);
-        if(storage == Storage.FILE_OBJECT)
-            mObjectStorage = new ObjectStorage(mStorage);
-        else
-            mObjectStorage = null;
         mLoader = loader;
-    }
-
-    public void add(String key, Object object){
-        if(mObjectStorage == null)
-            throw new IronException("You have to set Iron.setStorage(Storage.Object) in your Application create()");
-        mObjectStorage.add(key, object);
-    }
-
-    public <T> T get(String key){
-        if(mObjectStorage == null)
-            throw new IronException("You have to set Iron.setStorage(Storage.Object) in your Application create()");
-        return mObjectStorage.get(key);
-    }
-
-    public void save(){
-        if(mObjectStorage == null)
-            throw new IronException("You have to set Iron.setStorage(Storage.Object) in your Application create()");
-        mObjectStorage.save();
     }
 
     /**

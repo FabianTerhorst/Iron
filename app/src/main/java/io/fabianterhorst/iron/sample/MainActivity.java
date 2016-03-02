@@ -13,8 +13,8 @@ import io.fabianterhorst.iron.Chest;
 import io.fabianterhorst.iron.DataChangeCallback;
 import io.fabianterhorst.iron.Iron;
 import retrofit2.Call;
-import retrofit2.MoshiConverterFactory;
 import retrofit2.Retrofit;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +32,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("size", contributors.size() + "");
             }
         });
+
+        ArrayList<Contributor> contributors = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Contributor contributor = new Contributor();
+            contributor.setName("name" + i);
+            contributors.add(contributor);
+        }
+
+        MainStore.addContributors(contributors);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")

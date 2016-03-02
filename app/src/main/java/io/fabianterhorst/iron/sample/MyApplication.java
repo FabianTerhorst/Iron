@@ -4,7 +4,6 @@ import android.app.Application;
 
 import io.fabianterhorst.iron.Cache;
 import io.fabianterhorst.iron.Iron;
-import io.fabianterhorst.iron.Storage;
 import io.fabianterhorst.iron.encryption.IronEncryption;
 import io.fabianterhorst.iron.retrofit.IronRetrofit;
 
@@ -13,9 +12,9 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //Todo : Iron builder
         Iron.init(getApplicationContext());
         Iron.setCache(Cache.MEMORY);
-        Iron.setStorage(Storage.FILE_OBJECT);
         Iron.setLoader(new IronRetrofit());
         Iron.setEncryption(new IronEncryption());
     }
