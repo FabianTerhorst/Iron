@@ -27,7 +27,7 @@ public abstract class DataChangeCallback<T> {
     }
 
     public DataChangeCallback(String identifier) {
-        this.mIdentifier = identifier;
+        this.mIdentifier = this.mKey = identifier;
     }
 
     public String getKey() {
