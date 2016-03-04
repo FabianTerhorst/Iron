@@ -6,6 +6,7 @@ public abstract class DataChangeCallback<T> {
     protected String mKey;
     protected String mClassName;
     protected Enum[] mValues;
+    protected String mIdentifier;
 
     public DataChangeCallback(Object object, String key) {
         this.mKey = key;
@@ -23,6 +24,10 @@ public abstract class DataChangeCallback<T> {
 
     public DataChangeCallback(Object object) {
         this.mClassName = object.getClass().getName();
+    }
+
+    public DataChangeCallback(String identifier) {
+        this.mIdentifier = identifier;
     }
 
     public String getKey() {
@@ -43,6 +48,10 @@ public abstract class DataChangeCallback<T> {
 
     public Enum[] getValues(){
         return mValues;
+    }
+
+    public String getIdentifier() {
+        return mIdentifier;
     }
 
     /**

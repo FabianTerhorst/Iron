@@ -34,6 +34,10 @@ dependencies {
     compile project(':iron-annotations')
     apt project(':iron-compiler')
 
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'com.trello:rxlifecycle:0.4.0'
+
     compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
     compile 'com.squareup.retrofit2:converter-moshi:2.0.0-beta4'
 

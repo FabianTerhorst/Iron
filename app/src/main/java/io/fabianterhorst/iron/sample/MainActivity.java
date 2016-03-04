@@ -1,7 +1,7 @@
 package io.fabianterhorst.iron.sample;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,9 +15,10 @@ import io.fabianterhorst.iron.Iron;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
+import rx.Subscriber;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends RxActivity {
 
     private final String TAG = MainActivity.class.getName();
 
@@ -116,6 +117,35 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        Iron.chest().set("rxjava", "bla");
+
+        Iron.chest().<String>get("rxjava").compose(this.<String>bindToLifecycle()).subscribe(new Subscriber<String>() {
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(String s) {
+                Log.d("change", s);
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        });
+
+        Iron.chest().set("rxjava", "bla2");
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Iron.chest().set("rxjava", "bla3");
+            }
+        }, 2000);
 
         //Call<List<Contributor>> userCall = service.contributors("fabianterhorst", "iron");
         //MainStore.loadContributors(userCall);

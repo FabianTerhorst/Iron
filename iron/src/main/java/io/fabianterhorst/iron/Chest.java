@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.schedulers.Schedulers;
+import rx.subscriptions.Subscriptions;
+
 public class Chest {
 
     private final Storage mStorage;
@@ -137,6 +144,58 @@ public class Chest {
         } else {
             task.execute(key, readCallback, defaultObject);
         }
+    }
+
+    public <T> Observable<T> get(final String key) {
+        return Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(final Subscriber<? super T> subscriber) {
+                final DataChangeCallback<T> callback = new DataChangeCallback<T>(key) {
+                    @Override
+                    public void onDataChange(T value) {
+                        if (!subscriber.isUnsubscribed()) {
+                            subscriber.onNext(value);
+                        }
+                    }
+                };
+                Chest.this.addOnDataChangeListener(callback);
+                subscriber.add(Subscriptions.create(new Action0() {
+                    @Override
+                    public void call() {
+                        Chest.this.removeListener(callback);
+                    }
+                }));
+                subscriber.onNext(Chest.this.<T>read(key));
+            }
+        }).compose(this.<T>applySchedulers());
+    }
+
+    /**
+     * Apply the default android schedulers to a observable
+     *
+     * @param <T> the current observable
+     * @return the transformed observable
+     */
+    protected <T> Observable.Transformer<T, T> applySchedulers() {
+        return new Observable.Transformer<T, T>() {
+            @Override
+            public Observable<T> call(Observable<T> tObservable) {
+                tObservable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .unsubscribeOn(Schedulers.io());
+                return tObservable;
+            }
+        };
+    }
+
+    public <T> void set(final String key, final T object) {
+        Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                Iron.chest().write(key, object);
+                subscriber.onCompleted();
+            }
+        }).compose(this.<T>applySchedulers()).subscribe();
     }
 
     /**
@@ -295,9 +354,19 @@ public class Chest {
         Iterator<DataChangeCallback> i = mCallbacks.iterator();
         while (i.hasNext()) {
             DataChangeCallback callback = i.next();
-            if (callback.getClassName().equals(object.getClass().getName()))
+            if (callback.getClassName() != null && callback.getClassName().equals(object.getClass().getName()))
                 i.remove();
         }
+    }
+
+    synchronized public void removeListener(DataChangeCallback callback) {
+        Iterator<DataChangeCallback> i = mCallbacks.iterator();
+        while (i.hasNext()) {
+            DataChangeCallback currentCallback = i.next();
+            if (currentCallback.getIdentifier() != null && currentCallback.getIdentifier().equals(callback.getIdentifier()))
+                i.remove();
+        }
+
     }
 
     /**
