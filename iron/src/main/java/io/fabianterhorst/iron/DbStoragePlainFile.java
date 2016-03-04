@@ -22,12 +22,13 @@ import java.util.List;
 
 import javax.crypto.CipherOutputStream;
 
-import de.javakaffee.kryoserializers.ArraysAsListSerializer;
-import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer;
-import de.javakaffee.kryoserializers.UnmodifiableCollectionsSerializer;
+import io.fabianterhorst.iron.serializer.ArraysAsListSerializer;
 import io.fabianterhorst.iron.serializer.NoArgCollectionSerializer;
+import io.fabianterhorst.iron.serializer.SynchronizedCollectionsSerializer;
+import io.fabianterhorst.iron.serializer.UnmodifiableCollectionsSerializer;
 
 public class DbStoragePlainFile implements Storage {
+
     private static final String TAG = DbStoragePlainFile.class.getName();
     private final Context mContext;
     private final String mDbName;
