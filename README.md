@@ -14,6 +14,8 @@
 
 Fast and easy to use NoSQL data storage
 
+Android sdk version 8 support
+
 #### Add dependency
 
 Add apt plugin in your top level gradle build file
@@ -32,7 +34,7 @@ Add dependencies to your application gradle build file
 
 The Core
 ```groovy
-compile 'io.fabianterhorst:iron:0.6.5'
+compile 'io.fabianterhorst:iron:0.7.1'
 ```
 The Extensions
 ```groovy
