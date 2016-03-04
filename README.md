@@ -12,7 +12,7 @@
 
 # Iron
 
-Fast and easy to use NoSQL data storage
+Fast and easy to use NoSQL data storage with RxJava support
 
 Android sdk version 8 support
 
@@ -181,6 +181,37 @@ MainStore.getContributorsForField("login", "fabianterhorst", new Chest.ReadCallb
             Log.d(TAG, contributor.toString());
     }
 });
+```
+
+####RxJava support
+
+Set a value asynchron with RxJava
+
+```java
+Iron.chest().set("name", "Fabian");
+```
+
+Get a value asynchron with RxJava
+
+```java
+Iron.chest().<String>get("name").compose(this.<String>bindToLifecycle()).subscribe(new Subscriber<String>() {
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(String s) {
+                //called when name changed and when name was loaded asynchron
+                Log.d("name", s);
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        });
 ```
 
 You can also use Iron.chest()´s methods. Your custom classes must have no-arg constructor
