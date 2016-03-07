@@ -52,11 +52,13 @@ public class Chest {
      * @return this Chest instance
      */
     public <T> Chest write(String key, T value) {
-        if (value == null) {
-            throw new IronException("Iron doesn't support writing null root values");
-        } else {
-            mStorage.insert(key, value);
-            callCallbacks(key, value);
+        synchronized (mStorage) {
+            if (value == null) {
+                throw new IronException("Iron doesn't support writing null root values");
+            } else {
+                mStorage.insert(key, value);
+                callCallbacks(key, value);
+            }
         }
         return this;
     }
@@ -170,6 +172,54 @@ public class Chest {
         }).compose(this.<T>applySchedulers());
     }
 
+    public <T> void set(final String key, final T object) {
+        Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                Iron.chest().write(key, object);
+                subscriber.onCompleted();
+            }
+        }).compose(this.<T>applySchedulers()).subscribe();
+    }
+
+    public <T> void remove(final String key) {
+        Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                Iron.chest().delete(key);
+                subscriber.onCompleted();
+            }
+        }).compose(this.<T>applySchedulers()).subscribe();
+    }
+
+    public <T> void removeAll() {
+        Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                Iron.chest().deleteAll();
+                subscriber.onCompleted();
+            }
+        }).compose(this.<T>applySchedulers()).subscribe();
+    }
+
+    /**
+     * Execute a subscriber in this you can modify the data from the parameter with a data saving after modifying is finished
+     *
+     * @param key data key
+     * @return the observable
+     */
+    public <T> Observable<T> execute(final String key) {
+        return Observable.create(new Observable.OnSubscribe<T>() {
+            @Override
+            public void call(Subscriber<? super T> subscriber) {
+                T value = read(key);
+                subscriber.onNext(value);
+                write(key, value);
+                subscriber.onCompleted();
+            }
+        });
+    }
+
     /**
      * Apply the default android schedulers to a observable
      *
@@ -186,16 +236,6 @@ public class Chest {
                 return tObservable;
             }
         };
-    }
-
-    public <T> void set(final String key, final T object) {
-        Observable.create(new Observable.OnSubscribe<T>() {
-            @Override
-            public void call(Subscriber<? super T> subscriber) {
-                Iron.chest().write(key, object);
-                subscriber.onCompleted();
-            }
-        }).compose(this.<T>applySchedulers()).subscribe();
     }
 
     /**
@@ -229,7 +269,7 @@ public class Chest {
         }
     }
 
-    public void remove(String key) {
+    public void removeAsync(String key) {
         AsyncTask<Object, Void, Void> task = new AsyncTask<Object, Void, Void>() {
             @Override
             protected Void doInBackground(Object... objects) {
@@ -245,7 +285,7 @@ public class Chest {
         }
     }
 
-    public void removeAll() {
+    public void removeAllAsync() {
         AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... voids) {
@@ -438,6 +478,41 @@ public class Chest {
      */
     public <T> void load(T call, Class clazz) {
         load(call, clazz.getName());
+    }
+
+    /**
+     * load objects from observable into storage
+     *
+     * @param observable observable to subscribe
+     * @param key        key to save
+     */
+    public <T> void load(Observable<T> observable, final String key) {
+        observable.subscribe(new Subscriber<T>() {
+            @Override
+            public void onCompleted() {
+                unsubscribe();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(T o) {
+                Chest.this.write(key, o);
+            }
+        });
+    }
+
+    /**
+     * load objects from observable into storage
+     *
+     * @param observable observable to subscribe
+     * @param clazz      classname to save
+     */
+    public <T> void load(Observable<T> observable, Class clazz) {
+        load(observable, clazz.getName());
     }
 
     /**
