@@ -214,6 +214,13 @@ Iron.chest().<String>get("name").compose(this.<String>bindToLifecycle()).subscri
         });
 ```
 
+With RxJava the Retrofit extension isn´t needed anymore.
+
+```java
+Observable<List<Repo>> reposCallObservable = service.listReposRxJava("fabianterhorst");
+Iron.chest().load(reposCallObservable, Repo.class);
+```
+
 You can also use Iron.chest()´s methods. Your custom classes must have no-arg constructor
 
 ```java
