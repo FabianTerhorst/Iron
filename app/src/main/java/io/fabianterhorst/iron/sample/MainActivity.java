@@ -14,7 +14,9 @@ import io.fabianterhorst.iron.DataChangeCallback;
 import io.fabianterhorst.iron.Iron;
 import retrofit2.Call;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
+import rx.Observable;
 import rx.Subscriber;
 
 
@@ -46,6 +48,7 @@ public class MainActivity extends RxActivity {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://api.github.com")
                 .addConverterFactory(MoshiConverterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
         GitHubService service = retrofit.create(GitHubService.class);
@@ -146,6 +149,73 @@ public class MainActivity extends RxActivity {
                 Iron.chest().set("rxjava", "bla3");
             }
         }, 2000);
+
+
+        ArrayList<String> names = new ArrayList<>();
+        names.add("Name1");
+
+        Iron.chest().set("names", names);
+
+        Iron.chest().<ArrayList<String>>get("names").compose(this.<ArrayList<String>>bindToLifecycle()).subscribe(new Subscriber<ArrayList<String>>() {
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(ArrayList<String> s) {
+                Log.d("change list", s.size() + "");
+            }
+
+            @Override
+            public void onCompleted() {
+
+            }
+        });
+
+        names.add("Name2");
+
+        Iron.chest().set("names", names);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<String> names = new ArrayList<>();
+                names.add("Name3");
+                Iron.chest().set("names", names);
+            }
+        }, 2000);
+
+        Observable<List<Repo>> reposCallObservable = service.listReposRxJava("fabianterhorst");
+
+        Iron.chest().load(reposCallObservable, Repo.class);
+
+        Iron.chest().addOnDataChangeListener(new DataChangeCallback<List<Repo>>(this, Repo.class) {
+            @Override
+            public void onDataChange(List<Repo> repos) {
+                Log.d("repos size", repos.size() + "");
+            }
+        });
+
+        Iron.chest().<ArrayList<String>>execute("names").compose(this.<ArrayList<String>>bindToLifecycle()).subscribe(new Subscriber<ArrayList<String>>() {
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onCompleted() {
+                Log.d("names size", Iron.chest().<ArrayList<String>>read("names").size() + "");
+            }
+
+            @Override
+            public void onNext(ArrayList<String> strings) {
+                Log.d("names size", strings.size() + "");
+                strings.add("Name4");
+            }
+        });
 
         //Call<List<Contributor>> userCall = service.contributors("fabianterhorst", "iron");
         //MainStore.loadContributors(userCall);
