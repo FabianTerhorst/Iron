@@ -5,9 +5,6 @@ import java.lang.reflect.Field;
 import io.fabianterhorst.iron.Chest;
 import io.fabianterhorst.iron.DataChangeCallback;
 import io.fabianterhorst.iron.Iron;
-<#if key.loader>
-import io.fabianterhorst.iron.Loader;
-</#if>
 
 import java.util.Collections;
 
