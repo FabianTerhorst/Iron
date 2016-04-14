@@ -13,7 +13,7 @@ public class IronRetrofit implements Loader {
             ((Call<T>) call).enqueue(new Callback<T>() {
                 @Override
                 public void onResponse(Call<T> call, Response<T> response) {
-                    if (response.isSuccess())
+                    if (response.isSuccessful())
                         Iron.chest().write(key, response.body());
                 }
 
