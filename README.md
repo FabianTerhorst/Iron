@@ -12,7 +12,7 @@
 
 # Iron
 
-Fast and easy to use NoSQL data storage with RxJava support
+Fast and easy to use NoSQL data storage with RxJava and Kotlin support
 
 Android sdk version 8 support
 
