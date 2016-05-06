@@ -2,6 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.kt3k.coveralls'
 //apply plugin: 'jacoco'
 apply plugin: 'jacoco-android'
+apply plugin: 'kotlin-android'
+
+repositories {
+    mavenCentral()
+}
 
 android {
     compileSdkVersion 23
@@ -41,6 +46,18 @@ android {
     packagingOptions {
         exclude 'LICENSE.txt'
     }
+
+    sourceSets {
+        test.java.srcDirs += 'src/androidTest/kotlin'
+    }
+}
+
+afterEvaluate {
+    android.sourceSets.all { sourceSet ->
+        if (!sourceSet.name.startsWith("androidTest")) {
+            sourceSet.kotlin.setSrcDirs([])
+        }
+    }
 }
 
 dependencies {
@@ -53,6 +70,7 @@ dependencies {
     androidTestCompile 'com.orhanobut:hawk:1.14'
     androidTestCompile 'com.android.support.test:runner:0.3'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
+    androidTestCompile "org.jetbrains.kotlin:kotlin-stdlib:1.0.1-2"
 }
 
 
