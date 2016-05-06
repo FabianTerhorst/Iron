@@ -25,7 +25,7 @@ android {
 
 dependencies {
     compile project(':iron')
-    compile 'com.squareup.retrofit2:retrofit:2.0.0'
+    compile 'com.squareup.retrofit2:retrofit:2.0.2'
 }
 
 apply from: '../publish-retrofit.gradle'
