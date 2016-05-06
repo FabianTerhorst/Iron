@@ -4,8 +4,8 @@ class KotlinCompatibilityTest {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        Paper.init(getTargetContext())
-        Paper.book().destroy()
+        Iron.init(getTargetContext())
+        Iron.chest().destroy()
     }
 
     @Test
@@ -74,8 +74,8 @@ class KotlinCompatibilityTest {
     }
 
     private fun testReadWriteWithoutClassCheck(originObj: Any): Any {
-        Paper.book().write("obj", originObj)
-        val readObj = Paper.book().read<Any>("obj")
+        Iron.chest().write("obj", originObj)
+        val readObj = Iron.chest().read<Any>("obj")
         assertThat(readObj).isEqualTo(originObj)
         return readObj
     }
