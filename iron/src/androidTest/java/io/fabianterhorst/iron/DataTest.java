@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import io.fabianterhorst.iron.testdata.ClassWithoutPublicNoArgConstructor;
 import io.fabianterhorst.iron.testdata.Person;
+import io.fabianterhorst.iron.testdata.PersonArg;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static io.fabianterhorst.iron.testdata.TestDataGenerator.genPerson;
@@ -90,7 +90,7 @@ public class DataTest {
 
     @Test
     public void testPutPOJO() {
-        final Person person = genPerson(1);
+        final Person person = genPerson(new Person(), 1);
         Iron.chest().write("profile", person);
         //Iron.chest().invalidateCache("profile");
         final Person savedPerson = Iron.chest().read("profile");
@@ -172,9 +172,9 @@ public class DataTest {
         assertThat(testReadWrite(list)).isEqualTo(list.getClass());
     }
 
-    @Test(expected = IronException.class)
+    @Test
     public void testReadWriteClassWithoutNoArgConstructor() {
-        ClassWithoutPublicNoArgConstructor constructor = new ClassWithoutPublicNoArgConstructor("constructor argument");
+        PersonArg constructor = new PersonArg("name");
         assertThat(testReadWrite(constructor)).isEqualTo(constructor.getClass());
     }
 

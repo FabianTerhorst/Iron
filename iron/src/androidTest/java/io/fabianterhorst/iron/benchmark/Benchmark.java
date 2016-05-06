@@ -15,6 +15,7 @@ import java.util.List;
 
 import io.fabianterhorst.iron.Iron;
 import io.fabianterhorst.iron.testdata.Person;
+import io.fabianterhorst.iron.testdata.PersonArg;
 import io.fabianterhorst.iron.testdata.TestDataGenerator;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
@@ -44,7 +45,12 @@ public class Benchmark extends AndroidTestCase {
         Hawk.clear();
         long hawkTime = runTest(new HawkReadWriteContactsTest(), contacts, REPEAT_COUNT);
 
-        printResults("Read/write 500 contacts", ironTime, hawkTime);
+        final List<PersonArg> contactsArg = TestDataGenerator.genPersonArgList(500);
+        Iron.init(getTargetContext());
+        Iron.chest().destroy();
+        long ironArg = runTest(new IronReadWriteContactsArgTest(), contactsArg, REPEAT_COUNT);
+
+        printResults("Read/write 500 contacts", ironTime, hawkTime, ironArg);
     }
 
     @Test
@@ -92,6 +98,12 @@ public class Benchmark extends AndroidTestCase {
                 name, ironTime, hawkTime));
     }
 
+    private void printResults(String name, long paperTime, long hawkTime, long ironArgTime) {
+        Log.i(TAG, String.format("..................................\n%s " +
+                        "\n Iron: %d \n Iron(arg-cons): %d \n Hawk: %d",
+                name, paperTime, ironArgTime, hawkTime));
+    }
+
     private <T> long runTest(TestTask<T> task, T extra, int repeat) {
         long start = SystemClock.uptimeMillis();
         for (int i = 0; i < repeat; i++) {
@@ -102,6 +114,15 @@ public class Benchmark extends AndroidTestCase {
 
     interface TestTask<T> {
         void run(int i, T extra);
+    }
+
+    private class IronReadWriteContactsArgTest implements TestTask<List<PersonArg>> {
+        @Override
+        public void run(int i, List<PersonArg> extra) {
+            String key = "contacts" + i;
+            Iron.chest().write(key, extra);
+            Iron.chest().<List<Person>>read(key);
+        }
     }
 
     private class IronReadWriteContactsTest implements TestTask<List<Person>> {

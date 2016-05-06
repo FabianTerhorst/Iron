@@ -9,6 +9,8 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.serializers.CompatibleFieldSerializer;
 
+import org.objenesis.strategy.StdInstantiatorStrategy;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,6 +72,8 @@ public class DbStoragePlainFile implements Storage {
                 new NoArgCollectionSerializer());
         // To keep backward compatibility don't change the order of serializers above
 
+        kryo.setInstantiatorStrategy(
+                new Kryo.DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
         return kryo;
     }
 
