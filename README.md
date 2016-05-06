@@ -221,7 +221,7 @@ Observable<List<Repo>> reposCallObservable = service.listReposRxJava("fabianterh
 Iron.chest().load(reposCallObservable, Repo.class);
 ```
 
-You can also use Iron.chest()´s methods. Your custom classes must have no-arg constructor
+You can also use Iron.chest()´s methods.
 
 ```java
 Iron.chest().write("username", "fabian");
