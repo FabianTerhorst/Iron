@@ -7,6 +7,7 @@ import android.os.Build;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -172,34 +173,34 @@ public class Chest {
         }).compose(this.<T>applySchedulers());
     }
 
-    public <T> void set(final String key, final T object) {
-        Observable.create(new Observable.OnSubscribe<T>() {
+    public <T> Observable<Boolean> set(final String key, final T object) {
+        return Observable.fromCallable(new Callable<Boolean>() {
             @Override
-            public void call(Subscriber<? super T> subscriber) {
+            public Boolean call() throws Exception {
                 Iron.chest().write(key, object);
-                subscriber.onCompleted();
+                return true;
             }
-        }).compose(this.<T>applySchedulers()).subscribe();
+        }).compose(this.<Boolean>applySchedulers());
     }
 
-    public <T> void remove(final String key) {
-        Observable.create(new Observable.OnSubscribe<T>() {
+    public Observable<Boolean> remove(final String key) {
+        return Observable.fromCallable(new Callable<Boolean>() {
             @Override
-            public void call(Subscriber<? super T> subscriber) {
+            public Boolean call() throws Exception {
                 Iron.chest().delete(key);
-                subscriber.onCompleted();
+                return true;
             }
-        }).compose(this.<T>applySchedulers()).subscribe();
+        }).compose(this.<Boolean>applySchedulers());
     }
 
-    public <T> void removeAll() {
-        Observable.create(new Observable.OnSubscribe<T>() {
+    public Observable<Boolean> removeAll() {
+        return Observable.fromCallable(new Callable<Boolean>() {
             @Override
-            public void call(Subscriber<? super T> subscriber) {
+            public Boolean call() throws Exception {
                 Iron.chest().deleteAll();
-                subscriber.onCompleted();
+                return true;
             }
-        }).compose(this.<T>applySchedulers()).subscribe();
+        }).compose(this.<Boolean>applySchedulers());
     }
 
     /**
@@ -490,7 +491,9 @@ public class Chest {
         observable.subscribe(new Subscriber<T>() {
             @Override
             public void onCompleted() {
-                unsubscribe();
+                if(!isUnsubscribed()) {
+                    unsubscribe();
+                }
             }
 
             @Override
@@ -500,7 +503,9 @@ public class Chest {
 
             @Override
             public void onNext(T o) {
-                Chest.this.write(key, o);
+                if(!isUnsubscribed()) {
+                    Chest.this.write(key, o);
+                }
             }
         });
     }
