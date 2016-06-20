@@ -1,13 +1,13 @@
 language: android
 
 jdk:
-- oraclejdk7
+- oraclejdk8
 
 android:
   components:
     - tools
     - build-tools-24.0.0
-    - android-23
+    - android-24
     - extra-android-m2repository
 
 # Emulator Management: Create, Start and Wait
