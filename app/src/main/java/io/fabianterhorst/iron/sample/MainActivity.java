@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,7 @@ import rx.Observable;
 import rx.Subscriber;
 
 
-public class MainActivity extends RxActivity {
+public class MainActivity extends RxAppCompatActivity {
 
     private final String TAG = MainActivity.class.getName();
 

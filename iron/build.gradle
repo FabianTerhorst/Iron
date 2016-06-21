@@ -61,10 +61,10 @@ afterEvaluate {
 }
 
 dependencies {
-    provided 'io.reactivex:rxjava:1.1.5'
-    provided 'io.reactivex:rxandroid:1.2.0'
+    provided 'io.reactivex:rxjava:1.1.6'
+    provided 'io.reactivex:rxandroid:1.2.1'
 
-    compile 'com.esotericsoftware:kryo:3.0.3'//3.0.2
+    compile 'com.esotericsoftware:kryo:3.0.3'
 
     androidTestCompile 'io.fabianterhorst:iron-encryption:0.4.1@aar'
     androidTestCompile 'com.orhanobut:hawk:1.14'
