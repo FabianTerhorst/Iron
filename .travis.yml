@@ -10,9 +10,11 @@ android:
     - build-tools-24.0.0
     - android-24
     - extra-android-m2repository
+    - extra-google-m2repository
 
 # Emulator Management: Create, Start and Wait
 before_script:
+  - echo y | android update sdk -u -a -t android-24
   - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
