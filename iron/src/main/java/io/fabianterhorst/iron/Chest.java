@@ -382,7 +382,7 @@ public class Chest {
      *
      * @param callback data change callback
      */
-    public void addOnDataChangeListener(DataChangeCallback callback) {
+    public synchronized void addOnDataChangeListener(DataChangeCallback callback) {
         mCallbacks.add(callback);
     }
 
@@ -414,9 +414,9 @@ public class Chest {
      * call all data change callbacks
      */
     @SuppressWarnings("unchecked")
-    public <T> void callCallbacks(String key, T value) {
+    public synchronized <T> void callCallbacks(String key, T value) {
         if (mCallbacks != null) {
-            synchronized (mCallbacks) {
+//            synchronized (mCallbacks) {
                 for (DataChangeCallback callback : mCallbacks) {
                     if (callback.getType() != null && callback.getType().isInstance(value)) {
                         Class clazz = null;
@@ -455,7 +455,7 @@ public class Chest {
                         }
                     }
                 }
-            }
+//            }
         }
     }
 
