@@ -34,15 +34,15 @@ Add dependencies to your application gradle build file
 
 The Core
 ```groovy
-compile 'io.fabianterhorst:iron:0.7.3'
+compile 'io.fabianterhorst:iron:0.8.0'
 ```
 The Extensions
 ```groovy
-compile 'io.fabianterhorst:iron-retrofit:0.4.4'
-compile 'io.fabianterhorst:iron-encryption:0.4.3'
+compile 'io.fabianterhorst:iron-retrofit:0.8.0'
+compile 'io.fabianterhorst:iron-encryption:0.8.0'
 //is only required for using the compiler
-compile 'io.fabianterhorst:iron-annotations:0.2'
-apt 'io.fabianterhorst:iron-compiler:0.4'
+compile 'io.fabianterhorst:iron-annotations:0.8.0'
+apt 'io.fabianterhorst:iron-compiler:0.8.0'
 ```
 
 Initiate Iron instance with application context
