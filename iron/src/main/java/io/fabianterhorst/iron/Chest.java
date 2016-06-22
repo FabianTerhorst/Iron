@@ -416,46 +416,44 @@ public class Chest {
     @SuppressWarnings("unchecked")
     public synchronized <T> void callCallbacks(String key, T value) {
         if (mCallbacks != null) {
-//            synchronized (mCallbacks) {
-                for (DataChangeCallback callback : mCallbacks) {
-                    if (callback.getType() != null && callback.getType().isInstance(value)) {
-                        Class clazz = null;
-                        if (callback.getType().equals(List.class)) {
-                            List<T> values = (List) value;
-                            if (values.size() > 0)
-                                clazz = values.get(0).getClass();
-                        }
-                        if (callback.getKey() != null) {
-                            if (callback.getKey().equals(key)) {
-                                callback.onDataChange(value);
-                                callback.onDataChange(key, value);
-                            }
-                        } else if (callback.getValues() != null) {
-                            for (Enum enumValue : callback.getValues()) {
-                                if (enumValue.toString().equals(key)) {
-                                    callback.onDataChange(key, value);
-                                    callback.onDataChange(value);
-                                }
-                            }
-                        } else {
-                            callback.onDataChange(key, value);
+            for (DataChangeCallback callback : mCallbacks) {
+                if (callback.getType() != null && callback.getType().isInstance(value)) {
+                    Class clazz = null;
+                    if (callback.getType().equals(List.class)) {
+                        List<T> values = (List) value;
+                        if (values.size() > 0)
+                            clazz = values.get(0).getClass();
+                    }
+                    if (callback.getKey() != null) {
+                        if (callback.getKey().equals(key)) {
                             callback.onDataChange(value);
-                            if (clazz != null)
-                                callback.onDataChange(clazz, value);
-                        }
-                    } else if (callback.getType() == null) {
-                        if (callback.getKey() != null) {
-                            if (callback.getKey().equals(key)) {
-                                callback.onDataChange(value);
-                                callback.onDataChange(key, value);
-                            }
-                        } else {
                             callback.onDataChange(key, value);
-                            callback.onDataChange(value);
                         }
+                    } else if (callback.getValues() != null) {
+                        for (Enum enumValue : callback.getValues()) {
+                            if (enumValue.toString().equals(key)) {
+                                callback.onDataChange(key, value);
+                                callback.onDataChange(value);
+                            }
+                        }
+                    } else {
+                        callback.onDataChange(key, value);
+                        callback.onDataChange(value);
+                        if (clazz != null)
+                            callback.onDataChange(clazz, value);
+                    }
+                } else if (callback.getType() == null) {
+                    if (callback.getKey() != null) {
+                        if (callback.getKey().equals(key)) {
+                            callback.onDataChange(value);
+                            callback.onDataChange(key, value);
+                        }
+                    } else {
+                        callback.onDataChange(key, value);
+                        callback.onDataChange(value);
                     }
                 }
-//            }
+            }
         }
     }
 
@@ -491,7 +489,7 @@ public class Chest {
         observable.subscribe(new Subscriber<T>() {
             @Override
             public void onCompleted() {
-                if(!isUnsubscribed()) {
+                if (!isUnsubscribed()) {
                     unsubscribe();
                 }
             }
@@ -503,7 +501,7 @@ public class Chest {
 
             @Override
             public void onNext(T o) {
-                if(!isUnsubscribed()) {
+                if (!isUnsubscribed()) {
                     Chest.this.write(key, o);
                 }
             }
