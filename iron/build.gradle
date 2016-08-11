@@ -10,7 +10,7 @@ repositories {
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "24.0.1"
 
     defaultConfig {
         minSdkVersion 8
@@ -61,14 +61,14 @@ afterEvaluate {
 }
 
 dependencies {
-    provided 'io.reactivex:rxjava:1.1.6'
+    provided 'io.reactivex:rxjava:1.1.8'
     provided 'io.reactivex:rxandroid:1.2.1'
 
-    compile 'com.esotericsoftware:kryo:3.0.3'
+    compile 'com.esotericsoftware:kryo:4.0.0'//303
 
     androidTestCompile 'io.fabianterhorst:iron-encryption:0.4.1@aar'
     androidTestCompile 'com.orhanobut:hawk:1.14'
-    androidTestCompile 'com.android.support.test:runner:0.3'
+    androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.squareup.assertj:assertj-android:1.0.0'
     androidTestCompile "org.jetbrains.kotlin:kotlin-stdlib:1.0.1-2"
 }
