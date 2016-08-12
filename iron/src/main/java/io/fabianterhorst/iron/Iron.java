@@ -44,7 +44,7 @@ public class Iron {
      *
      * @param loader loader extension for the iron instance
      */
-    public static void setLoader(Loader loader){
+    public static void setLoader(Loader loader) {
         mLoader = loader;
     }
 
@@ -53,7 +53,7 @@ public class Iron {
      *
      * @param encryption encryption extension for the iron instance
      */
-    public static void setEncryption(Encryption encryption){
+    public static void setEncryption(Encryption encryption) {
         mEncryption = encryption;
     }
 
@@ -62,7 +62,7 @@ public class Iron {
      *
      * @param cache the cache strategy Cache#Memory or Cache#NONE
      */
-    public static void setCache(int cache){
+    public static void setCache(int cache) {
         mCache = cache;
     }
 

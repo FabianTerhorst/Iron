@@ -16,10 +16,10 @@ public class ArraysAsListSerializer extends Serializer<List<?>> {
 
     public ArraysAsListSerializer() {
         try {
-            _arrayField = Class.forName( "java.util.Arrays$ArrayList" ).getDeclaredField( "a" );
-            _arrayField.setAccessible( true );
-        } catch ( final Exception e ) {
-            throw new RuntimeException( e );
+            _arrayField = Class.forName("java.util.Arrays$ArrayList").getDeclaredField("a");
+            _arrayField.setAccessible(true);
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
         }
         // Immutable causes #copy(obj) to return the original object
         setImmutable(true);
@@ -28,37 +28,37 @@ public class ArraysAsListSerializer extends Serializer<List<?>> {
     @Override
     public List<?> read(final Kryo kryo, final Input input, final Class<List<?>> type) {
         final int length = input.readInt(true);
-        Class<?> componentType = kryo.readClass( input ).getType();
+        Class<?> componentType = kryo.readClass(input).getType();
         if (componentType.isPrimitive()) {
             componentType = getPrimitiveWrapperClass(componentType);
         }
         try {
-            final Object items = Array.newInstance( componentType, length );
-            for( int i = 0; i < length; i++ ) {
-                Array.set(items, i, kryo.readClassAndObject( input ));
+            final Object items = Array.newInstance(componentType, length);
+            for (int i = 0; i < length; i++) {
+                Array.set(items, i, kryo.readClassAndObject(input));
             }
-            return Arrays.asList( (Object[])items );
-        } catch ( final Exception e ) {
-            throw new RuntimeException( e );
+            return Arrays.asList((Object[]) items);
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void write(final Kryo kryo, final Output output, final List<?> obj) {
         try {
-            final Object[] array = (Object[]) _arrayField.get( obj );
+            final Object[] array = (Object[]) _arrayField.get(obj);
             output.writeInt(array.length, true);
             final Class<?> componentType = array.getClass().getComponentType();
-            kryo.writeClass( output, componentType );
-            for( final Object item : array ) {
-                kryo.writeClassAndObject( output, item );
+            kryo.writeClass(output, componentType);
+            for (final Object item : array) {
+                kryo.writeClassAndObject(output, item);
             }
-        } catch ( final RuntimeException e ) {
+        } catch (final RuntimeException e) {
             // Don't eat and wrap RuntimeExceptions because the ObjectBuffer.write...
             // handles SerializationException specifically (resizing the buffer)...
             throw e;
-        } catch ( final Exception e ) {
-            throw new RuntimeException( e );
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

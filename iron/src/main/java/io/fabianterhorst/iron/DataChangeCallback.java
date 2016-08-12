@@ -18,7 +18,7 @@ public abstract class DataChangeCallback<T> {
         this.mClassName = object.getClass().getName();
     }
 
-    public Class<?> getType(){
+    public Class<?> getType() {
         return DAOUtil.getTypeArguments(DataChangeCallback.class, this.getClass()).get(0);
     }
 
@@ -34,7 +34,7 @@ public abstract class DataChangeCallback<T> {
         return mKey;
     }
 
-    public void setKey(String key){
+    public void setKey(String key) {
         this.mKey = key;
     }
 
@@ -42,11 +42,11 @@ public abstract class DataChangeCallback<T> {
         return mClassName;
     }
 
-    public void setValues(Enum[] values){
+    public void setValues(Enum[] values) {
         this.mValues = values;
     }
 
-    public Enum[] getValues(){
+    public Enum[] getValues() {
         return mValues;
     }
 
@@ -57,11 +57,11 @@ public abstract class DataChangeCallback<T> {
     /**
      * Called when data is changed with the data key and the value
      *
-     * @param key the key
+     * @param key   the key
      * @param value the value
      */
     public void onDataChange(String key, T value) {
-       //Should be override when listener is set
+        //Should be override when listener is set
     }
 
     /**

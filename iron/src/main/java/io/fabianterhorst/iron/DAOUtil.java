@@ -16,10 +16,8 @@ public class DAOUtil {
      * base class. (Taken from http://www.artima.com/weblogs/viewpost.jsp?thread=208860. Thanks
      * mathieu.grenonville for finding this solution!)
      *
-     * @param baseClass
-     *            the base class
-     * @param childClass
-     *            the child class
+     * @param baseClass  the base class
+     * @param childClass the child class
      * @return a list of the raw classes for the actual type arguments.
      */
     public static <T> List<Class<?>> getTypeArguments(Class<T> baseClass,
@@ -75,8 +73,7 @@ public class DAOUtil {
      * Get the underlying class for a type, or null if the type is a variable
      * type.
      *
-     * @param type
-     *            the type
+     * @param type the type
      * @return the underlying class
      */
     private static Class<?> getClass(Type type) {

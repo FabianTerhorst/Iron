@@ -28,107 +28,106 @@ public class SynchronizedCollectionsSerializer extends Serializer<Object> {
 
     static {
         try {
-            SOURCE_COLLECTION_FIELD = Class.forName("java.util.Collections$SynchronizedCollection" )
-                    .getDeclaredField( "c" );
-            SOURCE_COLLECTION_FIELD.setAccessible( true );
+            SOURCE_COLLECTION_FIELD = Class.forName("java.util.Collections$SynchronizedCollection")
+                    .getDeclaredField("c");
+            SOURCE_COLLECTION_FIELD.setAccessible(true);
 
-            SOURCE_MAP_FIELD = Class.forName("java.util.Collections$SynchronizedMap" )
-                    .getDeclaredField( "m" );
-            SOURCE_MAP_FIELD.setAccessible( true );
-        } catch ( final Exception e ) {
-            throw new RuntimeException( "Could not access source collection" +
-                    " field in java.util.Collections$SynchronizedCollection.", e );
+            SOURCE_MAP_FIELD = Class.forName("java.util.Collections$SynchronizedMap")
+                    .getDeclaredField("m");
+            SOURCE_MAP_FIELD.setAccessible(true);
+        } catch (final Exception e) {
+            throw new RuntimeException("Could not access source collection" +
+                    " field in java.util.Collections$SynchronizedCollection.", e);
         }
     }
 
     @Override
     public Object read(final Kryo kryo, final Input input, final Class<Object> clazz) {
-        final int ordinal = input.readInt( true );
+        final int ordinal = input.readInt(true);
         final SynchronizedCollection collection = SynchronizedCollection.values()[ordinal];
-        final Object sourceCollection = kryo.readClassAndObject( input );
-        return collection.create( sourceCollection );
+        final Object sourceCollection = kryo.readClassAndObject(input);
+        return collection.create(sourceCollection);
     }
 
     @Override
     public void write(final Kryo kryo, final Output output, final Object object) {
         try {
-            final SynchronizedCollection collection = SynchronizedCollection.valueOfType( object.getClass() );
+            final SynchronizedCollection collection = SynchronizedCollection.valueOfType(object.getClass());
             // the ordinal could be replaced by s.th. else (e.g. a explicitely managed "id")
-            output.writeInt( collection.ordinal(), true );
-            kryo.writeClassAndObject( output, collection.sourceCollectionField.get( object ) );
-        } catch ( final RuntimeException e ) {
+            output.writeInt(collection.ordinal(), true);
+            kryo.writeClassAndObject(output, collection.sourceCollectionField.get(object));
+        } catch (final RuntimeException e) {
             // Don't eat and wrap RuntimeExceptions because the ObjectBuffer.write...
             // handles SerializationException specifically (resizing the buffer)...
             throw e;
-        } catch ( final Exception e ) {
-            throw new RuntimeException( e );
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public Object copy(Kryo kryo, Object original) {
         try {
-            final SynchronizedCollection collection = SynchronizedCollection.valueOfType( original.getClass() );
+            final SynchronizedCollection collection = SynchronizedCollection.valueOfType(original.getClass());
             Object sourceCollectionCopy = kryo.copy(collection.sourceCollectionField.get(original));
-            return collection.create( sourceCollectionCopy );
-        } catch ( final RuntimeException e ) {
+            return collection.create(sourceCollectionCopy);
+        } catch (final RuntimeException e) {
             // Don't eat and wrap RuntimeExceptions
             throw e;
-        } catch ( final Exception e ) {
-            throw new RuntimeException( e );
+        } catch (final Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
     private static enum SynchronizedCollection {
-        COLLECTION( Collections.synchronizedCollection( Arrays.asList( "" ) ).getClass(), SOURCE_COLLECTION_FIELD ){
+        COLLECTION(Collections.synchronizedCollection(Arrays.asList("")).getClass(), SOURCE_COLLECTION_FIELD) {
             @Override
-            public Object create( final Object sourceCollection ) {
-                return Collections.synchronizedCollection( (Collection<?>) sourceCollection );
+            public Object create(final Object sourceCollection) {
+                return Collections.synchronizedCollection((Collection<?>) sourceCollection);
             }
         },
-        RANDOM_ACCESS_LIST( Collections.synchronizedList( new ArrayList<Void>() ).getClass(), SOURCE_COLLECTION_FIELD ){
+        RANDOM_ACCESS_LIST(Collections.synchronizedList(new ArrayList<Void>()).getClass(), SOURCE_COLLECTION_FIELD) {
             @Override
-            public Object create( final Object sourceCollection ) {
-                return Collections.synchronizedList( (List<?>) sourceCollection );
+            public Object create(final Object sourceCollection) {
+                return Collections.synchronizedList((List<?>) sourceCollection);
             }
         },
-        LIST( Collections.synchronizedList( new LinkedList<Void>() ).getClass(), SOURCE_COLLECTION_FIELD ){
+        LIST(Collections.synchronizedList(new LinkedList<Void>()).getClass(), SOURCE_COLLECTION_FIELD) {
             @Override
-            public Object create( final Object sourceCollection ) {
-                return Collections.synchronizedList( (List<?>) sourceCollection );
+            public Object create(final Object sourceCollection) {
+                return Collections.synchronizedList((List<?>) sourceCollection);
             }
         },
-        SET( Collections.synchronizedSet( new HashSet<Void>() ).getClass(), SOURCE_COLLECTION_FIELD ){
+        SET(Collections.synchronizedSet(new HashSet<Void>()).getClass(), SOURCE_COLLECTION_FIELD) {
             @Override
-            public Object create( final Object sourceCollection ) {
-                return Collections.synchronizedSet( (Set<?>) sourceCollection );
+            public Object create(final Object sourceCollection) {
+                return Collections.synchronizedSet((Set<?>) sourceCollection);
             }
         },
-        SORTED_SET( Collections.synchronizedSortedSet( new TreeSet<Void>() ).getClass(), SOURCE_COLLECTION_FIELD ){
+        SORTED_SET(Collections.synchronizedSortedSet(new TreeSet<Void>()).getClass(), SOURCE_COLLECTION_FIELD) {
             @Override
-            public Object create( final Object sourceCollection ) {
-                return Collections.synchronizedSortedSet( (SortedSet<?>) sourceCollection );
+            public Object create(final Object sourceCollection) {
+                return Collections.synchronizedSortedSet((SortedSet<?>) sourceCollection);
             }
         },
-        MAP( Collections.synchronizedMap( new HashMap<Void, Void>() ).getClass(), SOURCE_MAP_FIELD ) {
+        MAP(Collections.synchronizedMap(new HashMap<Void, Void>()).getClass(), SOURCE_MAP_FIELD) {
+            @Override
+            public Object create(final Object sourceCollection) {
+                return Collections.synchronizedMap((Map<?, ?>) sourceCollection);
+            }
 
-            @Override
-            public Object create( final Object sourceCollection ) {
-                return Collections.synchronizedMap( (Map<?, ?>) sourceCollection );
-            }
-
         },
-        SORTED_MAP( Collections.synchronizedSortedMap( new TreeMap<Void, Void>() ).getClass(), SOURCE_MAP_FIELD ) {
+        SORTED_MAP(Collections.synchronizedSortedMap(new TreeMap<Void, Void>()).getClass(), SOURCE_MAP_FIELD) {
             @Override
-            public Object create( final Object sourceCollection ) {
-                return Collections.synchronizedSortedMap( (SortedMap<?, ?>) sourceCollection );
+            public Object create(final Object sourceCollection) {
+                return Collections.synchronizedSortedMap((SortedMap<?, ?>) sourceCollection);
             }
         };
 
         private final Class<?> type;
         private final Field sourceCollectionField;
 
-        private SynchronizedCollection( final Class<?> type, final Field sourceCollectionField ) {
+        private SynchronizedCollection(final Class<?> type, final Field sourceCollectionField) {
             this.type = type;
             this.sourceCollectionField = sourceCollectionField;
         }
@@ -136,15 +135,15 @@ public class SynchronizedCollectionsSerializer extends Serializer<Object> {
         /**
          * @param sourceCollection
          */
-        public abstract Object create( Object sourceCollection );
+        public abstract Object create(Object sourceCollection);
 
-        static SynchronizedCollection valueOfType( final Class<?> type ) {
-            for( final SynchronizedCollection item : values() ) {
-                if ( item.type.equals( type ) ) {
+        static SynchronizedCollection valueOfType(final Class<?> type) {
+            for (final SynchronizedCollection item : values()) {
+                if (item.type.equals(type)) {
                     return item;
                 }
             }
-            throw new IllegalArgumentException( "The type " + type + " is not supported." );
+            throw new IllegalArgumentException("The type " + type + " is not supported.");
         }
 
     }
@@ -155,7 +154,6 @@ public class SynchronizedCollectionsSerializer extends Serializer<Object> {
      * including {@link Map}s.
      *
      * @param kryo the {@link Kryo} instance to set the serializer on.
-     *
      * @see Collections#synchronizedCollection(Collection)
      * @see Collections#synchronizedList(List)
      * @see Collections#synchronizedSet(Set)
@@ -163,11 +161,11 @@ public class SynchronizedCollectionsSerializer extends Serializer<Object> {
      * @see Collections#synchronizedMap(Map)
      * @see Collections#synchronizedSortedMap(SortedMap)
      */
-    public static void registerSerializers( final Kryo kryo ) {
+    public static void registerSerializers(final Kryo kryo) {
         final SynchronizedCollectionsSerializer serializer = new SynchronizedCollectionsSerializer();
         SynchronizedCollection.values();
-        for ( final SynchronizedCollection item : SynchronizedCollection.values() ) {
-            kryo.register( item.type, serializer );
+        for (final SynchronizedCollection item : SynchronizedCollection.values()) {
+            kryo.register(item.type, serializer);
         }
     }
 
