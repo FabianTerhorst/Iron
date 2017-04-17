@@ -183,7 +183,7 @@ MainStore.getContributorsForField("login", "fabianterhorst", new Chest.ReadCallb
 });
 ```
 
-####RxJava support
+#### RxJava support
 
 Set a value asynchron with RxJava
 
