@@ -5,16 +5,16 @@ jdk:
 
 android:
   components:
-    - tools
-    - platform-tools
-    - build-tools-24.0.1
-    - android-24
-    - extra-android-m2repository
-    - extra-google-m2repository
+   # Update tools and then platform-tools explicitly so lint gets an updated database. Can be removed once 3.0 is out.
+   - tools
+   - platform-tools
+   - sys-img-armeabi-v7a-android-18
 
 # Emulator Management: Create, Start and Wait
 before_script:
-  - echo y | android update sdk -u -a -t android-24
+    # Install SDK license so Android Gradle plugin can install deps.
+   - mkdir "$ANDROID_HOME/licenses" || true
+   - echo "8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
   - echo no | android create avd --force -n test -t android-19 --abi armeabi-v7a
   - emulator -avd test -no-skin -no-audio -no-window &
   - android-wait-for-emulator
