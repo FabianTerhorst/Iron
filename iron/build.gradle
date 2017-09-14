@@ -9,12 +9,12 @@ repositories {
 }
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.1"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         minSdkVersion 8
-        targetSdkVersion 24
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testHandleProfiling true
@@ -64,7 +64,7 @@ dependencies {
     provided 'io.reactivex:rxjava:1.1.8'
     provided 'io.reactivex:rxandroid:1.2.1'
 
-    compile 'com.esotericsoftware:kryo:4.0.0'//303
+    compile 'com.esotericsoftware:kryo:4.0.1'//303
 
     androidTestCompile 'io.fabianterhorst:iron-encryption:0.4.1@aar'
     androidTestCompile 'com.orhanobut:hawk:1.14'
